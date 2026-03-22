@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog &mdash; Andres Gamez</title>
+  <meta name="description" content="Writing and notes by J. Andres Gamez-Gonzalez." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="nav-logo" href="index.html"><img src="photos/layout_images/JAG_logo.png" alt="JAG" class="nav-logo-img">Andres Gamez</a>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="resume.html">Resume</a></li>
+        <li><a href="blog.html" class="active">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <div class="container">
+
+      <div class="page-hero">
+        <h1>Blog</h1>
+        <p>Notes, essays, and ideas I'm working through.</p>
+      </div>
+
+      <section class="section">
+        <ul class="blog-list">
+
+          <!-- Add new posts at the top. Copy one <li> block per post. -->
+
+          <li>
+            <a class="blog-item" href="blog/site-launch.html">
+              <span class="blog-item-title">The Site is Live!</span>
+              <span class="blog-item-meta">March 2026</span>
+            </a>
+          </li>
+
+          <li>
+            <a class="blog-item" href="blog/graduation-2026.html">
+              <span class="blog-item-title">Graduating May 2026</span>
+              <span class="blog-item-meta">March 2026</span>
+            </a>
+          </li>
+
+          <!-- More posts below -->
+          <!-- <li>
+            <a class="blog-item" href="blog/post-slug.html">
+              <span class="blog-item-title">Post Title</span>
+              <span class="blog-item-meta">Month YYYY</span>
+            </a>
+          </li> -->
+
+        </ul>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://github.com/JAndresG-G" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/j-andres-gamez/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:jorgegamez221@gmail.com">Email</a>
+      </div>
+      <p>&copy; <span id="year"></span> J. Andres Gamez-Gonzalez</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

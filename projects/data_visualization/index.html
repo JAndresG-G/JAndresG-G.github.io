@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Denver Transit Stations</title>
+
+    <!-- ArcGIS Maps SDK for JavaScript (CDN) -->
+    <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.29/"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background: #f5f5f5;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: #ffffff;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+            z-index: 10;
+        }
+
+        header h1 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        header span.subtitle {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-left: auto;
+        }
+
+        #main-container {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        #sidebar {
+            width: 300px;
+            min-width: 300px;
+            background: #ffffff;
+            border-right: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: width 0.25s ease, min-width 0.25s ease;
+        }
+
+        #sidebar.collapsed {
+            width: 0;
+            min-width: 0;
+            border-right: none;
+        }
+
+        #sidebar.collapsed > * {
+            display: none;
+        }
+
+        #sidebar-toggle {
+            position: absolute;
+            top: 12px;
+            left: 300px;
+            z-index: 20;
+            width: 28px;
+            height: 28px;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #555;
+            box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+            transition: left 0.25s ease;
+        }
+
+        #sidebar-toggle.collapsed {
+            left: 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        #sidebar-header {
+            padding: 12px 16px;
+            background: #f5f5f5;
+            border-bottom: 1px solid #ddd;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        #sidebar-header span {
+            font-weight: 400;
+            color: #888;
+            font-size: 0.8rem;
+        }
+
+        #filter-bar {
+            padding: 10px 16px;
+            background: #fafafa;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #filter-bar label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #555;
+        }
+
+        #status-filter {
+            flex: 1;
+            padding: 5px 8px;
+            font-size: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #fff;
+            color: #333;
+        }
+
+        #feature-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+        }
+
+        .line-group-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #444;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+            background: #fff;
+            border-bottom: 1px solid #eee;
+        }
+
+        .line-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: 1.5px solid #fff;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
+        }
+
+        .feature-item {
+            padding: 8px 16px 8px 34px;
+            font-size: 0.85rem;
+            color: #555;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.15s;
+        }
+
+        .feature-item:hover {
+            background: #e3f2fd;
+        }
+
+        .feature-item .station-name {
+            font-weight: 500;
+            color: #222;
+        }
+
+        .feature-item .station-status {
+            font-size: 0.75rem;
+            color: #999;
+        }
+
+        #viewDiv {
+            flex: 1;
+        }
+
+        .esri-popup__main-container {
+            max-width: 340px !important;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" viewBox="0 0 24 24">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/>
+        </svg>
+        <h1>Denver Transit Stations</h1>
+        <span class="subtitle">Denver RTD Light Rail &amp; Commuter Rail Network</span>
+    </header>
+
+    <div id="main-container">
+        <button id="sidebar-toggle" title="Toggle Sidebar">&#9664;</button>
+        <div id="sidebar">
+            <div id="sidebar-header">Stations in View <span id="feature-count"></span></div>
+            <div id="filter-bar">
+                <label for="status-filter">Status:</label>
+                <select id="status-filter">
+                    <option value="">All</option>
+                    <option value="Existing">Existing</option>
+                    <option value="Planned">Planned</option>
+                </select>
+            </div>
+            <div id="filter-bar">
+                <label for="parking-filter">Parking:</label>
+                <select id="parking-filter">
+                    <option value="">All</option>
+                    <option value="yes">Has Parking</option>
+                    <option value="no">No Parking</option>
+                </select>
+            </div>
+            <div id="feature-list"></div>
+        </div>
+        <div id="viewDiv"></div>
+    </div>
+
+    <script>
+        require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/layers/FeatureLayer",
+            "esri/widgets/Home",
+            "esri/widgets/Locate",
+            "esri/widgets/Compass",
+            "esri/widgets/ScaleBar",
+            "esri/widgets/BasemapToggle",
+            "esri/widgets/Search",
+            "esri/widgets/Legend",
+            "esri/widgets/Measurement",
+            "esri/widgets/Expand"
+        ], function (Map, MapView, FeatureLayer, Home, Locate, Compass, ScaleBar, BasemapToggle, Search, Legend, Measurement, Expand) {
+
+            // ── Popup content builder (pure JS, no Arcade) ──
+            function buildPopupContent(feature) {
+                var a = feature.graphic.attributes;
+
+                var stationName = a.STATION_NA || "Unknown";
+                var lineName    = a.LINE_NAME  || "—";
+                var status      = a.STATUS     || "—";
+                var typology    = a.TYPOLOGY   || "—";
+                var yearOpen    = a.YEAR_OPEN  != null ? a.YEAR_OPEN : "—";
+                var parking     = a.PARKING_SP != null ? a.PARKING_SP : "—";
+
+                // Color-code the status field
+                var statusColor = "#000000";
+                if (status === "Existing") statusColor = "#00c853";
+                else if (status === "Planned") statusColor = "#f9a825";
+
+                var html =
+                    '<div style="font-family:Arial;">' +
+                    '<table style="width:100%;border-collapse:separate;border-spacing:0;border-radius:8px;overflow:hidden;border:1px solid #cccccc;">' +
+
+                    '<tr><td colspan="2" style="background-color:#1a237e;color:white;font-size:15px;font-weight:bold;padding:8px 10px;">' +
+                        stationName + ' Station</td></tr>' +
+
+                    '<tr style="background-color:#ffffff;">' +
+                        '<td style="padding:6px 10px;color:#555;width:45%;border-right:1px solid #cccccc;">Line</td>' +
+                        '<td style="padding:6px 10px;">' + lineName + '</td></tr>' +
+
+                    '<tr style="background-color:#f2f2f2;">' +
+                        '<td style="padding:6px 10px;color:#555;border-right:1px solid #cccccc;">Status</td>' +
+                        '<td style="padding:6px 10px;color:' + statusColor + ';font-weight:bold;">' + status + '</td></tr>' +
+
+                    '<tr style="background-color:#ffffff;">' +
+                        '<td style="padding:6px 10px;color:#555;border-right:1px solid #cccccc;">Type</td>' +
+                        '<td style="padding:6px 10px;">' + typology + '</td></tr>' +
+
+                    '<tr style="background-color:#f2f2f2;">' +
+                        '<td style="padding:6px 10px;color:#555;border-right:1px solid #cccccc;">Year Opened</td>' +
+                        '<td style="padding:6px 10px;">' + yearOpen + '</td></tr>' +
+
+                    '<tr style="background-color:#ffffff;">' +
+                        '<td style="padding:6px 10px;color:#555;border-right:1px solid #cccccc;">Parking Spaces</td>' +
+                        '<td style="padding:6px 10px;">' + parking + '</td></tr>' +
+
+                    '</table></div>';
+
+                return html;
+            }
+
+            // ── Unique-value renderer by transit line ──
+            function lineSym(color) {
+                return {
+                    type: "simple-marker",
+                    style: "circle",
+                    size: 10,
+                    color: color,
+                    outline: { color: "white", width: 1.5 }
+                };
+            }
+
+            var transitRenderer = {
+                type: "unique-value",
+                field: "LINE_NAME",
+                defaultSymbol: lineSym([150, 150, 150]),
+                defaultLabel: "Other",
+                uniqueValueInfos: [
+                    { value: "Central Corridor",           symbol: lineSym([244, 67, 54]),   label: "Central Corridor" },
+                    { value: "Central Corridor Extension",  symbol: lineSym([211, 47, 47]),   label: "Central Corridor Ext" },
+                    { value: "Central Platte Valley",       symbol: lineSym([0, 188, 212]),   label: "Central Platte Valley" },
+                    { value: "East Corridor",               symbol: lineSym([171, 71, 188]),  label: "East Corridor" },
+                    { value: "Gold Line",                   symbol: lineSym([255, 193, 7]),   label: "Gold Line" },
+                    { value: "I-225 Corridor",              symbol: lineSym([76, 175, 80]),   label: "I-225 Corridor" },
+                    { value: "North Metro Corridor",        symbol: lineSym([0, 229, 255]),   label: "North Metro Corridor" },
+                    { value: "Northwest Rail",              symbol: lineSym([121, 85, 72]),   label: "Northwest Rail" },
+                    { value: "Southeast Corridor",          symbol: lineSym([255, 152, 0]),   label: "Southeast Corridor" },
+                    { value: "Southwest Corridor",          symbol: lineSym([33, 150, 243]),  label: "Southwest Corridor" },
+                    { value: "West Corridor",               symbol: lineSym([0, 77, 64]),     label: "West Corridor" },
+                    { value: "Multiple",                    symbol: lineSym([158, 158, 158]), label: "Multiple" }
+                ]
+            };
+
+            // ── Feature Layer ──
+            var transitLayer = new FeatureLayer({
+                url: "https://services.arcgis.com/Ywxx29kRZEPq7K5N/arcgis/rest/services/Den_Transit_Stations/FeatureServer",
+                outFields: ["*"],
+                renderer: transitRenderer,
+                popupTemplate: {
+                    title: "{STATION_NA} Station",
+                    content: buildPopupContent
+                }
+            });
+
+            // ── Map ──
+            var map = new Map({
+                basemap: "gray-vector",
+                layers: [transitLayer]
+            });
+
+            // ── Map View — centered on Denver, CO ──
+            var view = new MapView({
+                container: "viewDiv",
+                map: map,
+                center: [-104.9903, 39.7392],   // Denver, Colorado
+                zoom: 11,
+                popup: {
+                    dockEnabled: true,
+                    dockOptions: {
+                        buttonEnabled: false,
+                        breakpoint: false
+                    }
+                }
+            });
+            // ── Widgets ──
+
+            // Home button — resets to initial extent
+            view.ui.add(new Home({ view: view }), "top-left");
+
+            // My Location
+            view.ui.add(new Locate({ view: view }), "top-left");
+
+            // Compass — shows when map is rotated
+            view.ui.add(new Compass({ view: view }), "top-left");
+
+            // Search bar
+            var searchWidget = new Search({ view: view });
+            view.ui.add(searchWidget, "top-right");
+
+            // Basemap toggle — switch between light gray and satellite
+            view.ui.add(new BasemapToggle({
+                view: view,
+                nextBasemap: "satellite"
+            }), "bottom-right");
+
+            // Scale bar
+            new ScaleBar({ view: view, unit: "dual" });
+
+            // Legend (collapsible)
+            var legend = new Legend({ view: view });
+            var legendExpand = new Expand({
+                view: view,
+                content: legend,
+                expandTooltip: "Legend",
+                expanded: false
+            });
+            view.ui.add(legendExpand, "bottom-left");
+
+            // Measurement tool
+            var measurement = new Measurement({ view: view });
+            view.ui.add(measurement, "top-right");
+
+            // ── Color lookup for sidebar dots ──
+            var lineColors = {
+                "Central Corridor":          "rgb(244,67,54)",
+                "Central Corridor Extension": "rgb(211,47,47)",
+                "Central Platte Valley":     "rgb(0,188,212)",
+                "East Corridor":             "rgb(171,71,188)",
+                "Gold Line":                 "rgb(255,193,7)",
+                "I-225 Corridor":            "rgb(76,175,80)",
+                "North Metro Corridor":      "rgb(0,229,255)",
+                "Northwest Rail":            "rgb(121,85,72)",
+                "Southeast Corridor":        "rgb(255,152,0)",
+                "Southwest Corridor":        "rgb(33,150,243)",
+                "West Corridor":             "rgb(0,77,64)",
+                "Multiple":                  "rgb(158,158,158)"
+            };
+
+            // ── Update sidebar with features in the current extent ──
+            function updateSidebar() {
+                var listEl = document.getElementById("feature-list");
+                var countEl = document.getElementById("feature-count");
+
+                if (!view.extent) return;
+
+                var query = transitLayer.createQuery();
+                query.geometry = view.extent;
+                query.outFields = ["*"];
+                query.returnGeometry = true;
+
+                transitLayer.queryFeatures(query).then(function (result) {
+                    var features = result.features;
+                    countEl.textContent = "(" + features.length + ")";
+
+                    // Group by LINE_NAME
+                    var groups = {};
+                    features.forEach(function (f) {
+                        var line = f.attributes.LINE_NAME || "Other";
+                        if (!groups[line]) groups[line] = [];
+                        groups[line].push(f);
+                    });
+
+                    // Sort groups alphabetically
+                    var sortedKeys = Object.keys(groups).sort();
+
+                    // Build HTML
+                    var html = "";
+                    sortedKeys.forEach(function (line) {
+                        var color = lineColors[line] || "rgb(150,150,150)";
+                        html += '<div class="line-group-header">' +
+                            '<span class="line-dot" style="background:' + color + ';"></span>' +
+                            line + ' (' + groups[line].length + ')</div>';
+
+                        // Sort stations alphabetically within each group
+                        groups[line].sort(function (a, b) {
+                            return (a.attributes.STATION_NA || "").localeCompare(b.attributes.STATION_NA || "");
+                        });
+
+                        groups[line].forEach(function (f) {
+                            var name = f.attributes.STATION_NA || "Unknown";
+                            var status = f.attributes.STATUS || "";
+                            html += '<div class="feature-item" data-oid="' + f.attributes.FID + '">' +
+                                '<div class="station-name">' + name + '</div>' +
+                                '<div class="station-status">' + status + '</div>' +
+                                '</div>';
+                        });
+                    });
+
+                    listEl.innerHTML = html;
+
+                    // Click handler — zoom to feature & open popup
+                    listEl.querySelectorAll(".feature-item").forEach(function (el) {
+                        el.addEventListener("click", function () {
+                            var oid = Number(this.getAttribute("data-oid"));
+                            var match = features.find(function (f) { return f.attributes.FID === oid; });
+                            if (match) {
+                                view.goTo({ target: match.geometry, zoom: 14 }).then(function () {
+                                    view.popup.open({
+                                        features: [match],
+                                        location: match.geometry
+                                    });
+                                });
+                            }
+                        });
+                    });
+                });
+            }
+
+            // ── Sidebar toggle ──
+            var sidebarEl = document.getElementById("sidebar");
+            var toggleBtn = document.getElementById("sidebar-toggle");
+            toggleBtn.addEventListener("click", function () {
+                sidebarEl.classList.toggle("collapsed");
+                toggleBtn.classList.toggle("collapsed");
+                toggleBtn.innerHTML = sidebarEl.classList.contains("collapsed") ? "&#9654;" : "&#9664;";
+            });
+
+            // ── Filter logic ──
+            function applyFilters() {
+                var parts = [];
+                var statusVal = document.getElementById("status-filter").value;
+                var parkingVal = document.getElementById("parking-filter").value;
+
+                if (statusVal) parts.push("STATUS = '" + statusVal + "'");
+                if (parkingVal === "yes") parts.push("PARKING_SP > 0");
+                else if (parkingVal === "no") parts.push("(PARKING_SP = 0 OR PARKING_SP IS NULL)");
+
+                transitLayer.definitionExpression = parts.length ? parts.join(" AND ") : "";
+                updateSidebar();
+            }
+
+            document.getElementById("status-filter").addEventListener("change", applyFilters);
+            document.getElementById("parking-filter").addEventListener("change", applyFilters);
+
+            // ── Listen for view changes ──
+            view.whenLayerView(transitLayer).then(function (layerView) {
+                // Initial load
+                layerView.watch("updating", function (val) {
+                    if (!val) updateSidebar();
+                });
+                // Pan / zoom
+                view.watch("extent", function () {
+                    updateSidebar();
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

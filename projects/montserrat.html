@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Montserrat Mountains Map &mdash; Andres Gamez</title>
+  <meta name="description" content="Cartographic project: Montserrat Mountains Map by J. Andres Gamez-Gonzalez." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    /* Project page specific */
+    .project-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .project-body {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 3rem;
+      align-items: start;
+      padding: 2.5rem 0 4rem;
+    }
+
+    .project-map-section h2 {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--accent);
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 0.4rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .map-container {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: zoom-in;
+      margin-bottom: 0.6rem;
+    }
+
+    .map-container img {
+      width: 100%;
+      display: block;
+      transition: transform 0.2s;
+    }
+
+    .map-expand-hint {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-align: right;
+    }
+
+    .project-sidebar h3 {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+      margin-top: 1.75rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .project-sidebar h3:first-child { margin-top: 0; }
+
+    .project-sidebar p,
+    .project-sidebar li {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    .project-sidebar ul { margin-left: 1.1rem; list-style: disc; }
+    .project-sidebar ul li { margin-bottom: 0.3rem; }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      text-decoration: none;
+    }
+
+    .back-link:hover { color: var(--accent-dk); }
+
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      z-index: 1000;
+      cursor: zoom-out;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox img {
+      max-width: 100%;
+      max-height: 90vh;
+      border-radius: 6px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    }
+
+    .lightbox-close {
+      position: fixed;
+      top: 1.25rem;
+      right: 1.5rem;
+      font-size: 1.75rem;
+      color: #fff;
+      cursor: pointer;
+      line-height: 1;
+      opacity: 0.8;
+    }
+
+    .lightbox-close:hover { opacity: 1; }
+
+    @media (max-width: 700px) {
+      .project-body { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="nav-logo" href="../index.html"><img src="../photos/layout_images/JAG_logo.png" alt="JAG" class="nav-logo-img">Andres Gamez</a>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../projects.html" class="active">Projects</a></li>
+        <li><a href="../resume.html">Resume</a></li>
+        <li><a href="../blog.html">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <div class="container">
+
+      <div class="page-hero">
+        <a class="back-link" href="../projects.html">&#8592; Back to Projects</a>
+        <h1>Montserrat Mountains Map</h1>
+      </div>
+
+      <div class="project-body">
+
+        <!-- Map + description -->
+        <div class="project-map-section">
+          <h2>The Map</h2>
+          <div class="map-container" id="mapContainer">
+            <img src="../photos/projects/Gamez_Montserrat_Map_5_40.jpg" alt="Montserrat Mountains Map" id="mapImg" />
+          </div>
+          <p class="map-expand-hint">Click the map to expand to full view</p>
+
+          <h2 style="margin-top: 2rem;">About This Project</h2>
+          <p style="font-size:0.95rem; line-height:1.7; color:var(--text);">
+            This map depicts the greater area of the Parc Natural de la Muntanya de Montserrat in Catalonia, Spain — a striking massif of conglomerate rock formations rising sharply from the surrounding plains, home to the Benedictine monastery of Santa Maria de Montserrat. I visited this mountain range in the final weeks of a semester abroad and had a profound, personally impactful experience there. I selected it as my subject because I wanted to challenge myself to recreate that sense of place — the golden light of the valley, the sheer drama of the terrain — in two dimensions.
+          </p>
+          <p style="font-size:0.95rem; line-height:1.7; color:var(--text); margin-top:0.85rem;">
+            The map is best described as general interest rather than navigational. Trail, railway, and funicular lines are included not to guide someone through the park, but to give a sense of scale and relationship between features — and to mark the trails I was on when I took in certain views. Contour lines were intentionally omitted to keep the reading experience clean and let the color gradients do the work of conveying terrain.
+          </p>
+          <p style="font-size:0.95rem; line-height:1.7; color:var(--text); margin-top:0.85rem;">
+            The final map is printed at 30×20 inches at a scale of 1:20,000.
+          </p>
+
+          <h2 style="margin-top: 2.5rem;">Design Process</h2>
+          <p style="font-size:0.95rem; line-height:1.7; color:var(--text);">
+            The design was built in two phases. The first focused entirely on the basemap — the DEM and hillshade — and the second on symbology, point data, and labels.
+          </p>
+          <p style="font-size:0.95rem; line-height:1.7; color:var(--text); margin-top:0.85rem;">
+            <strong>Terrain &amp; Color:</strong> Elevation data came from the Esri authoritative layer, processed using ArcGIS Pro's built-in scalable raster tools (replacing an earlier, clumsier resampling approach). The bulk of early production time went toward developing a custom color ramp — none of the defaults captured the particular luminosity I remembered from the site. The lower valleys needed a deep, grounded green; the upper elevations needed to feel warm and alive. Getting continuous colors to mix convincingly across that range required a lot of iteration.
+          </p>
+          <p style="font-size:0.95rem; line-height:1.7; color:var(--text); margin-top:0.85rem;">
+            <strong>Hillshade:</strong> Rather than using the conventional clear-to-black hillshade, I built a custom gradient running from bright golden yellow to deep blue — evoking sunrise light flooding the central valley from the southeast, which is almost exactly how I experienced it on a winter morning. The result is that the high-elevation shadowed faces take on a purple tone where the DEM's red meets the hillshade's blue, which I felt added real visual interest without being distracting.
+          </p>
+          <p style="font-size:0.95rem; line-height:1.7; color:var(--text); margin-top:0.85rem;">
+            <strong>Features &amp; Symbology:</strong> All supplementary data came from OpenStreetMap — river polygon and lines, railway and funicular routes, monastery and church points, train stations, and mountain peaks. The main monastery was exported as its own feature class and given a larger symbol and label; a serif font was chosen deliberately to match the aesthetic of depicting a historic religious site. Mountain peaks are shown as hollow triangles — hollow so the peak points remain visible through the center. Almost all labels and map elements were converted to graphics and manually placed for precise layout control.
+          </p>
+          <p style="font-size:0.95rem; line-height:1.7; color:var(--text); margin-top:0.85rem;">
+            <strong>Layout:</strong> A centered title with a halo, white north arrow and scale bar, and a legend covering only the point and line features (churches, peaks, stations, railways, hiking trails). Map notes provide background on the monastery, the origin of the name "Montserrat," and the geology of the range — giving an unfamiliar reader something to engage with beyond the visual.
+          </p>
+
+          <h2 style="margin-top: 2.5rem;">Inspiration</h2>
+          <p style="font-size:0.95rem; line-height:1.7; color:var(--text);">
+            The primary cartographic reference was the work of Eduard Imhof — particularly his approach to color gradients and the expressive use of hillshade to convey the character of terrain. John Nelson's tutorial on creating Imhof-style maps in ArcGIS was also an important technical reference, particularly for the hillshade workflow.
+          </p>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="project-sidebar">
+
+          <h3>Details</h3>
+          <p><strong>Course:</strong> Digital Cartography (GEOG 40333)</p>
+          <p style="margin-top:0.4rem;"><strong>Subject area:</strong> Parc Natural de la Muntanya de Montserrat, Catalonia, Spain</p>
+          <p style="margin-top:0.4rem;"><strong>Scale:</strong> 1:20,000</p>
+          <p style="margin-top:0.4rem;"><strong>Print size:</strong> 30 &times; 20 inches</p>
+
+          <h3>Data Sources</h3>
+          <ul>
+            <li>Esri Living Atlas — DEM &amp; elevation</li>
+            <li>OpenStreetMap — railways, river, monasteries, stations, peaks</li>
+          </ul>
+
+          <h3>Techniques</h3>
+          <ul>
+            <li>Custom DEM color ramp</li>
+            <li>Custom hillshade (golden-to-blue gradient)</li>
+            <li>Manual label placement</li>
+            <li>Cartographic layout design</li>
+            <li>Feature class symbology</li>
+          </ul>
+
+          <h3>References</h3>
+          <ul>
+            <li>Eduard Imhof — <em>Karte der Gegend um den Walensee</em>, 1938</li>
+            <li>John Nelson — Imhof-style maps in ArcGIS (Esri Blog)</li>
+          </ul>
+
+        </aside>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <span class="lightbox-close" id="lightboxClose">&times;</span>
+    <img src="../photos/projects/Gamez_Montserrat_Map_5_40.jpg" alt="Montserrat Mountains Map — full view" />
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://github.com/JAndresG-G" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/j-andres-gamez/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:jorgegamez221@gmail.com">Email</a>
+      </div>
+      <p>&copy; <span id="year"></span> J. Andres Gamez-Gonzalez</p>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    const mapContainer = document.getElementById('mapContainer');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxClose = document.getElementById('lightboxClose');
+
+    mapContainer.addEventListener('click', () => lightbox.classList.add('open'));
+    lightboxClose.addEventListener('click', (e) => { e.stopPropagation(); lightbox.classList.remove('open'); });
+    lightbox.addEventListener('click', () => lightbox.classList.remove('open'));
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') lightbox.classList.remove('open');
+    });
+  </script>
+</body>
+</html>

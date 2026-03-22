@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects &mdash; Andres Gamez</title>
+  <meta name="description" content="Projects and portfolio of J. Andres Gamez-Gonzalez." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="nav-logo" href="index.html"><img src="photos/layout_images/JAG_logo.png" alt="JAG" class="nav-logo-img">Andres Gamez</a>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html" class="active">Projects</a></li>
+        <li><a href="resume.html">Resume</a></li>
+        <li><a href="blog.html">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <div class="container">
+
+      <div class="page-hero">
+        <h1>Projects</h1>
+        <p>GIS maps, StoryMaps, research, and cartographic work.</p>
+      </div>
+
+      <!-- ===================== SIGNATURE PROJECTS ===================== -->
+      <section class="section">
+        <h2 class="projects-section-label">Signature Projects</h2>
+        <p class="projects-section-desc">A small set of independent projects representing the depth and range of my work in cartography, research, and spatial analysis.</p>
+        <div class="signature-grid">
+
+          <!-- TCU Neighborhood Commercial District -->
+          <a class="project-card project-card--link" href="https://storymaps.arcgis.com/stories/ba2a6f2ff23b4d869c29b90744ffcd82" target="_blank" rel="noopener">
+            <img src="photos/projects/TCU_Neighborhood_Commercial_Analysis.png" alt="TCU Neighborhood Commercial District Analysis" class="project-thumbnail" style="object-position: center 25%;" />
+            <div class="project-card-header">
+              <h3>TCU Neighborhood Commercial District Analysis</h3>
+              <span class="project-card-arrow">↗</span>
+            </div>
+            <p>An ArcGIS StoryMap analyzing business clustering, market relationships, and student spending patterns centered around the primary economic corridor adjacent to the TCU campus.</p>
+            <div class="tag-list">
+              <span class="tag">Economic Geography</span>
+              <span class="tag">ArcGIS Survey123</span>
+              <span class="tag">Fort Worth</span>
+            </div>
+          </a>
+
+          <!-- Montserrat Map -->
+          <a class="project-card project-card--link" href="projects/montserrat.html">
+            <img src="photos/projects/Gamez_Montserrat_Map_5_40.jpg" alt="Montserrat Mountains Map" class="project-thumbnail" />
+            <div class="project-card-header">
+              <h3>Montserrat Mountains Map</h3>
+              <span class="project-card-arrow">↗</span>
+            </div>
+            <p>A stylistic cartographic final project representing the Montserrat Mountains in Catalonia, Spain. Inspired by Eduard Imhof's shaded relief techniques, rendered using Esri Living Atlas and OpenStreetMap data.</p>
+            <div class="tag-list">
+              <span class="tag">ArcGIS Pro</span>
+              <span class="tag">Shaded Relief</span>
+              <span class="tag">Cartographic Design</span>
+            </div>
+          </a>
+
+          <!-- Denver Transit Stations -->
+          <a class="project-card project-card--link" href="projects/data_visualization/index.html">
+            <img src="photos/projects/Denver_Proj_SS.png" alt="Denver RTD Transit Station Explorer" class="project-thumbnail" />
+            <div class="project-card-header">
+              <h3>Denver RTD Transit Station Explorer</h3>
+              <span class="project-card-arrow">↗</span>
+            </div>
+            <p>An interactive ArcGIS Maps SDK web application mapping the Denver RTD light rail and commuter rail network — with live feature querying, line-based symbology, sidebar filtering by status and parking, and styled station popups.</p>
+            <div class="tag-list">
+              <span class="tag">ArcGIS Maps SDK</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">Transit</span>
+              <span class="tag">Denver</span>
+            </div>
+          </a>
+
+        </div>
+      </section>
+
+      <!-- ===================== COLLECTIONS ===================== -->
+      <section class="section">
+        <h2 class="projects-section-label">Collections</h2>
+        <p class="projects-section-desc">Grouped bodies of work organized by medium, method, or course — each collection links to a dedicated gallery or index.</p>
+        <div class="collection-grid">
+
+          <!-- Digital Cartography -->
+          <a class="collection-tile" href="projects/digital-cartography.html">
+            <h3>Digital Cartography</h3>
+            <p>A gallery of maps produced across Digital Cartography coursework — each with a title, brief description of the assignment, and an expandable full view of the map.</p>
+            <span class="collection-browse">Browse collection →</span>
+          </a>
+
+          <!-- Research Projects -->
+          <a class="collection-tile" href="projects/research-projects.html">
+            <h3>Research Projects</h3>
+            <p>In-depth academic and independent research projects, each with its own dedicated page covering methodology, findings, and outputs.</p>
+            <span class="collection-browse">Browse collection →</span>
+          </a>
+
+          <!-- Data Visualization -->
+          <a class="collection-tile" href="projects/data-visualization.html">
+            <h3>Data Visualization</h3>
+            <p>A set of projects focused on rendering data visually — charts, interactive graphics, and spatial visualizations produced across coursework and independent work.</p>
+            <span class="collection-browse">Browse collection →</span>
+          </a>
+
+          <!-- StoryMaps -->
+          <a class="collection-tile" href="projects/storymaps.html">
+            <h3>StoryMaps</h3>
+            <p>A tiled index of ArcGIS StoryMaps — each entry includes an overview and links directly to the published StoryMap.</p>
+            <span class="collection-browse">Browse collection →</span>
+          </a>
+
+        </div>
+      </section>
+
+      <!-- ===================== PROFESSIONAL COLLABORATIONS ===================== -->
+      <section class="section">
+        <h2 class="projects-section-label">Professional Research Collaborations</h2>
+        <p class="projects-section-desc">Work produced in professional settings during internships and research appointments.</p>
+        <div class="projects-grid">
+
+          <!-- TCU CUS — Sanborn Maps -->
+          <div class="collab-card">
+            <div class="project-card-header">
+              <h3>North Texas Sanborn Historic Map Database</h3>
+            </div>
+            <span class="role">Research Assistant &mdash; TCU Center for Urban Studies</span>
+            <p>Spatial analysis and georeferencing of 800+ historical Sanborn Insurance maps using ArcGIS Pro and ArcGIS Online, building a usable spatial dataset of historic maps of the North Texas region to support historic and geographic research.</p>
+            <div class="tag-list">
+              <span class="tag">ArcGIS Pro</span>
+              <span class="tag">Georeferencing</span>
+              <span class="tag">Historical GIS</span>
+              <span class="tag">TCU CUS</span>
+            </div>
+            <p style="margin-top:1rem; font-size:0.82rem;">Want to know more about this project? <a href="mailto:jorgegamez221@gmail.com" style="color:var(--accent); font-weight:600;">Reach out and let's collaborate.</a></p>
+          </div>
+
+          <!-- TCU CUS — SB 840 -->
+          <div class="collab-card">
+            <div class="project-card-header">
+              <h3>Texas Zoning &amp; Housing Development Analysis (SB 840)</h3>
+            </div>
+            <span class="role">Research Assistant &mdash; TCU Center for Urban Studies</span>
+            <p>Collaborated with the Center for Urban Studies to research and develop a spatial analysis that models and projects the effects of Texas Senate Bill 840, expanding the range of construction for multifamily and mixed-use development across 15 cities in Texas.</p>
+            <div class="tag-list">
+              <span class="tag">ArcGIS Pro</span>
+              <span class="tag">Spatial Analysis</span>
+              <span class="tag">Urban Policy</span>
+              <span class="tag">TCU CUS</span>
+            </div>
+            <p style="margin-top:1rem; font-size:0.82rem;">Want to know more about this project? <a href="mailto:jorgegamez221@gmail.com" style="color:var(--accent); font-weight:600;">Reach out and let's collaborate.</a></p>
+          </div>
+
+          <!-- NCTCOG Trail StoryMap -->
+          <a class="collab-card project-card--link" href="https://geospatial.nctcog.org/portal/apps/storymaps/stories/ef7644478ef14714bd17e8adc45dd0af" target="_blank" rel="noopener">
+            <div class="project-card-header">
+              <h3>DFW Regional Trail Use — 2024&ndash;2025</h3>
+              <span class="project-card-arrow">↗</span>
+            </div>
+            <span class="role">Transportation Intern &mdash; North Central Texas Council of Governments</span>
+            <p>An ArcGIS StoryMap developed during a Transportation Internship at the North Central Texas Council of Governments, visualizing 2024&ndash;2025 bicycle and pedestrian trail use data across the Dallas&ndash;Fort Worth region.</p>
+            <div class="tag-list">
+              <span class="tag">Transportation</span>
+              <span class="tag">DFW</span>
+              <span class="tag">NCTCOG</span>
+            </div>
+          </a>
+
+        </div>
+      </section>
+
+      <p style="text-align:center; font-size:0.8rem; color:var(--text-muted); padding: 2rem 0 1rem;">
+        Not enough? <a href="projects/full.html" style="color:var(--text-muted); text-decoration:underline;">View the full repository here.</a>
+      </p>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://github.com/JAndresG-G" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/j-andres-gamez/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:jorgegamez221@gmail.com">Email</a>
+      </div>
+      <p>&copy; <span id="year"></span> J. Andres Gamez-Gonzalez</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

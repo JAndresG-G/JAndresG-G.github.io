@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Cartography &mdash; Andres Gamez</title>
+  <meta name="description" content="A gallery of maps produced across Digital Cartography coursework by J. Andres Gamez-Gonzalez." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .map-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+      padding: 0 0 0.5rem;
+    }
+
+    .map-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .map-item-img-wrap {
+      position: relative;
+      overflow: hidden;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      cursor: zoom-in;
+      background: var(--bg-alt);
+      aspect-ratio: 4/3;
+    }
+
+    .map-item-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.25s ease;
+    }
+
+    .map-item-img-wrap:hover img { transform: scale(1.03); }
+
+    .map-item-img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    .map-item-info {
+      padding: 0.65rem 0 0;
+    }
+
+    .map-item-info h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+
+    .map-item-info p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Lab group dividers */
+    .gallery-group {
+      padding: 2rem 0 0;
+    }
+
+    .gallery-group:first-of-type {
+      padding-top: 0.25rem;
+    }
+
+    .gallery-group-label {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--accent);
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 0.4rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 1000;
+      cursor: zoom-out;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox img {
+      max-width: 100%;
+      max-height: 82vh;
+      border-radius: 4px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    }
+
+    .lightbox-caption {
+      color: rgba(255,255,255,0.75);
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    .lightbox-close {
+      position: fixed;
+      top: 1.25rem;
+      right: 1.5rem;
+      font-size: 1.75rem;
+      color: #fff;
+      cursor: pointer;
+      opacity: 0.75;
+      line-height: 1;
+    }
+
+    .lightbox-close:hover { opacity: 1; }
+
+    @media (max-width: 600px) {
+      .map-gallery { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="nav-logo" href="../index.html"><img src="../photos/layout_images/JAG_logo.png" alt="JAG" class="nav-logo-img">Andres Gamez</a>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../projects.html" class="active">Projects</a></li>
+        <li><a href="../resume.html">Resume</a></li>
+        <li><a href="../blog.html">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <div class="container">
+
+      <div class="page-hero">
+        <a class="back-link" href="../projects.html">&#8592; Back to Projects</a>
+        <h1>Digital Cartography</h1>
+        <p>A gallery of maps produced across Digital Cartography coursework at TCU. Click any map to expand to full view.</p>
+      </div>
+
+      <!-- Final Project -->
+      <div class="gallery-group">
+        <p class="gallery-group-label">Final Project</p>
+        <div class="map-gallery" style="padding-top: 0;">
+
+          <div class="map-item">
+            <div class="map-item-img-wrap" data-title="Montserrat Mountains Map" data-src="../photos/projects/Gamez_Montserrat_Map_5_40.jpg">
+              <img src="../photos/projects/Gamez_Montserrat_Map_5_40.jpg" alt="Montserrat Mountains Map" />
+            </div>
+            <div class="map-item-info">
+              <h3>Montserrat Mountains Map</h3>
+              <p>A cartographic representation of the Parc Natural de la Muntanya de Montserrat in Catalonia, Spain — inspired by Eduard Imhof's shaded relief techniques and built with custom models in ArcGIS Pro.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Lab 1 -->
+      <div class="gallery-group">
+        <p class="gallery-group-label">Lab 1 &mdash; Map Layout & Design Fundamentals</p>
+        <div class="map-gallery" style="padding-top: 0;">
+
+          <div class="map-item">
+            <div class="map-item-img-wrap" data-title="Lab 1 — Map 1" data-src="../projects/maps/Gamez_Lab1_Map1.jpg">
+              <img src="../projects/maps/Gamez_Lab1_Map1.jpg" alt="Lab 1 Map 1" />
+            </div>
+            <div class="map-item-info">
+              <h3>Lab 1 &mdash; Map 1</h3>
+              <p>Introduction to map layout and design elements in ArcGIS Pro — establishing foundational cartographic principles with a focus on texture design.</p>
+            </div>
+          </div>
+
+          <div class="map-item">
+            <div class="map-item-img-wrap" data-title="Lab 1 — Map 2" data-src="../projects/maps/Gamez_Lab1_Map2.jpg">
+              <img src="../projects/maps/Gamez_Lab1_Map2.jpg" alt="Lab 1 Map 2" />
+            </div>
+            <div class="map-item-info">
+              <h3>Lab 1 &mdash; Map 2</h3>
+              <p>Continued exploration of map layout fundamentals, adding additional symbology and cartographic styling conventions to a more polished map composition.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Lab 2 -->
+      <div class="gallery-group">
+        <p class="gallery-group-label">Lab 2 &mdash; Thematic Mapping</p>
+        <div class="map-gallery" style="padding-top: 0;">
+
+          <div class="map-item">
+            <div class="map-item-img-wrap" data-title="Lab 2" data-src="../projects/maps/Gamez_Lab2.jpg">
+              <img src="../projects/maps/Gamez_Lab2.jpg" alt="Lab 2" />
+            </div>
+            <div class="map-item-info">
+              <h3>Intercounty Infrastructural Development</h3>
+              <p>Using Lab 1's dataset, a thematic approach was applied here to communicate spatial data patterns with a clean and pleasing design.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Lab 3 -->
+      <div class="gallery-group">
+        <p class="gallery-group-label">Lab 3 &mdash; Graduated &amp; Dot Density Symbols</p>
+        <div class="map-gallery" style="padding-top: 0;">
+
+          <div class="map-item">
+            <div class="map-item-img-wrap" data-title="Lab 3 — Map 1" data-src="../projects/maps/Gamez_Lab3_Map1.jpg">
+              <img src="../projects/maps/Gamez_Lab3_Map1.jpg" alt="Lab 3 Map 1" />
+            </div>
+            <div class="map-item-info">
+              <h3>Virginia Household on Public Assistance Income: Graduated Symbol</h3>
+              <p>A comparative analysis of representations of point based data. This map utilized graduated symbols to visualize the number of of Virginian households on public assistance income across three scales.</p>
+            </div>
+          </div>
+
+          <div class="map-item">
+            <div class="map-item-img-wrap" data-title="Lab 3 — Map 2 (Revised)" data-src="../projects/maps/Gamez_Lab3_Map2_.jpg">
+              <img src="../projects/maps/Gamez_Lab3_Map2_.jpg" alt="Lab 3 Map 2 Revised" />
+            </div>
+            <div class="map-item-info">
+              <h3>Virginia Household on Public Assistance Income: Dot Density Symbol</h3>
+              <p>A comparative analysis of representations of point based data. This map utilized dot density aggregation to visualize the number of of Virginian households on public assistance income across three scales.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Lab 4 -->
+      <div class="gallery-group">
+        <p class="gallery-group-label">Lab 4 &mdash; Map Pairs & Visual Comparison</p>
+        <div class="map-gallery" style="padding-top: 0;">
+
+          <div class="map-item">
+            <div class="map-item-img-wrap" data-title="Lab 4 — Map Pair 1" data-src="../projects/maps/Gamez_Lab4_MapPair1.jpg">
+              <img src="../projects/maps/Gamez_Lab4_MapPair1.jpg" alt="Lab 4 Map Pair 1" />
+            </div>
+            <div class="map-item-info">
+              <h3>Uninsured Rate by Education Attainment: Graduated Scheme</h3>
+              <p>A pair of maps visualizing uninsurance rate by education attainment in New England between two different groups visualized with a graduated color scheme.</p>
+            </div>
+          </div>
+
+          <div class="map-item">
+            <div class="map-item-img-wrap" data-title="Lab 4 — Map Pair 2" data-src="../projects/maps/Gamez_Lab4_MapPair2.jpg">
+              <img src="../projects/maps/Gamez_Lab4_MapPair2.jpg" alt="Lab 4 Map Pair 2" />
+            </div>
+            <div class="map-item-info">
+              <h3>Uninsured Rate by Education Attainment: Bivariate Scheme</h3>
+              <p>A pair of maps visualizing uninsurance rate by education attainment in New England between two different groups visualized with a bivariate color scheme.</p>
+            </div>
+          </div>
+
+          <div class="map-item">
+            <div class="map-item-img-wrap" data-title="Lab 4 — Map Pair 3" data-src="../projects/maps/Gamez_Lab4_MapPair3.jpg">
+              <img src="../projects/maps/Gamez_Lab4_MapPair3.jpg" alt="Lab 4 Map Pair 3" />
+            </div>
+            <div class="map-item-info">
+              <h3>Uninsurance Rate: Non-High School Graduates Over 25</h3>
+              <p>A pair of maps visualizing uninsurance rate of Non-High School graduates over 25 in New England visualized between Graduated vs. Classed Scheme.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Lab 5 -->
+      <div class="gallery-group">
+        <p class="gallery-group-label">Lab 5 &mdash; GIS for Marketing</p>
+        <div class="map-gallery" style="padding-top: 0;">
+
+          <div class="map-item">
+            <div class="map-item-img-wrap" data-title="Lab 5 — Layout 1" data-src="../projects/maps/Gamez_Lab5_Layout1.jpg">
+              <img src="../projects/maps/Gamez_Lab5_Layout1.jpg" alt="Lab 5 Layout 1" />
+            </div>
+            <div class="map-item-info">
+              <h3>Heathrow: The Heart of Aviation</h3>
+              <p>Marketing material map designed to show the centrality of London Heathrow Airport to international flights by showing routine flights to and from LHR by their flight length in kilometers.</p>
+            </div>
+          </div>
+
+          <div class="map-item">
+            <div class="map-item-img-wrap" data-title="Lab 5 — Layout 2" data-src="../projects/maps/Gamez_Lab5_Layout2.jpg">
+              <img src="../projects/maps/Gamez_Lab5_Layout2.jpg" alt="Lab 5 Layout 2" />
+            </div>
+            <div class="map-item-info">
+              <h3>Heathrow: Fly at any Hour</h3>
+              <p>Promotional material developed to show the amount of flights offered throughout each time of day to and from London Heathrow Airport, showing that LHR's timings can accommodate any flyer's needs.</p>
+            </div>
+          </div>
+
+          <div class="map-item">
+            <div class="map-item-img-wrap" data-title="Lab 5 — Layout 3" data-src="../projects/maps/Gamez_Lab5_Layout3.jpg">
+              <img src="../projects/maps/Gamez_Lab5_Layout3.jpg" alt="Lab 5 Layout 3" />
+            </div>
+            <div class="map-item-info">
+              <h3>Heathrow: Head to your Dream Destination</h3>
+              <p>Promotional material for London Heathrow Airport showing the density of flights to and from the most visited nations.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Lab 6 -->
+      <div class="gallery-group">
+        <p class="gallery-group-label">Lab 6 &mdash; Terrain & Elevation Visualization</p>
+        <div class="map-gallery" style="padding-top: 0;">
+
+          <div class="map-item">
+            <div class="map-item-img-wrap" data-title="Lab 6" data-src="../projects/maps/Gamez_Lab6.jpg">
+              <img src="../projects/maps/Gamez_Lab6.jpg" alt="Lab 6" />
+            </div>
+            <div class="map-item-info">
+              <h3>Paradise Valley Trail Run 2025</h3>
+              <p>This map was developed as a guide for runners for the fictional Paradise Valley Trail Run. The map is intended as a reference pamphlet for runners to understand the course routes, elevation change, and stations.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Lab 7 -->
+      <div class="gallery-group">
+        <p class="gallery-group-label">Lab 7 &mdash; Advanced Layout & Cartographic Refinement</p>
+        <div class="map-gallery" style="padding-top: 0;">
+
+          <div class="map-item">
+            <div class="map-item-img-wrap" data-title="Lab 7 — Layout 1" data-src="../projects/maps/Gamez_Lab7_Layout_1.jpg">
+              <img src="../projects/maps/Gamez_Lab7_Layout_1.jpg" alt="Lab 7 Layout 1" />
+            </div>
+            <div class="map-item-info">
+              <h3>National Social Support</h3>
+              <p>This global map shows the grade of each nation's national social support networks with an uncertainty score applied for data transparency.</p>
+            </div>
+          </div>
+
+          <div class="map-item">
+            <div class="map-item-img-wrap" data-title="Lab 7 — Layout 2" data-src="../projects/maps/Gamez_Lab7_Layout_2.jpg">
+              <img src="../projects/maps/Gamez_Lab7_Layout_2.jpg" alt="Lab 7 Layout 2" />
+            </div>
+            <div class="map-item-info">
+              <h3>Perceptions of Corruption</h3>
+              <p>This layout uses a graduated color scheme to show the perceived level of corruption for Latin American nations.</p>
+            </div>
+          </div>
+
+          <div class="map-item">
+            <div class="map-item-img-wrap" data-title="Lab 7 — Layout 3" data-src="../projects/maps/Gamez_Lab7_Layout_3.jpg">
+              <img src="../projects/maps/Gamez_Lab7_Layout_3.jpg" alt="Lab 7 Layout 3" />
+            </div>
+            <div class="map-item-info">
+              <h3>Perceptions of Freedom</h3>
+              <p>This map layout uses a bivariate color scheme to show the perceived freedom of Latin American nations.</p>
+            </div>
+          </div>
+
+          <div class="map-item">
+            <div class="map-item-img-wrap" data-title="Lab 7 — Layout 4" data-src="../projects/maps/Gamez_Lab7_Layout_4.jpg">
+              <img src="../projects/maps/Gamez_Lab7_Layout_4.jpg" alt="Lab 7 Layout 4" />
+            </div>
+            <div class="map-item-info">
+              <h3>National Life Ladder Placement</h3>
+              <p>This map layout uses a graduated color scheme to show the placement of each Latin American nation on the Cantril Life Ladder.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Lab 9 -->
+      <div class="gallery-group">
+        <p class="gallery-group-label">Lab 9 &mdash; Physical Output & Laser Engraving</p>
+        <div class="map-gallery" style="padding-top: 0;">
+
+          <div class="map-item">
+            <div class="map-item-img-wrap" data-title="Lab 9 — Laser Engraved Terrain Model" data-src="../projects/maps/Lab_9_Layout_1_Laser.jpg">
+              <img src="../projects/maps/Lab_9_Layout_1_Laser.jpg" alt="Lab 9 Laser Engraved Terrain Model" />
+            </div>
+            <div class="map-item-info">
+              <h3>Jalostotitl&aacute;n, Jalisco (Digital)</h3>
+              <p>A hand referenced digital layout map of Jalostotitl&aacute;n, Jalisco, Mexico. The digital version was created to laser engrave into a piece of wood to create a physical map product.</p>
+            </div>
+          </div>
+
+          <div class="map-item">
+            <div class="map-item-img-wrap" data-title="Lab 9 — Laser Engraved Terrain Model (Wood)" data-src="../projects/maps/Lab_9_Woodcut_New.jpg">
+              <img src="../projects/maps/Lab_9_Woodcut_New.jpg" alt="Lab 9 Laser Engraved Terrain Model Wood" />
+            </div>
+            <div class="map-item-info">
+              <h3>Jalostotitl&aacute;n, Jalisco (Woodcut)</h3>
+              <p>A hand referenced woodcut layout map of Jalostotitl&aacute;n, Jalisco, Mexico. This woodcut version of the map was laser engraved based on the digital model.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+    <div style="height: 3rem;"></div>
+  </main>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <span class="lightbox-close" id="lightboxClose">&times;</span>
+    <img src="" alt="" id="lightboxImg" />
+    <p class="lightbox-caption" id="lightboxCaption"></p>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://github.com/JAndresG-G" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/j-andres-gamez/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:jorgegamez221@gmail.com">Email</a>
+      </div>
+      <p>&copy; <span id="year"></span> J. Andres Gamez-Gonzalez</p>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const lightboxClose = document.getElementById('lightboxClose');
+
+    document.querySelectorAll('.map-item-img-wrap').forEach(wrap => {
+      wrap.addEventListener('click', () => {
+        const src = wrap.dataset.src;
+        const title = wrap.dataset.title;
+        if (!src) return;
+        lightboxImg.src = src;
+        lightboxImg.alt = title;
+        lightboxCaption.textContent = title;
+        lightbox.classList.add('open');
+      });
+    });
+
+    lightboxClose.addEventListener('click', (e) => { e.stopPropagation(); lightbox.classList.remove('open'); });
+    lightbox.addEventListener('click', () => lightbox.classList.remove('open'));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') lightbox.classList.remove('open'); });
+  </script>
+</body>
+</html>

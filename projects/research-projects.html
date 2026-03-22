@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Research Projects &mdash; Andres Gamez</title>
+  <meta name="description" content="Academic and research projects by J. Andres Gamez-Gonzalez." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .research-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.6rem 1.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .research-card h3 {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.35;
+      margin: 0;
+    }
+
+    .research-card .role {
+      font-size: 0.82rem;
+      font-style: italic;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .research-card p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    .research-card .tag-list {
+      margin-top: 0.25rem;
+    }
+
+    .doc-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+    }
+
+    .doc-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--accent);
+      background: #eef4f1;
+      border: 1px solid var(--accent);
+      border-radius: 20px;
+      padding: 0.28rem 0.85rem;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .doc-link:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .research-map-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+    }
+
+    .research-map-grid img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      display: block;
+      cursor: zoom-in;
+      transition: opacity 0.15s;
+    }
+
+    .research-map-grid img:hover { opacity: 0.88; }
+
+    /* Lightbox */
+    .rp-lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .rp-lightbox.open { display: flex; }
+
+    .rp-lightbox img {
+      max-width: calc(100vw - 10rem);
+      max-height: 88vh;
+      border-radius: 4px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+      object-fit: contain;
+    }
+
+    .rp-lb-btn {
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: #fff;
+      font-size: 1.8rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+
+    .rp-lb-btn:hover { background: rgba(255,255,255,0.3); }
+
+    .rp-lb-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.2rem;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.75);
+      font-size: 2rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .rp-lb-close:hover { color: #fff; }
+
+    .rp-lb-caption {
+      position: absolute;
+      bottom: 1.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.7);
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+
+    .research-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .research-card h3 em {
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="nav-logo" href="../index.html"><img src="../photos/layout_images/JAG_logo.png" alt="JAG" class="nav-logo-img">Andres Gamez</a>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../projects.html" class="active">Projects</a></li>
+        <li><a href="../resume.html">Resume</a></li>
+        <li><a href="../blog.html">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <div class="container">
+
+      <div class="page-hero">
+        <a class="back-link" href="../projects.html">&#8592; Back to Projects</a>
+        <h1>Research Projects</h1>
+        <p>Academic papers, analyses, and research produced across coursework and independent study.</p>
+      </div>
+
+      <section class="section">
+        <div class="research-grid">
+
+          <!-- Permanence Through Implicit Narratives -->
+          <div class="research-card">
+            <h3>Permanence Through Implicit Narratives: Indigenous Cartography in the Valley of Mexico</h3>
+            <p class="role">Summer Undergraduate Research Fellowship &mdash; AddRan College of Liberal Arts, 2024</p>
+            <p>A research paper exploring how Indigenous cartographers in the sixteenth-century Valley of Mexico strategically embedded cultural memory into colonial maps. Through mixed artistic and historical analysis, it demonstrates how Indigenous artists created implicit narratives about identity, economics, and environmental relationships — preserving their self-image and historical record within the official cartographic record of the Spanish empire. A companion analysis of the Pintura de Culhu&aacute;can, a 1580 map painted by Pedro de San Agust&iacute;n for King Philip II's Relaciones Geogr&aacute;ficas questionnaire, examines how a single map encoded pre-conquest economic activity, Nahuatl glyphs, and community permanence within an ostensibly European document.</p>
+            <div class="tag-list">
+              <span class="tag">Historical GIS</span>
+              <span class="tag">Indigenous Cartography</span>
+              <span class="tag">Colonial Mexico</span>
+              <span class="tag">SURF 2024</span>
+            </div>
+            <div class="doc-links">
+              <a class="doc-link" href="research_projects/Permanence through Implicit Narratives Indigenous Cartography in the Valley of Mexico.docx" download>&#8595; Research Paper (.docx)</a>
+              <a class="doc-link" href="research_projects/Cartography in Colonial Mexico Pintura de Culhuacan.pdf" target="_blank" rel="noopener">&#8599; Pintura de Culhu&aacute;can (PDF)</a>
+            </div>
+          </div>
+
+          <!-- Elderly Infrastructure Site Analysis -->
+          <div class="research-card">
+            <h3>Elderly Infrastructure Site Analysis: North Central Texas</h3>
+            <p class="role">Professional Assignment, 2024</p>
+            <p>A GIS-based site suitability analysis identifying the four highest-concentration zones of elderly population (&gt;65) in North Central Texas — evaluating each site against a weighted infrastructure index including hospitals, urgent care, fire and police stations, shopping centers, parks, and highway access. Produced as a professional deliverable for a simulated commercial real estate client.</p>
+            <div class="research-map-grid" id="elderly-map-grid">
+              <img src="research_projects/Pct of Elderly NCT.jpg" alt="Percentage of Elderly Population in North Central Texas" data-caption="Overview — % Elderly Population, North Central Texas" />
+              <img src="research_projects/Site 1 N of Univ Park.jpg" alt="Site 1 — North of University Park" data-caption="Site 1 — North of University Park, Dallas" />
+              <img src="research_projects/Site 2 Central FW.jpg" alt="Site 2 — Central Fort Worth" data-caption="Site 2 — Upper West Side &amp; Medical District, Fort Worth" />
+              <img src="research_projects/Site 3 W Plano.jpg" alt="Site 3 — Western Plano" data-caption="Site 3 — Western Plano" />
+              <img src="research_projects/Site 4 Rockwall.jpg" alt="Site 4 — Rockwall" data-caption="Site 4 — Rockwall" />
+            </div>
+            <div class="tag-list">
+              <span class="tag">ArcGIS Pro</span>
+              <span class="tag">Site Suitability</span>
+              <span class="tag">Demographics</span>
+              <span class="tag">North Central Texas</span>
+            </div>
+            <div class="doc-links">
+              <a class="doc-link" href="research_projects/Gamez Professional Assignment 1.docx" download>&#8595; Full Report (.docx)</a>
+            </div>
+          </div>
+
+          <!-- Dark Emu / Oceania -->
+          <div class="research-card">
+            <h3>Colonial Justification &amp; the Erasure of Aboriginal Australia: A Reading of <em>Dark Emu</em></h3>
+            <p class="role">Semester Paper, 2025</p>
+            <p>An analysis of Bruce Pascoe's <em>Dark Emu: Aboriginal Australia and the Birth of Agriculture</em> and its 2023 documentary follow-up, examining the colonial justification narrative that drove British settlers to erase markers of Aboriginal sophistication — including sedentary settlement and agricultural management — to legitimize their occupation. The paper argues that Pascoe's evidence of intentional crop domestication and landscape modification challenges foundational assumptions of Australian colonial identity and forces a reconsideration of the country's historical self-image.</p>
+            <div class="tag-list">
+              <span class="tag">Aboriginal Studies</span>
+              <span class="tag">Oceania</span>
+              <span class="tag">Colonial History</span>
+              <span class="tag">Political Geography</span>
+            </div>
+            <div class="doc-links">
+              <a class="doc-link" href="research_projects/Gamez_Oceania_Paper.docx" download>&#8595; Research Paper (.docx)</a>
+            </div>
+          </div>
+
+          <!-- Thermidorian Reaction -->
+          <div class="research-card">
+            <h3>The Thermidorian Reaction &amp; the Return to Revolution</h3>
+            <p class="role">Research Paper, 2023</p>
+            <p>An analysis of the Thermidorian Reaction of 1794, arguing that the Committee of Public Safety's concentration of power, its use of political terror, and its transformation into an oppressive institution made its overthrow inevitable. The paper examines how the Thermidorians dismantled the Committee and established France's 1795 constitution, tracing the shift in the relationship between the French people and their government — from revolutionary idealism to a cautious attempt to restore democratic principles without repeating the excesses of the Terror.</p>
+            <div class="tag-list">
+              <span class="tag">French Revolution</span>
+              <span class="tag">Political History</span>
+              <span class="tag">European History</span>
+            </div>
+            <div class="doc-links">
+              <a class="doc-link" href="research_projects/Gamez_RP_Final_Portfolio.docx" download>&#8595; Research Paper (.docx)</a>
+              <a class="doc-link" href="research_projects/Gamez_RP Presentation FInal Slides_Portfolio.pptx" download>&#8595; Slides (.pptx)</a>
+            </div>
+          </div>
+
+          <!-- Human Response to Disease -->
+          <div class="research-card">
+            <h3>Human Response to Disease in European Urban Geography</h3>
+            <p class="role">Comparative Analysis, 2023</p>
+            <p>A comparative analysis examining how European societies have adapted their urban spaces in response to public health crises across two distinct periods — the Black Death in medieval England (1350&ndash;1530) and the Covid-19 pandemic in the EU (2020&ndash;2022). Drawing on Lilley's work on post-plague urban planning and MMP et al.'s study of outdoor retail markets, the paper argues that human responses to disease produce lasting transformations in how urban space is produced and used.</p>
+            <div class="tag-list">
+              <span class="tag">Urban Geography</span>
+              <span class="tag">Geography of Europe</span>
+              <span class="tag">Public Health</span>
+              <span class="tag">Comparative Analysis</span>
+            </div>
+            <div class="doc-links">
+              <a class="doc-link" href="research_projects/Gamez_GEOG Comparative Analysis_Portfolio.docx" download>&#8595; Research Paper (.docx)</a>
+              <a class="doc-link" href="research_projects/Gamez_GEOG Research Slides Updated.pptx" download>&#8595; Slides (.pptx)</a>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <div style="height: 3rem;"></div>
+
+    </div>
+  </main>
+
+  <!-- Map Lightbox -->
+  <div class="rp-lightbox" id="rpLightbox">
+    <button class="rp-lb-close" id="rpLbClose">&times;</button>
+    <button class="rp-lb-btn" id="rpLbPrev">&#8249;</button>
+    <img src="" alt="" id="rpLbImg" />
+    <button class="rp-lb-btn" id="rpLbNext">&#8250;</button>
+    <span class="rp-lb-caption" id="rpLbCaption"></span>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://github.com/JAndresG-G" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/j-andres-gamez/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:jorgegamez221@gmail.com">Email</a>
+      </div>
+      <p>&copy; <span id="year"></span> J. Andres Gamez-Gonzalez</p>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    (() => {
+      const grid = document.getElementById('elderly-map-grid');
+      const imgs = Array.from(grid.querySelectorAll('img'));
+      const lb = document.getElementById('rpLightbox');
+      const lbImg = document.getElementById('rpLbImg');
+      const lbCaption = document.getElementById('rpLbCaption');
+      let current = 0;
+
+      function open(idx) {
+        current = idx;
+        lbImg.src = imgs[current].src;
+        lbCaption.innerHTML = imgs[current].dataset.caption || '';
+        lb.classList.add('open');
+      }
+
+      function close() { lb.classList.remove('open'); }
+
+      function prev() { current = (current - 1 + imgs.length) % imgs.length; lbImg.src = imgs[current].src; lbCaption.innerHTML = imgs[current].dataset.caption || ''; }
+      function next() { current = (current + 1) % imgs.length; lbImg.src = imgs[current].src; lbCaption.innerHTML = imgs[current].dataset.caption || ''; }
+
+      imgs.forEach((img, i) => img.addEventListener('click', () => open(i)));
+      document.getElementById('rpLbClose').addEventListener('click', close);
+      document.getElementById('rpLbPrev').addEventListener('click', (e) => { e.stopPropagation(); prev(); });
+      document.getElementById('rpLbNext').addEventListener('click', (e) => { e.stopPropagation(); next(); });
+      lb.addEventListener('click', close);
+      document.addEventListener('keydown', (e) => {
+        if (!lb.classList.contains('open')) return;
+        if (e.key === 'Escape') close();
+        if (e.key === 'ArrowLeft') prev();
+        if (e.key === 'ArrowRight') next();
+      });
+    })();
+  </script>
+</body>
+</html>

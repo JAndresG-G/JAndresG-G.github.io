@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Visualization &mdash; Andres Gamez</title>
+  <meta name="description" content="Data analysis and visualization projects by J. Andres Gamez-Gonzalez." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .dv-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.6rem 1.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .dv-card h3 {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.35;
+      margin: 0;
+    }
+
+    .dv-card .role {
+      font-size: 0.82rem;
+      font-style: italic;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .dv-card p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    .dv-card .tag-list {
+      margin-top: 0.25rem;
+    }
+
+    .dv-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .dv-map-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+    }
+
+    .dv-map-grid img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      display: block;
+      cursor: zoom-in;
+      transition: opacity 0.15s;
+    }
+
+    .dv-map-grid img:hover { opacity: 0.88; }
+
+    .doc-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+    }
+
+    .doc-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--accent);
+      background: #eef4f1;
+      border: 1px solid var(--accent);
+      border-radius: 20px;
+      padding: 0.28rem 0.85rem;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .doc-link:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* Lightbox */
+    .dv-lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .dv-lightbox.open { display: flex; }
+
+    .dv-lightbox img {
+      max-width: calc(100vw - 10rem);
+      max-height: 88vh;
+      border-radius: 4px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+      object-fit: contain;
+    }
+
+    .dv-lb-btn {
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: #fff;
+      font-size: 1.8rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+
+    .dv-lb-btn:hover { background: rgba(255,255,255,0.3); }
+
+    .dv-lb-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.2rem;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.75);
+      font-size: 2rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .dv-lb-close:hover { color: #fff; }
+
+    .dv-lb-caption {
+      position: absolute;
+      bottom: 1.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.7);
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="nav-logo" href="../index.html"><img src="../photos/layout_images/JAG_logo.png" alt="JAG" class="nav-logo-img">Andres Gamez</a>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../projects.html" class="active">Projects</a></li>
+        <li><a href="../resume.html">Resume</a></li>
+        <li><a href="../blog.html">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <div class="container">
+
+      <div class="page-hero">
+        <a class="back-link" href="../projects.html">&#8592; Back to Projects</a>
+        <h1>Data Visualization</h1>
+        <p>Spatial analysis, industry mapping, and data-driven visualizations produced across coursework and independent study.</p>
+      </div>
+
+      <section class="section">
+        <div class="dv-grid">
+
+          <!-- Denver Transit Visualization -->
+          <div class="dv-card">
+            <h3>Denver RTD Transit Network — Web App &amp; Experience Builder Comparison</h3>
+            <p class="role">Lab Analysis, 2026</p>
+            <p>A comparative data visualization exercise building two interactive representations of the Denver RTD light rail and commuter rail network — one using a custom ArcGIS Maps SDK JavaScript web application, and one using ArcGIS Experience Builder. The lab evaluates both approaches across speed of development, visual output quality, and degree of design control, ultimately finding that the coded interface produced a cleaner, more customizable result while the Experience Builder offered a faster no-code entry point.</p>
+            <div class="tag-list">
+              <span class="tag">ArcGIS Maps SDK</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">Experience Builder</span>
+              <span class="tag">Denver</span>
+            </div>
+            <div class="doc-links">
+              <a class="doc-link" href="data_visualization/index.html">&#8599; View Web App</a>
+              <a class="doc-link" href="https://experience.arcgis.com/experience/b657d81f481d490aafffeb2caa77f548" target="_blank" rel="noopener">&#8599; View Experience Builder</a>
+            </div>
+          </div>
+
+          <!-- Fort Worth Light Rail — In Progress -->
+          <div class="dv-card" style="opacity: 0.72;">
+            <div style="display:flex; align-items:center; gap:0.6rem;">
+              <h3 style="margin:0;">Fort Worth Light Rail Feasibility &amp; Connectivity Analysis</h3>
+              <span style="font-size:0.72rem; font-weight:600; letter-spacing:0.04em; color:#fff; background:var(--accent); border-radius:20px; padding:0.2rem 0.7rem; white-space:nowrap; flex-shrink:0;">In Progress</span>
+            </div>
+            <p class="role">Independent Project, 2026</p>
+            <p>A GIS-based transit demand and light rail feasibility analysis for the City of Fort Worth and Trinity Metro. The project examines Fort Worth's significant mobility gap — a car-dependent city with disconnected cultural and economic hubs — and proposes a framework for reconnecting them through rail. Deliverables include a spatial demand analysis using demographic data and existing bus corridors, a hub connectivity analysis modeling optimal routes, static maps, and an interactive web map for city and community stakeholders.</p>
+            <div class="tag-list">
+              <span class="tag">Transit Planning</span>
+              <span class="tag">ArcGIS Maps SDK</span>
+              <span class="tag">Fort Worth</span>
+              <span class="tag">Trinity Metro</span>
+            </div>
+          </div>
+
+          <!-- Fort Worth Urban Infill -->
+          <div class="dv-card">
+            <h3>Fort Worth Urban Infill Site Analysis</h3>
+            <p class="role">Lab Analysis, 2026</p>
+            <p>A multi-criteria GIS analysis identifying viable urban infill parcels in Fort Worth using a composite suitability model. Variables include improvement-to-land value ratio (identifying underutilized parcels), average household income by census tract, proximity to city parks (half-mile buffer), and clustering of multi-family code violations (indicating latent housing demand). The analysis targets areas where infill development would be both economically viable and responsive to observed community need.</p>
+            <div class="dv-map-grid" data-gallery="fw-infill">
+              <img src="data_visualization/U&B_Lab_3/Lab_3_Map.jpeg.jpg" alt="Fort Worth Urban Infill Site Analysis Map" data-caption="Fort Worth Urban Infill Site Suitability Analysis" />
+            </div>
+            <div class="tag-list">
+              <span class="tag">ArcGIS Pro</span>
+              <span class="tag">Urban Infill</span>
+              <span class="tag">Fort Worth</span>
+              <span class="tag">Site Suitability</span>
+            </div>
+          </div>
+
+          <!-- Chicago Industry Location Quotients -->
+          <div class="dv-card">
+            <h3>Chicago Industry Location Quotient Analysis</h3>
+            <p class="role">Lab Analysis, 2026</p>
+            <p>A spatial analysis of industry clustering across four sectors in the Chicago metropolitan area using location quotients — a measure of industry concentration relative to a broader benchmark. The analysis examines how Transportation, Arts &amp; Entertainment, Professional Services, and Manufacturing firms agglomerate around key logistical nodes, demographic centers, and infrastructure corridors, and considers the implications of those patterns for Chicago's regional economy.</p>
+            <div class="dv-map-grid" data-gallery="chicago">
+              <img src="data_visualization/Transportation_LQ.jpeg.jpg" alt="Transportation Location Quotient — Chicago" data-caption="Transportation Industry — Location Quotient, Chicago" />
+              <img src="data_visualization/Arts_LQ,jpeg.jpg" alt="Arts & Entertainment Location Quotient — Chicago" data-caption="Arts & Entertainment Industry — Location Quotient, Chicago" />
+              <img src="data_visualization/Professional_Serv_LQ.jpeg.jpg" alt="Professional Services Location Quotient — Chicago" data-caption="Professional Services Industry — Location Quotient, Chicago" />
+              <img src="data_visualization/Manufacturing_LQjpg.jpg" alt="Manufacturing Location Quotient — Chicago" data-caption="Manufacturing Industry — Location Quotient, Chicago" />
+            </div>
+            <div class="tag-list">
+              <span class="tag">Location Quotient</span>
+              <span class="tag">Industry Agglomeration</span>
+              <span class="tag">Chicago</span>
+              <span class="tag">Economic Geography</span>
+            </div>
+          </div>
+
+          <!-- Elderly Infrastructure Site Analysis -->
+          <div class="dv-card">
+            <h3>Elderly Infrastructure Site Analysis: North Central Texas</h3>
+            <p class="role">Professional Assignment, 2024</p>
+            <p>A GIS-based site suitability analysis identifying the four highest-concentration zones of elderly population (&gt;65) in North Central Texas — evaluating each site against a weighted infrastructure index including hospitals, urgent care, fire and police stations, shopping centers, parks, and highway access. Produced as a professional deliverable for a simulated commercial real estate client.</p>
+            <div class="dv-map-grid" data-gallery="elderly">
+              <img src="research_projects/Pct of Elderly NCT.jpg" alt="Percentage of Elderly Population in North Central Texas" data-caption="Overview — % Elderly Population, North Central Texas" />
+              <img src="research_projects/Site 1 N of Univ Park.jpg" alt="Site 1 — North of University Park" data-caption="Site 1 — North of University Park, Dallas" />
+              <img src="research_projects/Site 2 Central FW.jpg" alt="Site 2 — Central Fort Worth" data-caption="Site 2 — Upper West Side &amp; Medical District, Fort Worth" />
+              <img src="research_projects/Site 3 W Plano.jpg" alt="Site 3 — Western Plano" data-caption="Site 3 — Western Plano" />
+              <img src="research_projects/Site 4 Rockwall.jpg" alt="Site 4 — Rockwall" data-caption="Site 4 — Rockwall" />
+            </div>
+            <div class="tag-list">
+              <span class="tag">ArcGIS Pro</span>
+              <span class="tag">Site Suitability</span>
+              <span class="tag">Demographics</span>
+              <span class="tag">North Central Texas</span>
+            </div>
+          </div>
+
+          <!-- DFW Drinking Establishments -->
+          <div class="dv-card">
+            <h3>Spatial Distribution of Drinking Establishments in the Dallas&ndash;Fort Worth Metroplex</h3>
+            <p class="role">Lab Analysis, 2026</p>
+            <p>An analysis of the spatial logic driving the location of four distinct types of drinking establishments across the Dallas&ndash;Fort Worth metroplex — craft breweries, wineries, wine bars, and Applebee's. The analysis examines how each business type reflects a different set of site selection criteria, from demographic targeting and land input requirements to franchise coverage strategies, and maps these patterns across four cartographic layouts to highlight contrasts in concentration and distribution.</p>
+            <div class="dv-map-grid" data-gallery="dfw">
+              <img src="data_visualization/Gamez_Lab3_Map1.png" alt="DFW Drinking Establishments Map 1" data-caption="Map 1 — Overview: All Establishment Types, DFW" />
+              <img src="data_visualization/Gamez_Lab3_Map2.png" alt="DFW Drinking Establishments Map 2" data-caption="Map 2 — Craft Breweries &amp; Wineries, DFW" />
+              <img src="data_visualization/Gamez_Lab3_Map3.png" alt="DFW Drinking Establishments Map 3" data-caption="Map 3 — Wine Bars vs. Applebee&apos;s, DFW" />
+              <img src="data_visualization/Gamez_Lab3_Map4.png" alt="DFW Drinking Establishments Map 4" data-caption="Map 4 — Density &amp; Clustering Analysis, DFW" />
+            </div>
+            <div class="tag-list">
+              <span class="tag">Spatial Analysis</span>
+              <span class="tag">Business Geography</span>
+              <span class="tag">Dallas&ndash;Fort Worth</span>
+              <span class="tag">Site Selection</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <div style="height: 3rem;"></div>
+
+    </div>
+  </main>
+
+  <!-- Lightbox -->
+  <div class="dv-lightbox" id="dvLightbox">
+    <button class="dv-lb-close" id="dvLbClose">&times;</button>
+    <button class="dv-lb-btn" id="dvLbPrev">&#8249;</button>
+    <img src="" alt="" id="dvLbImg" />
+    <button class="dv-lb-btn" id="dvLbNext">&#8250;</button>
+    <span class="dv-lb-caption" id="dvLbCaption"></span>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://github.com/JAndresG-G" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/j-andres-gamez/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:jorgegamez221@gmail.com">Email</a>
+      </div>
+      <p>&copy; <span id="year"></span> J. Andres Gamez-Gonzalez</p>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    (() => {
+      const lb = document.getElementById('dvLightbox');
+      const lbImg = document.getElementById('dvLbImg');
+      const lbCaption = document.getElementById('dvLbCaption');
+      let currentImgs = [];
+      let current = 0;
+
+      function open(imgs, idx) {
+        currentImgs = imgs;
+        current = idx;
+        lbImg.src = currentImgs[current].src;
+        lbCaption.innerHTML = currentImgs[current].dataset.caption || '';
+        lb.classList.add('open');
+      }
+
+      function close() { lb.classList.remove('open'); }
+      function prev() { current = (current - 1 + currentImgs.length) % currentImgs.length; lbImg.src = currentImgs[current].src; lbCaption.innerHTML = currentImgs[current].dataset.caption || ''; }
+      function next() { current = (current + 1) % currentImgs.length; lbImg.src = currentImgs[current].src; lbCaption.innerHTML = currentImgs[current].dataset.caption || ''; }
+
+      document.querySelectorAll('.dv-map-grid').forEach(grid => {
+        const imgs = Array.from(grid.querySelectorAll('img'));
+        imgs.forEach((img, i) => img.addEventListener('click', () => open(imgs, i)));
+      });
+
+      document.getElementById('dvLbClose').addEventListener('click', close);
+      document.getElementById('dvLbPrev').addEventListener('click', (e) => { e.stopPropagation(); prev(); });
+      document.getElementById('dvLbNext').addEventListener('click', (e) => { e.stopPropagation(); next(); });
+      lb.addEventListener('click', close);
+      document.addEventListener('keydown', (e) => {
+        if (!lb.classList.contains('open')) return;
+        if (e.key === 'Escape') close();
+        if (e.key === 'ArrowLeft') prev();
+        if (e.key === 'ArrowRight') next();
+      });
+    })();
+  </script>
+</body>
+</html>

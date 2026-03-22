@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Full Repository &mdash; Andres Gamez</title>
+  <meta name="description" content="Complete project repository of J. Andres Gamez-Gonzalez." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .repo-section {
+      padding: 2.5rem 0 0;
+    }
+
+    .repo-section:first-of-type {
+      padding-top: 0;
+    }
+
+    /* Cards */
+    .repo-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.6rem 1.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .repo-card h3 {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.35;
+      margin: 0;
+    }
+
+    .repo-card .role {
+      font-size: 0.82rem;
+      font-style: italic;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .repo-card p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    .repo-card .tag-list {
+      margin-top: 0.25rem;
+    }
+
+    .repo-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* Image grids */
+    .repo-map-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+    }
+
+    .repo-map-grid img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      display: block;
+      cursor: zoom-in;
+      transition: opacity 0.15s;
+    }
+
+    .repo-map-grid img:hover { opacity: 0.88; }
+
+    /* Doc links */
+    .doc-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+    }
+
+    .doc-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--accent);
+      background: #eef4f1;
+      border: 1px solid var(--accent);
+      border-radius: 20px;
+      padding: 0.28rem 0.85rem;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .doc-link:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* Signature project cards (with thumbnail) */
+    .sig-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    /* Digital Cartography gallery */
+    .map-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .map-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .map-item-img-wrap {
+      position: relative;
+      overflow: hidden;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      cursor: zoom-in;
+      background: var(--bg-alt);
+      aspect-ratio: 4/3;
+    }
+
+    .map-item-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.25s ease;
+    }
+
+    .map-item-img-wrap:hover img { transform: scale(1.03); }
+
+    .map-item-info {
+      padding: 0.55rem 0 0;
+    }
+
+    .map-item-info h4 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.15rem;
+      color: var(--text);
+    }
+
+    .map-item-info p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .gallery-group {
+      padding: 1.5rem 0 0;
+    }
+
+    .gallery-group:first-of-type { padding-top: 0; }
+
+    .gallery-group-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.02em;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Collab cards */
+    .collab-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* In Progress badge */
+    .badge-inprogress {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: #fff;
+      background: var(--accent);
+      border-radius: 20px;
+      padding: 0.2rem 0.7rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* Lightbox */
+    .repo-lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .repo-lightbox.open { display: flex; }
+
+    .repo-lightbox img {
+      max-width: calc(100vw - 10rem);
+      max-height: 88vh;
+      border-radius: 4px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+      object-fit: contain;
+    }
+
+    .repo-lb-btn {
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: #fff;
+      font-size: 1.8rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+
+    .repo-lb-btn:hover { background: rgba(255,255,255,0.3); }
+
+    .repo-lb-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.2rem;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.75);
+      font-size: 2rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .repo-lb-close:hover { color: #fff; }
+
+    .repo-lb-caption {
+      position: absolute;
+      bottom: 1.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.7);
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="nav-logo" href="../index.html"><img src="../photos/layout_images/JAG_logo.png" alt="JAG" class="nav-logo-img">Andres Gamez</a>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../projects.html" class="active">Projects</a></li>
+        <li><a href="../resume.html">Resume</a></li>
+        <li><a href="../blog.html">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+
+      <div class="page-hero">
+        <a class="back-link" href="../projects.html">&#8592; Back to Projects</a>
+        <h1>Full Repository</h1>
+        <p>Every project, map, and deliverable — organized by section and collected in one place.</p>
+      </div>
+
+      <!-- ===================== SIGNATURE PROJECTS ===================== -->
+      <div class="repo-section">
+        <p class="projects-section-label">Signature Projects</p>
+        <div class="sig-grid">
+
+          <a class="project-card project-card--link" href="https://storymaps.arcgis.com/stories/ba2a6f2ff23b4d869c29b90744ffcd82" target="_blank" rel="noopener">
+            <img src="../photos/projects/TCU_Neighborhood_Commercial_Analysis.png" alt="TCU Neighborhood Commercial District Analysis" class="project-thumbnail" style="object-position: center 25%;" />
+            <div class="project-card-header">
+              <h3>TCU Neighborhood Commercial District Analysis</h3>
+              <span class="project-card-arrow">↗</span>
+            </div>
+            <p>An ArcGIS StoryMap analyzing business clustering, market relationships, and student spending patterns centered around the primary economic corridor adjacent to the TCU campus.</p>
+            <div class="tag-list">
+              <span class="tag">Economic Geography</span>
+              <span class="tag">ArcGIS Survey123</span>
+              <span class="tag">Fort Worth</span>
+            </div>
+          </a>
+
+          <a class="project-card project-card--link" href="montserrat.html">
+            <img src="../photos/projects/Gamez_Montserrat_Map_5_40.jpg" alt="Montserrat Mountains Map" class="project-thumbnail" />
+            <div class="project-card-header">
+              <h3>Montserrat Mountains Map</h3>
+              <span class="project-card-arrow">↗</span>
+            </div>
+            <p>A stylistic cartographic final project representing the Montserrat Mountains in Catalonia, Spain. Inspired by Eduard Imhof's shaded relief techniques, rendered using Esri Living Atlas and OpenStreetMap data.</p>
+            <div class="tag-list">
+              <span class="tag">ArcGIS Pro</span>
+              <span class="tag">Shaded Relief</span>
+              <span class="tag">Cartographic Design</span>
+            </div>
+          </a>
+
+          <a class="project-card project-card--link" href="data_visualization/index.html">
+            <img src="../photos/projects/Denver_Proj_SS.png" alt="Denver RTD Transit Station Explorer" class="project-thumbnail" />
+            <div class="project-card-header">
+              <h3>Denver RTD Transit Station Explorer</h3>
+              <span class="project-card-arrow">↗</span>
+            </div>
+            <p>An interactive ArcGIS Maps SDK web application mapping the Denver RTD light rail and commuter rail network — with live feature querying, line-based symbology, sidebar filtering by status and parking, and styled station popups.</p>
+            <div class="tag-list">
+              <span class="tag">ArcGIS Maps SDK</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">Transit</span>
+              <span class="tag">Denver</span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- ===================== STORYMAPS ===================== -->
+      <div class="repo-section">
+        <p class="projects-section-label">StoryMaps</p>
+        <div class="sig-grid">
+
+          <a class="project-card project-card--link" href="https://storymaps.arcgis.com/stories/ba2a6f2ff23b4d869c29b90744ffcd82" target="_blank" rel="noopener">
+            <img src="../photos/projects/TCU_Neighborhood_Commercial_Analysis.png" alt="TCU Neighborhood Commercial District Analysis" class="project-thumbnail" style="object-position: center 25%;" />
+            <div class="project-card-header">
+              <h3>TCU Neighborhood Commercial District Analysis</h3>
+              <span class="project-card-arrow">↗</span>
+            </div>
+            <p>An analysis of the economic activity of businesses surrounding the intersection of University St. and West Berry St. — examining business clustering, market relationships, and student spending patterns within a 0.25-mile buffer of the TCU campus using ArcGIS Survey123 field data.</p>
+            <div class="tag-list">
+              <span class="tag">Economic Geography</span>
+              <span class="tag">ArcGIS Survey123</span>
+              <span class="tag">Fort Worth</span>
+              <span class="tag">TCU</span>
+            </div>
+          </a>
+
+          <a class="project-card project-card--link" href="https://storymaps.arcgis.com/stories/4b3d20e1d33448048088b03c1c308d9a" target="_blank" rel="noopener">
+            <img src="../photos/projects/Garmin_Vicoactive_6_Supply_Chain_Storymap.png" alt="Garmin Vívoactive 6 Supply Chain StoryMap" class="project-thumbnail" style="object-position: center 30%;" />
+            <div class="project-card-header">
+              <h3>Garmin V&iacute;voactive 6 &mdash; Global Supply Chain Analysis</h3>
+              <span class="project-card-arrow">↗</span>
+            </div>
+            <p>Tracing the production of Garmin's Vívoactive 6 smartwatch from raw material extraction to finished product — mapping a global supply chain across Taiwan, South Korea, Japan, China, Chile, Australia, and the DRC.</p>
+            <div class="tag-list">
+              <span class="tag">Supply Chain</span>
+              <span class="tag">Economic Geography</span>
+              <span class="tag">Global Production</span>
+            </div>
+          </a>
+
+          <a class="project-card project-card--link" href="https://storymaps.arcgis.com/stories/88a09556c3474e2da784eb3d75dc790e" target="_blank" rel="noopener">
+            <img src="../photos/projects/Los_Glaciares_StoryMap.png" alt="Los Glaciares National Park StoryMap" class="project-thumbnail" />
+            <div class="project-card-header">
+              <h3>Los Glaciares National Park, Argentina</h3>
+              <span class="project-card-arrow">↗</span>
+            </div>
+            <p>An ArcGIS StoryMap exploring the geosphere, hydrosphere, atmosphere, and biosphere of Los Glaciares National Park in the Santa Cruz department of Argentina.</p>
+            <div class="tag-list">
+              <span class="tag">Physical Geography</span>
+              <span class="tag">Patagonia</span>
+              <span class="tag">Argentina</span>
+            </div>
+          </a>
+
+          <a class="project-card project-card--link" href="https://geospatial.nctcog.org/portal/apps/storymaps/stories/ef7644478ef14714bd17e8adc45dd0af" target="_blank" rel="noopener">
+            <img src="../photos/projects/NCTCOG_StoryMap.png" alt="DFW Regional Trail Use StoryMap" class="project-thumbnail" />
+            <div class="project-card-header">
+              <h3>DFW Regional Trail Use &mdash; 2024&ndash;2025</h3>
+              <span class="project-card-arrow">↗</span>
+            </div>
+            <p>An ArcGIS StoryMap developed during a Transportation Internship at NCTCOG, visualizing 2024&ndash;2025 bicycle and pedestrian trail use data across the Dallas&ndash;Fort Worth region.</p>
+            <div class="tag-list">
+              <span class="tag">Transportation</span>
+              <span class="tag">DFW</span>
+              <span class="tag">NCTCOG</span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- ===================== DIGITAL CARTOGRAPHY ===================== -->
+      <div class="repo-section">
+        <p class="projects-section-label">Digital Cartography</p>
+
+        <div class="gallery-group">
+          <p class="gallery-group-label">Final Project</p>
+          <div class="map-gallery">
+            <div class="map-item">
+              <div class="map-item-img-wrap" data-src="../photos/projects/Gamez_Montserrat_Map_5_40.jpg" data-caption="Montserrat Mountains Map">
+                <img src="../photos/projects/Gamez_Montserrat_Map_5_40.jpg" alt="Montserrat Mountains Map" />
+              </div>
+              <div class="map-item-info">
+                <h4>Montserrat Mountains Map</h4>
+                <p>A cartographic representation of the Parc Natural de la Muntanya de Montserrat in Catalonia, Spain — inspired by Eduard Imhof's shaded relief techniques and built with custom models in ArcGIS Pro.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-group">
+          <p class="gallery-group-label">Lab 1 &mdash; Map Layout &amp; Design Fundamentals</p>
+          <div class="map-gallery">
+            <div class="map-item">
+              <div class="map-item-img-wrap" data-src="maps/Gamez_Lab1_Map1.jpg" data-caption="Lab 1 — Map 1">
+                <img src="maps/Gamez_Lab1_Map1.jpg" alt="Lab 1 Map 1" />
+              </div>
+              <div class="map-item-info">
+                <h4>Lab 1 &mdash; Map 1</h4>
+                <p>Introduction to map layout and design elements in ArcGIS Pro — establishing foundational cartographic principles with a focus on texture design.</p>
+              </div>
+            </div>
+            <div class="map-item">
+              <div class="map-item-img-wrap" data-src="maps/Gamez_Lab1_Map2.jpg" data-caption="Lab 1 — Map 2">
+                <img src="maps/Gamez_Lab1_Map2.jpg" alt="Lab 1 Map 2" />
+              </div>
+              <div class="map-item-info">
+                <h4>Lab 1 &mdash; Map 2</h4>
+                <p>Continued exploration of map layout fundamentals, adding additional symbology and cartographic styling conventions to a more polished map composition.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-group">
+          <p class="gallery-group-label">Lab 2 &mdash; Thematic Mapping</p>
+          <div class="map-gallery">
+            <div class="map-item">
+              <div class="map-item-img-wrap" data-src="maps/Gamez_Lab2.jpg" data-caption="Intercounty Infrastructural Development">
+                <img src="maps/Gamez_Lab2.jpg" alt="Lab 2" />
+              </div>
+              <div class="map-item-info">
+                <h4>Intercounty Infrastructural Development</h4>
+                <p>Using Lab 1's dataset, a thematic approach was applied here to communicate spatial data patterns with a clean and pleasing design.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-group">
+          <p class="gallery-group-label">Lab 3 &mdash; Graduated &amp; Dot Density Symbols</p>
+          <div class="map-gallery">
+            <div class="map-item">
+              <div class="map-item-img-wrap" data-src="maps/Gamez_Lab3_Map1.jpg" data-caption="Virginia Household on Public Assistance Income: Graduated Symbol">
+                <img src="maps/Gamez_Lab3_Map1.jpg" alt="Lab 3 Map 1" />
+              </div>
+              <div class="map-item-info">
+                <h4>Virginia Household on Public Assistance Income: Graduated Symbol</h4>
+                <p>A comparative analysis of representations of point based data. This map utilized graduated symbols to visualize the number of Virginian households on public assistance income across three scales.</p>
+              </div>
+            </div>
+            <div class="map-item">
+              <div class="map-item-img-wrap" data-src="maps/Gamez_Lab3_Map2_.jpg" data-caption="Virginia Household on Public Assistance Income: Dot Density Symbol">
+                <img src="maps/Gamez_Lab3_Map2_.jpg" alt="Lab 3 Map 2" />
+              </div>
+              <div class="map-item-info">
+                <h4>Virginia Household on Public Assistance Income: Dot Density Symbol</h4>
+                <p>A comparative analysis of representations of point based data. This map utilized dot density aggregation to visualize the number of Virginian households on public assistance income across three scales.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-group">
+          <p class="gallery-group-label">Lab 4 &mdash; Map Pairs &amp; Visual Comparison</p>
+          <div class="map-gallery">
+            <div class="map-item">
+              <div class="map-item-img-wrap" data-src="maps/Gamez_Lab4_MapPair1.jpg" data-caption="Uninsured Rate by Education Attainment: Graduated Scheme">
+                <img src="maps/Gamez_Lab4_MapPair1.jpg" alt="Lab 4 Map Pair 1" />
+              </div>
+              <div class="map-item-info">
+                <h4>Uninsured Rate by Education Attainment: Graduated Scheme</h4>
+                <p>A pair of maps visualizing uninsurance rate by education attainment in New England between two different groups visualized with a graduated color scheme.</p>
+              </div>
+            </div>
+            <div class="map-item">
+              <div class="map-item-img-wrap" data-src="maps/Gamez_Lab4_MapPair2.jpg" data-caption="Uninsured Rate by Education Attainment: Bivariate Scheme">
+                <img src="maps/Gamez_Lab4_MapPair2.jpg" alt="Lab 4 Map Pair 2" />
+              </div>
+              <div class="map-item-info">
+                <h4>Uninsured Rate by Education Attainment: Bivariate Scheme</h4>
+                <p>A pair of maps visualizing uninsurance rate by education attainment in New England between two different groups visualized with a bivariate color scheme.</p>
+              </div>
+            </div>
+            <div class="map-item">
+              <div class="map-item-img-wrap" data-src="maps/Gamez_Lab4_MapPair3.jpg" data-caption="Uninsurance Rate: Non-High School Graduates Over 25">
+                <img src="maps/Gamez_Lab4_MapPair3.jpg" alt="Lab 4 Map Pair 3" />
+              </div>
+              <div class="map-item-info">
+                <h4>Uninsurance Rate: Non-High School Graduates Over 25</h4>
+                <p>A pair of maps visualizing uninsurance rate of Non-High School graduates over 25 in New England visualized between Graduated vs. Classed Scheme.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-group">
+          <p class="gallery-group-label">Lab 5 &mdash; GIS for Marketing</p>
+          <div class="map-gallery">
+            <div class="map-item">
+              <div class="map-item-img-wrap" data-src="maps/Gamez_Lab5_Layout1.jpg" data-caption="Heathrow: The Heart of Aviation">
+                <img src="maps/Gamez_Lab5_Layout1.jpg" alt="Lab 5 Layout 1" />
+              </div>
+              <div class="map-item-info">
+                <h4>Heathrow: The Heart of Aviation</h4>
+                <p>Marketing material map designed to show the centrality of London Heathrow Airport to international flights by showing routine flights to and from LHR by their flight length in kilometers.</p>
+              </div>
+            </div>
+            <div class="map-item">
+              <div class="map-item-img-wrap" data-src="maps/Gamez_Lab5_Layout2.jpg" data-caption="Heathrow: Fly at any Hour">
+                <img src="maps/Gamez_Lab5_Layout2.jpg" alt="Lab 5 Layout 2" />
+              </div>
+              <div class="map-item-info">
+                <h4>Heathrow: Fly at any Hour</h4>
+                <p>Promotional material developed to show the amount of flights offered throughout each time of day to and from London Heathrow Airport, showing that LHR's timings can accommodate any flyer's needs.</p>
+              </div>
+            </div>
+            <div class="map-item">
+              <div class="map-item-img-wrap" data-src="maps/Gamez_Lab5_Layout3.jpg" data-caption="Heathrow: Head to your Dream Destination">
+                <img src="maps/Gamez_Lab5_Layout3.jpg" alt="Lab 5 Layout 3" />
+              </div>
+              <div class="map-item-info">
+                <h4>Heathrow: Head to your Dream Destination</h4>
+                <p>Promotional material for London Heathrow Airport showing the density of flights to and from the most visited nations.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-group">
+          <p class="gallery-group-label">Lab 6 &mdash; Terrain &amp; Elevation Visualization</p>
+          <div class="map-gallery">
+            <div class="map-item">
+              <div class="map-item-img-wrap" data-src="maps/Gamez_Lab6.jpg" data-caption="Paradise Valley Trail Run 2025">
+                <img src="maps/Gamez_Lab6.jpg" alt="Lab 6" />
+              </div>
+              <div class="map-item-info">
+                <h4>Paradise Valley Trail Run 2025</h4>
+                <p>This map was developed as a guide for runners for the fictional Paradise Valley Trail Run. The map is intended as a reference pamphlet for runners to understand the course routes, elevation change, and stations.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-group">
+          <p class="gallery-group-label">Lab 7 &mdash; Advanced Layout &amp; Cartographic Refinement</p>
+          <div class="map-gallery">
+            <div class="map-item">
+              <div class="map-item-img-wrap" data-src="maps/Gamez_Lab7_Layout_1.jpg" data-caption="National Social Support">
+                <img src="maps/Gamez_Lab7_Layout_1.jpg" alt="Lab 7 Layout 1" />
+              </div>
+              <div class="map-item-info">
+                <h4>National Social Support</h4>
+                <p>This global map shows the grade of each nation's national social support networks with an uncertainty score applied for data transparency.</p>
+              </div>
+            </div>
+            <div class="map-item">
+              <div class="map-item-img-wrap" data-src="maps/Gamez_Lab7_Layout_2.jpg" data-caption="Perceptions of Corruption">
+                <img src="maps/Gamez_Lab7_Layout_2.jpg" alt="Lab 7 Layout 2" />
+              </div>
+              <div class="map-item-info">
+                <h4>Perceptions of Corruption</h4>
+                <p>This layout uses a graduated color scheme to show the perceived level of corruption for Latin American nations.</p>
+              </div>
+            </div>
+            <div class="map-item">
+              <div class="map-item-img-wrap" data-src="maps/Gamez_Lab7_Layout_3.jpg" data-caption="Perceptions of Freedom">
+                <img src="maps/Gamez_Lab7_Layout_3.jpg" alt="Lab 7 Layout 3" />
+              </div>
+              <div class="map-item-info">
+                <h4>Perceptions of Freedom</h4>
+                <p>This map layout uses a bivariate color scheme to show the perceived freedom of Latin American nations.</p>
+              </div>
+            </div>
+            <div class="map-item">
+              <div class="map-item-img-wrap" data-src="maps/Gamez_Lab7_Layout_4.jpg" data-caption="National Life Ladder Placement">
+                <img src="maps/Gamez_Lab7_Layout_4.jpg" alt="Lab 7 Layout 4" />
+              </div>
+              <div class="map-item-info">
+                <h4>National Life Ladder Placement</h4>
+                <p>This map layout uses a graduated color scheme to show the placement of each Latin American nation on the Cantril Life Ladder.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-group">
+          <p class="gallery-group-label">Lab 9 &mdash; Physical Output &amp; Laser Engraving</p>
+          <div class="map-gallery">
+            <div class="map-item">
+              <div class="map-item-img-wrap" data-src="maps/Lab_9_Layout_1_Laser.jpg" data-caption="Jalostotitlán, Jalisco (Digital)">
+                <img src="maps/Lab_9_Layout_1_Laser.jpg" alt="Lab 9 Digital" />
+              </div>
+              <div class="map-item-info">
+                <h4>Jalostotitl&aacute;n, Jalisco (Digital)</h4>
+                <p>A hand referenced digital layout map of Jalostotitlán, Jalisco, Mexico. The digital version was created to laser engrave into a piece of wood to create a physical map product.</p>
+              </div>
+            </div>
+            <div class="map-item">
+              <div class="map-item-img-wrap" data-src="maps/Lab_9_Woodcut_New.jpg" data-caption="Jalostotitlán, Jalisco (Woodcut)">
+                <img src="maps/Lab_9_Woodcut_New.jpg" alt="Lab 9 Woodcut" />
+              </div>
+              <div class="map-item-info">
+                <h4>Jalostotitl&aacute;n, Jalisco (Woodcut)</h4>
+                <p>A hand referenced woodcut layout map of Jalostotitlán, Jalisco, Mexico. This woodcut version of the map was laser engraved based on the digital model.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ===================== RESEARCH PROJECTS ===================== -->
+      <div class="repo-section">
+        <p class="projects-section-label">Research Projects</p>
+        <div class="repo-grid">
+
+          <div class="repo-card">
+            <h3>Permanence Through Implicit Narratives: Indigenous Cartography in the Valley of Mexico</h3>
+            <p class="role">Summer Undergraduate Research Fellowship &mdash; AddRan College of Liberal Arts, 2024</p>
+            <p>A research paper exploring how Indigenous cartographers in the sixteenth-century Valley of Mexico strategically embedded cultural memory into colonial maps. Through mixed artistic and historical analysis, it demonstrates how Indigenous artists created implicit narratives about identity, economics, and environmental relationships — preserving their self-image and historical record within the official cartographic record of the Spanish empire. A companion analysis of the Pintura de Culhu&aacute;can, a 1580 map painted by Pedro de San Agust&iacute;n for King Philip II's Relaciones Geogr&aacute;ficas questionnaire, examines how a single map encoded pre-conquest economic activity, Nahuatl glyphs, and community permanence within an ostensibly European document.</p>
+            <div class="tag-list">
+              <span class="tag">Historical GIS</span>
+              <span class="tag">Indigenous Cartography</span>
+              <span class="tag">Colonial Mexico</span>
+              <span class="tag">SURF 2024</span>
+            </div>
+            <div class="doc-links">
+              <a class="doc-link" href="research_projects/Permanence through Implicit Narratives Indigenous Cartography in the Valley of Mexico.docx" download>&#8595; Research Paper (.docx)</a>
+              <a class="doc-link" href="research_projects/Cartography in Colonial Mexico Pintura de Culhuacan.pdf" target="_blank" rel="noopener">&#8599; Pintura de Culhu&aacute;can (PDF)</a>
+            </div>
+          </div>
+
+          <div class="repo-card">
+            <h3>Elderly Infrastructure Site Analysis: North Central Texas</h3>
+            <p class="role">Professional Assignment, 2024</p>
+            <p>A GIS-based site suitability analysis identifying the four highest-concentration zones of elderly population (&gt;65) in North Central Texas — evaluating each site against a weighted infrastructure index including hospitals, urgent care, fire and police stations, shopping centers, parks, and highway access. Produced as a professional deliverable for a simulated commercial real estate client.</p>
+            <div class="repo-map-grid" data-gallery="elderly">
+              <img src="research_projects/Pct of Elderly NCT.jpg" alt="Percentage of Elderly Population in North Central Texas" data-caption="Overview — % Elderly Population, North Central Texas" />
+              <img src="research_projects/Site 1 N of Univ Park.jpg" alt="Site 1 — North of University Park" data-caption="Site 1 — North of University Park, Dallas" />
+              <img src="research_projects/Site 2 Central FW.jpg" alt="Site 2 — Central Fort Worth" data-caption="Site 2 — Upper West Side &amp; Medical District, Fort Worth" />
+              <img src="research_projects/Site 3 W Plano.jpg" alt="Site 3 — Western Plano" data-caption="Site 3 — Western Plano" />
+              <img src="research_projects/Site 4 Rockwall.jpg" alt="Site 4 — Rockwall" data-caption="Site 4 — Rockwall" />
+            </div>
+            <div class="tag-list">
+              <span class="tag">ArcGIS Pro</span>
+              <span class="tag">Site Suitability</span>
+              <span class="tag">Demographics</span>
+              <span class="tag">North Central Texas</span>
+            </div>
+            <div class="doc-links">
+              <a class="doc-link" href="research_projects/Gamez Professional Assignment 1.docx" download>&#8595; Full Report (.docx)</a>
+            </div>
+          </div>
+
+          <div class="repo-card">
+            <h3>Colonial Justification &amp; the Erasure of Aboriginal Australia: A Reading of <em>Dark Emu</em></h3>
+            <p class="role">Semester Paper, 2025</p>
+            <p>An analysis of Bruce Pascoe's <em>Dark Emu: Aboriginal Australia and the Birth of Agriculture</em> and its 2023 documentary follow-up, examining the colonial justification narrative that drove British settlers to erase markers of Aboriginal sophistication — including sedentary settlement and agricultural management — to legitimize their occupation.</p>
+            <div class="tag-list">
+              <span class="tag">Aboriginal Studies</span>
+              <span class="tag">Oceania</span>
+              <span class="tag">Colonial History</span>
+              <span class="tag">Political Geography</span>
+            </div>
+            <div class="doc-links">
+              <a class="doc-link" href="research_projects/Gamez_Oceania_Paper.docx" download>&#8595; Research Paper (.docx)</a>
+            </div>
+          </div>
+
+          <div class="repo-card">
+            <h3>The Thermidorian Reaction &amp; the Return to Revolution</h3>
+            <p class="role">Research Paper, 2023</p>
+            <p>An analysis of the Thermidorian Reaction of 1794, arguing that the Committee of Public Safety's concentration of power, its use of political terror, and its transformation into an oppressive institution made its overthrow inevitable. The paper examines how the Thermidorians dismantled the Committee and established France's 1795 constitution, tracing the shift in the relationship between the French people and their government — from revolutionary idealism to a cautious attempt to restore democratic principles without repeating the excesses of the Terror.</p>
+            <div class="tag-list">
+              <span class="tag">French Revolution</span>
+              <span class="tag">Political History</span>
+              <span class="tag">European History</span>
+            </div>
+            <div class="doc-links">
+              <a class="doc-link" href="research_projects/Gamez_RP_Final_Portfolio.docx" download>&#8595; Research Paper (.docx)</a>
+              <a class="doc-link" href="research_projects/Gamez_RP Presentation FInal Slides_Portfolio.pptx" download>&#8595; Slides (.pptx)</a>
+            </div>
+          </div>
+
+          <div class="repo-card">
+            <h3>Human Response to Disease in European Urban Geography</h3>
+            <p class="role">Comparative Analysis, 2023</p>
+            <p>A comparative analysis examining how European societies have adapted their urban spaces in response to public health crises across two distinct periods — the Black Death in medieval England (1350&ndash;1530) and the Covid-19 pandemic in the EU (2020&ndash;2022). Drawing on Lilley's work on post-plague urban planning and MMP et al.'s study of outdoor retail markets, the paper argues that human responses to disease produce lasting transformations in how urban space is produced and used.</p>
+            <div class="tag-list">
+              <span class="tag">Urban Geography</span>
+              <span class="tag">Geography of Europe</span>
+              <span class="tag">Public Health</span>
+              <span class="tag">Comparative Analysis</span>
+            </div>
+            <div class="doc-links">
+              <a class="doc-link" href="research_projects/Gamez_GEOG Comparative Analysis_Portfolio.docx" download>&#8595; Research Paper (.docx)</a>
+              <a class="doc-link" href="research_projects/Gamez_GEOG Research Slides Updated.pptx" download>&#8595; Slides (.pptx)</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ===================== DATA VISUALIZATION ===================== -->
+      <div class="repo-section">
+        <p class="projects-section-label">Data Visualization</p>
+        <div class="repo-grid">
+
+          <div class="repo-card">
+            <h3>Denver RTD Transit Network — Web App &amp; Experience Builder Comparison</h3>
+            <p class="role">Lab Analysis, 2026</p>
+            <p>A comparative data visualization exercise building two interactive representations of the Denver RTD light rail and commuter rail network — one using a custom ArcGIS Maps SDK JavaScript web application, and one using ArcGIS Experience Builder. The lab evaluates both approaches across speed of development, visual output quality, and degree of design control, ultimately finding that the coded interface produced a cleaner, more customizable result while the Experience Builder offered a faster no-code entry point.</p>
+            <div class="tag-list">
+              <span class="tag">ArcGIS Maps SDK</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">Experience Builder</span>
+              <span class="tag">Denver</span>
+            </div>
+            <div class="doc-links">
+              <a class="doc-link" href="data_visualization/index.html">&#8599; View Web App</a>
+              <a class="doc-link" href="https://experience.arcgis.com/experience/b657d81f481d490aafffeb2caa77f548" target="_blank" rel="noopener">&#8599; View Experience Builder</a>
+            </div>
+          </div>
+
+          <div class="repo-card" style="opacity:0.72;">
+            <div style="display:flex; align-items:center; gap:0.6rem;">
+              <h3 style="margin:0;">Fort Worth Light Rail Feasibility &amp; Connectivity Analysis</h3>
+              <span class="badge-inprogress">In Progress</span>
+            </div>
+            <p class="role">Independent Project, 2026</p>
+            <p>A GIS-based transit demand and light rail feasibility analysis for the City of Fort Worth and Trinity Metro. The project examines Fort Worth's significant mobility gap — a car-dependent city with disconnected cultural and economic hubs — and proposes a framework for reconnecting them through rail. Deliverables include a spatial demand analysis using demographic data and existing bus corridors, a hub connectivity analysis modeling optimal routes, static maps, and an interactive web map for city and community stakeholders.</p>
+            <div class="tag-list">
+              <span class="tag">Transit Planning</span>
+              <span class="tag">ArcGIS Maps SDK</span>
+              <span class="tag">Fort Worth</span>
+              <span class="tag">Trinity Metro</span>
+            </div>
+          </div>
+
+          <div class="repo-card">
+            <h3>Fort Worth Urban Infill Site Analysis</h3>
+            <p class="role">Lab Analysis, 2026</p>
+            <p>A multi-criteria GIS analysis identifying viable urban infill parcels in Fort Worth using a composite suitability model. Variables include improvement-to-land value ratio (identifying underutilized parcels), average household income by census tract, proximity to city parks (half-mile buffer), and clustering of multi-family code violations (indicating latent housing demand). The analysis targets areas where infill development would be both economically viable and responsive to observed community need.</p>
+            <div class="repo-map-grid" data-gallery="fw-infill">
+              <img src="data_visualization/U&B_Lab_3/Lab_3_Map.jpeg.jpg" alt="Fort Worth Urban Infill Site Analysis Map" data-caption="Fort Worth Urban Infill Site Suitability Analysis" />
+            </div>
+            <div class="tag-list">
+              <span class="tag">ArcGIS Pro</span>
+              <span class="tag">Urban Infill</span>
+              <span class="tag">Fort Worth</span>
+              <span class="tag">Site Suitability</span>
+            </div>
+          </div>
+
+          <div class="repo-card">
+            <h3>Chicago Industry Location Quotient Analysis</h3>
+            <p class="role">Lab Analysis, 2026</p>
+            <p>A spatial analysis of industry clustering across four sectors in the Chicago metropolitan area using location quotients — a measure of industry concentration relative to a broader benchmark. The analysis examines how Transportation, Arts &amp; Entertainment, Professional Services, and Manufacturing firms agglomerate around key logistical nodes, demographic centers, and infrastructure corridors, and considers the implications of those patterns for Chicago's regional economy.</p>
+            <div class="repo-map-grid" data-gallery="chicago">
+              <img src="data_visualization/Transportation_LQ.jpeg.jpg" alt="Transportation Location Quotient — Chicago" data-caption="Transportation Industry — Location Quotient, Chicago" />
+              <img src="data_visualization/Arts_LQ,jpeg.jpg" alt="Arts & Entertainment Location Quotient — Chicago" data-caption="Arts & Entertainment Industry — Location Quotient, Chicago" />
+              <img src="data_visualization/Professional_Serv_LQ.jpeg.jpg" alt="Professional Services Location Quotient — Chicago" data-caption="Professional Services Industry — Location Quotient, Chicago" />
+              <img src="data_visualization/Manufacturing_LQjpg.jpg" alt="Manufacturing Location Quotient — Chicago" data-caption="Manufacturing Industry — Location Quotient, Chicago" />
+            </div>
+            <div class="tag-list">
+              <span class="tag">Location Quotient</span>
+              <span class="tag">Industry Agglomeration</span>
+              <span class="tag">Chicago</span>
+              <span class="tag">Economic Geography</span>
+            </div>
+          </div>
+
+          <div class="repo-card">
+            <h3>Elderly Infrastructure Site Analysis: North Central Texas</h3>
+            <p class="role">Professional Assignment, 2024</p>
+            <p>A GIS-based site suitability analysis identifying the four highest-concentration zones of elderly population (&gt;65) in North Central Texas — evaluating each site against a weighted infrastructure index including hospitals, urgent care, fire and police stations, shopping centers, parks, and highway access. Produced as a professional deliverable for a simulated commercial real estate client.</p>
+            <div class="repo-map-grid" data-gallery="elderly-dv">
+              <img src="research_projects/Pct of Elderly NCT.jpg" alt="Percentage of Elderly Population in North Central Texas" data-caption="Overview — % Elderly Population, North Central Texas" />
+              <img src="research_projects/Site 1 N of Univ Park.jpg" alt="Site 1 — North of University Park" data-caption="Site 1 — North of University Park, Dallas" />
+              <img src="research_projects/Site 2 Central FW.jpg" alt="Site 2 — Central Fort Worth" data-caption="Site 2 — Upper West Side &amp; Medical District, Fort Worth" />
+              <img src="research_projects/Site 3 W Plano.jpg" alt="Site 3 — Western Plano" data-caption="Site 3 — Western Plano" />
+              <img src="research_projects/Site 4 Rockwall.jpg" alt="Site 4 — Rockwall" data-caption="Site 4 — Rockwall" />
+            </div>
+            <div class="tag-list">
+              <span class="tag">ArcGIS Pro</span>
+              <span class="tag">Site Suitability</span>
+              <span class="tag">Demographics</span>
+              <span class="tag">North Central Texas</span>
+            </div>
+          </div>
+
+          <div class="repo-card">
+            <h3>Spatial Distribution of Drinking Establishments in the Dallas&ndash;Fort Worth Metroplex</h3>
+            <p class="role">Lab Analysis, 2026</p>
+            <p>An analysis of the spatial logic driving the location of four distinct types of drinking establishments across the Dallas&ndash;Fort Worth metroplex — craft breweries, wineries, wine bars, and Applebee's. The analysis examines how each business type reflects a different set of site selection criteria, from demographic targeting and land input requirements to franchise coverage strategies, and maps these patterns across four cartographic layouts to highlight contrasts in concentration and distribution.</p>
+            <div class="repo-map-grid" data-gallery="dfw">
+              <img src="data_visualization/Gamez_Lab3_Map1.png" alt="DFW Drinking Establishments Map 1" data-caption="Map 1 — Overview: All Establishment Types, DFW" />
+              <img src="data_visualization/Gamez_Lab3_Map2.png" alt="DFW Drinking Establishments Map 2" data-caption="Map 2 — Craft Breweries &amp; Wineries, DFW" />
+              <img src="data_visualization/Gamez_Lab3_Map3.png" alt="DFW Drinking Establishments Map 3" data-caption="Map 3 — Wine Bars vs. Applebee's, DFW" />
+              <img src="data_visualization/Gamez_Lab3_Map4.png" alt="DFW Drinking Establishments Map 4" data-caption="Map 4 — Density &amp; Clustering Analysis, DFW" />
+            </div>
+            <div class="tag-list">
+              <span class="tag">Spatial Analysis</span>
+              <span class="tag">Business Geography</span>
+              <span class="tag">Dallas&ndash;Fort Worth</span>
+              <span class="tag">Site Selection</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ===================== PROFESSIONAL COLLABORATIONS ===================== -->
+      <div class="repo-section">
+        <p class="projects-section-label">Professional Research Collaborations</p>
+        <div class="collab-grid">
+
+          <div class="collab-card">
+            <div class="project-card-header">
+              <h3>North Texas Sanborn Historic Map Database</h3>
+            </div>
+            <span class="role">Research Assistant &mdash; TCU Center for Urban Studies</span>
+            <p>Spatial analysis and georeferencing of 800+ historical Sanborn Insurance maps using ArcGIS Pro and ArcGIS Online, building a usable spatial dataset of historic maps of the North Texas region to support historic and geographic research.</p>
+            <div class="tag-list">
+              <span class="tag">ArcGIS Pro</span>
+              <span class="tag">Georeferencing</span>
+              <span class="tag">Historical GIS</span>
+              <span class="tag">TCU CUS</span>
+            </div>
+            <p style="margin-top:1rem; font-size:0.82rem;">Want to know more? <a href="mailto:jorgegamez221@gmail.com" style="color:var(--accent); font-weight:600;">Reach out and let's collaborate.</a></p>
+          </div>
+
+          <div class="collab-card">
+            <div class="project-card-header">
+              <h3>Texas Zoning &amp; Housing Development Analysis (SB 840)</h3>
+            </div>
+            <span class="role">Research Assistant &mdash; TCU Center for Urban Studies</span>
+            <p>Collaborated with the Center for Urban Studies to research and develop a spatial analysis that models and projects the effects of Texas Senate Bill 840, expanding the range of construction for multifamily and mixed-use development across 15 cities in Texas.</p>
+            <div class="tag-list">
+              <span class="tag">ArcGIS Pro</span>
+              <span class="tag">Spatial Analysis</span>
+              <span class="tag">Urban Policy</span>
+              <span class="tag">TCU CUS</span>
+            </div>
+            <p style="margin-top:1rem; font-size:0.82rem;">Want to know more? <a href="mailto:jorgegamez221@gmail.com" style="color:var(--accent); font-weight:600;">Reach out and let's collaborate.</a></p>
+          </div>
+
+          <a class="collab-card project-card--link" href="https://geospatial.nctcog.org/portal/apps/storymaps/stories/ef7644478ef14714bd17e8adc45dd0af" target="_blank" rel="noopener">
+            <div class="project-card-header">
+              <h3>DFW Regional Trail Use — 2024&ndash;2025</h3>
+              <span class="project-card-arrow">↗</span>
+            </div>
+            <span class="role">Transportation Intern &mdash; North Central Texas Council of Governments</span>
+            <p>An ArcGIS StoryMap developed during a Transportation Internship at the North Central Texas Council of Governments, visualizing 2024&ndash;2025 bicycle and pedestrian trail use data across the Dallas&ndash;Fort Worth region.</p>
+            <div class="tag-list">
+              <span class="tag">Transportation</span>
+              <span class="tag">DFW</span>
+              <span class="tag">NCTCOG</span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+      <div style="height: 3rem;"></div>
+
+    </div>
+  </main>
+
+  <!-- Lightbox -->
+  <div class="repo-lightbox" id="repoLightbox">
+    <button class="repo-lb-close" id="repoLbClose">&times;</button>
+    <button class="repo-lb-btn" id="repoLbPrev">&#8249;</button>
+    <img src="" alt="" id="repoLbImg" />
+    <button class="repo-lb-btn" id="repoLbNext">&#8250;</button>
+    <span class="repo-lb-caption" id="repoLbCaption"></span>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://github.com/JAndresG-G" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/j-andres-gamez/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:jorgegamez221@gmail.com">Email</a>
+      </div>
+      <p>&copy; <span id="year"></span> J. Andres Gamez-Gonzalez</p>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    (() => {
+      // Map gallery lightbox (single-image, no prev/next)
+      const lb = document.getElementById('repoLightbox');
+      const lbImg = document.getElementById('repoLbImg');
+      const lbCaption = document.getElementById('repoLbCaption');
+      let currentImgs = [];
+      let current = 0;
+
+      function open(imgs, idx) {
+        currentImgs = imgs;
+        current = idx;
+        lbImg.src = currentImgs[current].src;
+        lbCaption.innerHTML = currentImgs[current].dataset.caption || '';
+        lb.classList.add('open');
+      }
+
+      function close() { lb.classList.remove('open'); }
+      function prev() { current = (current - 1 + currentImgs.length) % currentImgs.length; lbImg.src = currentImgs[current].src; lbCaption.innerHTML = currentImgs[current].dataset.caption || ''; }
+      function next() { current = (current + 1) % currentImgs.length; lbImg.src = currentImgs[current].src; lbCaption.innerHTML = currentImgs[current].dataset.caption || ''; }
+
+      // Grid image galleries
+      document.querySelectorAll('.repo-map-grid').forEach(grid => {
+        const imgs = Array.from(grid.querySelectorAll('img'));
+        imgs.forEach((img, i) => img.addEventListener('click', () => open(imgs, i)));
+      });
+
+      // Digital cartography single-image lightbox
+      document.querySelectorAll('.map-item-img-wrap').forEach(wrap => {
+        wrap.addEventListener('click', () => {
+          const src = wrap.dataset.src;
+          const caption = wrap.dataset.caption || '';
+          if (!src) return;
+          currentImgs = [{ src, dataset: { caption } }];
+          current = 0;
+          lbImg.src = src;
+          lbCaption.innerHTML = caption;
+          lb.classList.add('open');
+        });
+      });
+
+      document.getElementById('repoLbClose').addEventListener('click', close);
+      document.getElementById('repoLbPrev').addEventListener('click', (e) => { e.stopPropagation(); prev(); });
+      document.getElementById('repoLbNext').addEventListener('click', (e) => { e.stopPropagation(); next(); });
+      lb.addEventListener('click', close);
+      document.addEventListener('keydown', (e) => {
+        if (!lb.classList.contains('open')) return;
+        if (e.key === 'Escape') close();
+        if (e.key === 'ArrowLeft') prev();
+        if (e.key === 'ArrowRight') next();
+      });
+    })();
+  </script>
+</body>
+</html>
