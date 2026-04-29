@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fort Worth Light Rail Proposal</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230F172A'/%3E%3Cline x1='2' y1='6' x2='30' y2='6' stroke='%2364748B' stroke-width='0.8' stroke-linecap='round'/%3E%3Cline x1='21' y1='13' x2='18.5' y2='7' stroke='%2394A3B8' stroke-width='1.1' stroke-linecap='round'/%3E%3Cline x1='21' y1='13' x2='23.5' y2='7' stroke='%2394A3B8' stroke-width='1.1' stroke-linecap='round'/%3E%3Cline x1='17.5' y1='6.8' x2='24.5' y2='6.8' stroke='%23CBD5E1' stroke-width='1.4' stroke-linecap='round'/%3E%3Crect x='3' y='13' width='26' height='9' rx='1.5' fill='%23CC5500'/%3E%3Crect x='4.5' y='14.5' width='3.5' height='4' rx='0.8' fill='%23FED7AA'/%3E%3Crect x='10' y='14.5' width='17' height='4' rx='0.8' fill='%23FED7AA'/%3E%3Cline x1='15' y1='14.5' x2='15' y2='18.5' stroke='%23CC5500' stroke-width='0.8'/%3E%3Cline x1='20' y1='14.5' x2='20' y2='18.5' stroke='%23CC5500' stroke-width='0.8'/%3E%3Cline x1='25' y1='14.5' x2='25' y2='18.5' stroke='%23CC5500' stroke-width='0.8'/%3E%3Crect x='8.5' y='13' width='1' height='9' fill='%230F172A' opacity='0.35'/%3E%3Crect x='5' y='21.5' width='7' height='2.5' rx='0.5' fill='%23334155'/%3E%3Crect x='20' y='21.5' width='7' height='2.5' rx='0.5' fill='%23334155'/%3E%3Cline x1='2' y1='25' x2='30' y2='25' stroke='%23475569' stroke-width='1.3' stroke-linecap='round'/%3E%3C/svg%3E">
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.30/esri/themes/light/main.css" />
+  <script src="https://js.arcgis.com/4.30/"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --longhorn:   #CC5500;
+      --hornedfrog: #7C3AED;
+      --panther:    #16A34A;
+      --bg:         #F8FAFC;
+      --surface:    #FFFFFF;
+      --border:     #E2E8F0;
+      --text:       #1E293B;
+      --muted:      #64748B;
+      --header-bg:  #0F172A;
+      --header-h:   58px;
+      --sidebar-w:  340px;
+      --radius:     8px;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    /* ── Shell ───────────────────────────────────── */
+    #app  { display: flex; flex-direction: column; height: 100vh; }
+    #body { display: flex; flex: 1; overflow: hidden; }
+
+    /* ── Header ──────────────────────────────────── */
+    #header {
+      height: var(--header-h);
+      background: var(--header-bg);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 20px;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    #wordmark { display: flex; flex-direction: column; gap: 1px; }
+    #wordmark .title { color: #fff; font-size: 17px; font-weight: 700; letter-spacing: 0.01em; white-space: nowrap; }
+    #wordmark .sub   { color: rgba(255,255,255,0.4); font-size: 10.5px; letter-spacing: 0.02em; white-space: nowrap; }
+
+    /* org logos */
+    #org-logos { display: flex; gap: 10px; align-items: center; margin-left: 4px; }
+    .org-logo-wrap {
+      background: rgba(255,255,255,0.97);
+      border-radius: 5px;
+      padding: 4px 8px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+    }
+    .org-logo-wrap img { height: 26px; width: auto; display: block; }
+
+    /* tabs */
+    #tab-nav { display: flex; gap: 3px; margin-left: auto; }
+    .tab-btn {
+      display: flex; align-items: center; gap: 7px;
+      padding: 7px 14px; border: none; border-radius: 6px;
+      background: transparent; color: rgba(255,255,255,0.5);
+      font-size: 12px; font-weight: 500; cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+    .tab-btn:hover  { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.8); }
+    .tab-btn.active { background: rgba(255,255,255,0.13); color: #fff; font-weight: 600; }
+
+    .tab-num {
+      width: 18px; height: 18px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700;
+      background: rgba(255,255,255,0.10); color: rgba(255,255,255,0.55);
+      flex-shrink: 0; transition: background 0.15s, color 0.15s;
+    }
+    .tab-btn.active .tab-num { background: rgba(255,255,255,0.22); color: #fff; }
+
+    /* per-tab accent colors when active */
+    .tab-btn[data-map="network"].active      { background: rgba(204, 85,  0, 0.22); color: #FDBA74; border-bottom: 2px solid #FDBA74; }
+    .tab-btn[data-map="stations"].active     { background: rgba(  3,105,161, 0.22); color: #7DD3FC; border-bottom: 2px solid #7DD3FC; }
+    .tab-btn[data-map="demand"].active       { background: rgba( 79, 70,229, 0.22); color: #C4B5FD; border-bottom: 2px solid #C4B5FD; }
+    .tab-btn[data-map="connectivity"].active { background: rgba(180, 83,  9, 0.22); color: #FCD34D; border-bottom: 2px solid #FCD34D; }
+    .tab-btn[data-map="network"].active .tab-num      { background: rgba(204, 85,  0, 0.35); color: #FED7AA; }
+    .tab-btn[data-map="stations"].active .tab-num     { background: rgba(  3,105,161, 0.35); color: #BAE6FD; }
+    .tab-btn[data-map="demand"].active .tab-num       { background: rgba( 79, 70,229, 0.35); color: #DDD6FE; }
+    .tab-btn[data-map="connectivity"].active .tab-num { background: rgba(180, 83,  9, 0.35); color: #FDE68A; }
+
+    /* ── Sidebar ─────────────────────────────────── */
+    #sidebar {
+      width: var(--sidebar-w); min-width: var(--sidebar-w);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      overflow: hidden; z-index: 5;
+      transition: width 0.3s ease, min-width 0.3s ease;
+    }
+    #app.presenting #sidebar { width: 0; min-width: 0; }
+
+    /* present button */
+    #present-btn {
+      border: 1px solid rgba(255,255,255,0.18);
+      background: transparent;
+      color: rgba(255,255,255,0.55);
+      padding: 6px 13px;
+      border-radius: 5px;
+      font-size: 11.5px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      margin-left: 8px;
+      transition: background 0.15s, color 0.15s;
+    }
+    #present-btn:hover  { background: rgba(255,255,255,0.08); color: #fff; }
+    #present-btn.active { background: rgba(255,255,255,0.13); color: #fff; }
+
+
+    /* station leaderboard */
+    .lb-row {
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 4px; border-bottom: 1px solid var(--border);
+      font-size: 12.5px; cursor: pointer; border-radius: 4px;
+      transition: background 0.12s;
+    }
+    .lb-row:hover  { background: var(--bg); }
+    .lb-row:last-child { border-bottom: none; }
+    .lb-rank  { font-size: 10px; font-weight: 700; color: var(--muted); width: 16px; text-align: right; flex-shrink: 0; }
+    .lb-dot   { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .lb-name  { flex: 1; color: var(--text); font-weight: 500; }
+    .lb-xfer  { font-size: 9px; background: #FEF3C7; color: #92400E; border: 1px solid #FCD34D; border-radius: 3px; padding: 1px 5px; flex-shrink: 0; }
+    .lb-score { font-size: 13px; font-weight: 700; color: var(--text); flex-shrink: 0; }
+    .lb-loading { font-size: 12px; color: var(--muted); padding: 12px 0; text-align: center; }
+
+    #sidebar-scroll {
+      flex: 1; overflow-y: auto;
+      padding: 20px 20px 32px;
+      scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+      transition: opacity 0.15s ease;
+    }
+    #sidebar-scroll::-webkit-scrollbar { width: 5px; }
+    #sidebar-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* map header */
+    .sb-map-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+    .sb-step {
+      width: 28px; height: 28px; border-radius: 6px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800; color: #fff; margin-top: 1px;
+    }
+    .sb-map-header h2 { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .sb-map-header p  { font-size: 11px; color: var(--muted); }
+
+    /* narrative */
+    .narrative p {
+      font-size: 12.5px; line-height: 1.75; color: var(--muted); margin-bottom: 10px;
+    }
+    .narrative p:last-child { margin-bottom: 0; }
+    .narrative strong { color: var(--text); font-weight: 600; }
+
+    .formula {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 10.5px; background: #F1F5F9;
+      border: 1px solid var(--border); border-radius: 5px;
+      padding: 8px 10px; display: block; line-height: 1.7;
+      color: var(--text); margin: 6px 0 10px;
+    }
+
+    /* divider + section label */
+    .divider { height: 1px; background: var(--border); margin: 18px 0; }
+    .section-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+    }
+
+    /* station explorer */
+    .explorer-filters { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; }
+    .explorer-btn {
+      padding: 4px 11px; border-radius: 20px; border: 1px solid var(--border);
+      background: transparent; color: var(--muted); font-size: 11px; font-weight: 600;
+      cursor: pointer; transition: background 0.12s, color 0.12s, border-color 0.12s;
+    }
+    .explorer-btn:hover { background: var(--bg); color: var(--text); }
+    .explorer-btn.active { background: var(--btn-color, var(--text)); color: #fff; border-color: var(--btn-color, var(--text)); }
+    .explorer-list { max-height: 260px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+    .explorer-empty { font-size: 12px; color: var(--muted); padding: 10px 0; text-align: center; }
+
+    /* per-line stat cards */
+    .line-card {
+      border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 8px;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .line-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.09); }
+    .line-card-head {
+      display: flex; align-items: center; gap: 8px;
+      padding: 9px 13px; font-size: 12px; font-weight: 700;
+      border-bottom: 1px solid var(--border); background: #FAFAFA;
+    }
+    .line-swatch { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+    .line-card-body { display: grid; grid-template-columns: 1fr 1fr; }
+    .stat-cell { padding: 10px 13px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .stat-cell:nth-child(2n)       { border-right: none; }
+    .stat-cell:nth-last-child(-n+2){ border-bottom: none; }
+    .stat-cell label {
+      display: block; font-size: 9.5px;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--muted); margin-bottom: 3px;
+    }
+    .stat-cell .val     { font-size: 17px; font-weight: 700; color: var(--text); line-height: 1; }
+    .stat-cell .val.sm  { font-size: 13px; font-weight: 600; }
+    .stat-cell .val.dim { color: #CBD5E1; }  /* placeholder */
+
+    /* transfer badge */
+    .transfer-tag {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: #FEF3C7; border: 1px solid #FCD34D;
+      color: #92400E; border-radius: 4px;
+      font-size: 10px; font-weight: 600;
+      padding: 2px 7px; margin-bottom: 12px;
+    }
+
+    /* placeholder panel (Map 3 not yet live) */
+    .placeholder-panel {
+      margin-top: 16px;
+      background: #F8FAFC; border: 1px dashed var(--border);
+      border-radius: var(--radius); padding: 20px 16px;
+      text-align: center;
+    }
+    .placeholder-panel .icon { font-size: 28px; margin-bottom: 8px; }
+    .placeholder-panel p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+    /* sidebar footer */
+    #sidebar-footer {
+      padding: 11px 20px; border-top: 1px solid var(--border);
+      font-size: 10.5px; color: #94A3B8; flex-shrink: 0;
+    }
+
+    /* ── Map ─────────────────────────────────────── */
+    #map-wrap { flex: 1; position: relative; }
+    #viewDiv  { width: 100%; height: 100%; }
+
+    /* loading overlay */
+    #loading {
+      position: absolute; inset: 0;
+      background: rgba(248,250,252,0.85);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 12px;
+      z-index: 50; transition: opacity 0.3s;
+      backdrop-filter: blur(2px);
+    }
+    #loading.hidden { opacity: 0; pointer-events: none; }
+    .spinner {
+      width: 30px; height: 30px;
+      border: 3px solid var(--border); border-top-color: #475569;
+      border-radius: 50%; animation: spin 0.65s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #loading p { font-size: 12px; color: var(--muted); }
+
+    /* ── Responsive ──────────────────────────────── */
+    @media (max-width: 800px) {
+      :root { --sidebar-w: 100%; }
+      #body    { flex-direction: column; }
+      #sidebar { width: 100%; min-width: 0; max-height: 44vh; border-right: none; border-bottom: 1px solid var(--border); }
+      #org-logos { display: none; }
+      .tab-btn .label { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+<div id="app">
+
+  <!-- ── Header ── -->
+  <header id="header">
+    <div id="org-logos">
+      <div class="org-logo-wrap">
+        <img src="Fort_Worth_Logo.png" alt="City of Fort Worth" />
+      </div>
+      <div class="org-logo-wrap">
+        <img src="Trinity_Metro_Logo.png" alt="Trinity Metro" />
+      </div>
+    </div>
+
+    <div id="wordmark">
+      <span class="title">Fort Worth Light Rail Proposal</span>
+      <span class="sub">Intra-City Rapid Transit</span>
+    </div>
+
+    <nav id="tab-nav">
+      <button class="tab-btn active" data-map="network">
+        <span class="tab-num">1</span>
+        <span class="label">Rail Network</span>
+      </button>
+      <button class="tab-btn" data-map="stations">
+        <span class="tab-num">2</span>
+        <span class="label">Station Analysis</span>
+      </button>
+      <button class="tab-btn" data-map="demand">
+        <span class="tab-num">3</span>
+        <span class="label">Demand Research</span>
+      </button>
+      <button class="tab-btn" data-map="connectivity">
+        <span class="tab-num">4</span>
+        <span class="label">Connectivity Context</span>
+      </button>
+    </nav>
+    <button id="present-btn">⊞ Present</button>
+  </header>
+
+  <!-- ── Body ── -->
+  <div id="body">
+    <aside id="sidebar">
+
+      <div id="sidebar-scroll"></div>
+      <div id="sidebar-footer">City of Fort Worth &nbsp;·&nbsp; Trinity Metro &nbsp;·&nbsp; Fort Worth, TX</div>
+    </aside>
+
+    <div id="map-wrap">
+      <div id="viewDiv"></div>
+      <div id="loading">
+        <div class="spinner"></div>
+        <p id="loading-msg">Loading map…</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  WEB MAP IDs
+// ═══════════════════════════════════════════════════════════════
+
+const WEBMAP_IDS = {
+  network:  "38dd6a722a42471fb614bf47db2124f4",  // Map 1 — Rail lines & stations
+  stations: "85f55e4729e24bb4877110521841a14c",  // Map 2 — Station catchment analysis
+  demand:        "130153a9c13640a183acbbdb8e4368b7",  // Map 3 — Demand index & research
+  connectivity:  "4b80e5b403114773a86e864fd1dc8761",  // Map 4 — Connectivity context
+};
+
+// Live query source for per-line stats cards + leaderboard
+const CATCHMENT_URL  = "https://services.arcgis.com/Ywxx29kRZEPq7K5N/arcgis/rest/services/FW_Stations_Stats_WFL1/FeatureServer/0";
+// Rail stations feature layer — direct service URL
+const RL_STATIONS_URL = "https://services.arcgis.com/Ywxx29kRZEPq7K5N/arcgis/rest/services/FW_Rail_Stations/FeatureServer/2";
+
+const FW_CENTER = [-97.3308, 32.7555];
+const FW_ZOOM   = 12;
+
+// ═══════════════════════════════════════════════════════════════
+//  MAP CONTENT DEFINITIONS
+//  narrative:  HTML string shown in the sidebar
+//  stats:      null | array of per-line card objects
+//              Set stat values to "—" until you have real numbers;
+//              they will render dimmed as placeholders.
+// ═══════════════════════════════════════════════════════════════
+
+const MAP_CONTENT = {
+
+  network: {
+    title:    "Rail Network",
+    subtitle: "Three lines · 40 stations · 4 transfers",
+    accent:   "#CC5500",
+    step:     "1",
+    narrative: `
+      <p>The proposed network uses a <strong>hub-to-hub design philosophy</strong> —
+      connecting Fort Worth's employment, entertainment, and cultural destinations
+      directly to each other, rather than funneling all trips through a single downtown
+      transfer point. The network targets <strong>choice riders</strong>: middle- to
+      upper-income residents who own cars but would choose transit for commuting and
+      discretionary trips. Fort Worth's <strong>72% drive-alone commute share</strong>
+      is the gap this network is built to close.</p>
+      <p>Each line is named for a symbol of Fort Worth identity.
+      <strong style="color:var(--longhorn)">Longhorn Line</strong> follows Main Street's
+      north–south spine from the Stockyards through Sundance Square and the Courthouse
+      to a Medical District loop — named for the cattle drives that defined the city.
+      <strong style="color:var(--hornedfrog)">Horned Frog Line</strong> forms an enclosed
+      loop connecting TCU, the Botanic Gardens, the Cultural District, West 7th, and
+      downtown via University Drive and 8th Avenue — named for TCU's mascot.
+      <strong style="color:var(--panther)">Panther Line</strong> runs from Camp Bowie
+      through West 7th into downtown and north through the planned Panther Island
+      development — named for Fort Worth's historic "Panther City" nickname, a reputation
+      this network aims to retire.</p>
+      <p>Four <strong>transfer stations</strong> — Oakwood, Panther Island, Courthouse,
+      and White Settlement Rd — ensure any destination on the network is reachable
+      with at most one transfer.</p>
+    `,
+    stats: [
+      { line: "Longhorn",    color: "var(--longhorn)",   stations: "—", demand: "—", choiceRider: "—", parcels: "—" },
+      { line: "Horned Frog", color: "var(--hornedfrog)", stations: "—", demand: "—", choiceRider: "—", parcels: "—" },
+      { line: "Panther",     color: "var(--panther)",    stations: "—", demand: "—", choiceRider: "—", parcels: "—" },
+    ],
+  },
+
+  stations: {
+    title:    "Station Analysis",
+    subtitle: "Catchment performance by station",
+    accent:   "#0369A1",
+    step:     "2",
+    narrative: `
+      <p>Each of the 40 proposed stations was evaluated on demand potential within its
+      <strong>half-mile walkshed</strong> — approximately a 15-minute walk, the standard
+      pedestrian catchment used in transit planning. Stations were manually sited to
+      maximize coverage of high-demand parcels, proximity to anchor POIs, walkable
+      spacing between stops, and intermodal connections to existing trails, TRE,
+      and TEXRail.</p>
+      <p>The demand index combines household income, employment density, POI proximity,
+      and non-SOV commute mode share into a composite <strong>1–10 score</strong>.
+      Of the 40 stations, <strong>24 earned an Elite tier score of 8.0 or above</strong>.
+      The five highest-scoring stations — Convention Center, Sundance Square, Henderson
+      Downtown, West Side Downtown, and TCC Trinity River — all fall within the downtown
+      and Medical District corridor, reflecting the concentration of employment and
+      destination density in that loop.</p>
+      <p>Click any station to view its full catchment profile: total parcels captured,
+      percent choice-rider households, and component score breakdowns. Transfer stations
+      serving two lines are flagged with a ⇄ badge and function as the critical nodes
+      of network connectivity.</p>
+    `,
+    stats: null,
+  },
+
+  connectivity: {
+    title:    "Connectivity Context",
+    subtitle: "Existing, planned, and proposed rail",
+    accent:   "#B45309",
+    step:     "4",
+    narrative: `
+      <p>Fort Worth currently has <strong>no intra-city rapid transit</strong>. Trinity
+      Metro operates fixed-route bus service and the TRE commuter rail to Dallas; TEXRail
+      connects downtown to DFW Airport. Every improvement in the NCTCOG Mobility 2045
+      long-range plan extends regional or intercity corridors — none address movement
+      within Fort Worth itself. The MPO's planning vision treats Fort Worth as a
+      destination to connect <em>to</em>, not a city to connect <em>within</em>.</p>
+      <p>This map contextualizes the proposed network against the full regional picture:
+      existing TRE and TEXRail service, Mobility 2045 recommended rail corridors,
+      planned high-speed rail alignments, and the trail and bikeway network that supports
+      first/last-mile station access. The Longhorn Line's northern terminus connects
+      directly to the TEXRail station, linking the intra-city network to regional rail.
+      Toggle individual layers to explore how the proposed lines relate to each
+      existing and planned element.</p>
+      <p>Several proposed corridors <strong>parallel Fort Worth's historic streetcar
+      alignments</strong> — not by coincidence, but because those corridors carry
+      persistent transit demand rooted in the city's original urban form. The Longhorn,
+      Horned Frog, and Panther lines remain the only planned improvements that would
+      connect Fort Worth's own neighborhoods to each other by rapid transit.</p>
+    `,
+    stats: null,
+  },
+
+  demand: {
+    title:    "Demand Research",
+    subtitle: "Composite demand index · demographic clusters",
+    accent:   "#4F46E5",
+    step:     "3",
+    narrative: `
+      <p>The <strong>Composite Demand Index</strong> was scored across all 331,522 parcels
+      in Fort Worth using a Python arcpy workflow — the spatial foundation for both line
+      alignments and station placements. Variables were z-score standardized, clipped to
+      [−2.5, +2.5], and reclassified to a 1–10 scale.</p>
+      <p>The index formula:</p>
+      <code class="formula">(Income×0.35 + Employment×0.30 + POI×0.20 + Commute×0.15)<br>  × (1 + ChoiceRider_Cluster × 0.20)</code>
+      <p>A K-Means cluster analysis (k=6, 8 demographic variables) identified three
+      clusters matching the <strong>choice rider profile</strong> — high-income,
+      high-education areas with above-average non-SOV mode share. These clusters cover
+      <strong>29.5% of Fort Worth parcels</strong> and receive a 1.2× demand amplification.
+      Household income carries the heaviest weight (35%) as the primary indicator of
+      choice ridership; employment density (30%) captures commute destinations; POI
+      density (20%) reflects 30 curated activity generators; and non-SOV commute share
+      (15%) measures transit propensity.</p>
+      <p>The resulting surface reveals a <strong>polycentric demand pattern</strong>:
+      the highest scores concentrate in a continuous corridor from downtown south along
+      Main Street through the Medical District, with a strong westward branch through
+      the Cultural District and along University Drive — precisely where the three
+      proposed lines run. The alignment follows the data.</p>
+    `,
+    stats: null,
+  },
+
+};
+
+// Popups are configured directly in ArcGIS Online Map Viewer
+// using Arcade expressions on each layer.
+
+// ═══════════════════════════════════════════════════════════════
+//  APP
+// ═══════════════════════════════════════════════════════════════
+
+require([
+  "esri/WebMap",
+  "esri/Map",
+  "esri/views/MapView",
+  "esri/layers/FeatureLayer",
+  "esri/widgets/Zoom",
+  "esri/widgets/Home",
+  "esri/widgets/ScaleBar",
+  "esri/widgets/Legend",
+  "esri/widgets/Expand",
+  "esri/widgets/Search",
+  "esri/widgets/BasemapGallery",
+], function(WebMap, EsriMap, MapView, FeatureLayer, Zoom, Home, ScaleBar, Legend, Expand, Search, BasemapGallery) {
+
+  let activeKey = "network";
+
+  // Pre-instantiate WebMaps
+  const webMaps = {};
+  Object.entries(WEBMAP_IDS).forEach(([key, id]) => {
+    if (id) webMaps[key] = new WebMap({ portalItem: { id } });
+  });
+
+  // Shared FeatureLayer instances — reused across all query functions
+  // (avoids re-initialising the SDK object on every click / render)
+  var catchmentLayer = new FeatureLayer({ url: CATCHMENT_URL });
+  var stationsLayer  = new FeatureLayer({ url: RL_STATIONS_URL });
+
+  // Initial map view
+  const view = new MapView({
+    container: "viewDiv",
+    map:       webMaps["network"],
+    center:    FW_CENTER,
+    zoom:      FW_ZOOM,
+    ui:        { components: [] },
+    popup: {
+      dockEnabled: true,
+      dockOptions: { buttonEnabled: false, breakpoint: false, position: "bottom-right" },
+    },
+  });
+
+  // ── Widgets ──────────────────────────────────────────────
+  const legendExpand = new Expand({
+    view,
+    content:       new Legend({ view }),
+    expandTooltip: "Legend",
+    expanded:      false,
+    mode:          "floating",
+  });
+  // Search — address geocoder + station name lookup
+  const search = new Search({
+    view,
+    includeDefaultSources: true,
+    sources: [{
+      layer: new FeatureLayer({ url: CATCHMENT_URL }),
+      searchFields:    ["Name"],
+      displayField:    "Name",
+      exactMatch:      false,
+      outFields:       ["Name", "Line_Name", "Address", "Type"],
+      name:            "FW Light Rail Stations",
+      placeholder:     "Search a station name…",
+      suggestionsEnabled: true,
+      zoomScale:       18000,
+    }],
+  });
+
+  // Basemap gallery
+  const basemapExpand = new Expand({
+    view,
+    content:       new BasemapGallery({ view }),
+    expandTooltip: "Change basemap",
+    expanded:      false,
+    mode:          "floating",
+  });
+
+  view.ui.add(search,                               "top-left");
+  view.ui.add(new Zoom({ view }),                   "top-right");
+  view.ui.add(new Home({ view }),                   "top-right");
+  view.ui.add(basemapExpand,                        "top-right");
+  view.ui.add(legendExpand,                         "bottom-right");
+  view.ui.add(new ScaleBar({ view, unit: "dual" }), "bottom-left");
+
+  // ── Loading overlay ───────────────────────────────────────
+  view.watch("updating", function(busy) {
+    document.getElementById("loading").classList.toggle("hidden", !busy);
+  });
+
+  // ── Presentation mode ─────────────────────────────────────
+  document.getElementById("present-btn").addEventListener("click", function() {
+    var presenting = document.getElementById("app").classList.toggle("presenting");
+    var btn = document.getElementById("present-btn");
+    btn.textContent = presenting ? "✕ Exit" : "⊞ Present";
+    btn.classList.toggle("active", presenting);
+  });
+
+  // ── Per-line stats ────────────────────────────────────────
+  var statsFetched = false;
+
+  function loadLineStats() {
+    if (statsFetched) return;
+    catchmentLayer.queryFeatures({
+      where: "1=1",
+      outStatistics: [
+        { statisticType: "count", onStatisticField: "OBJECTID",        outStatisticFieldName: "n" },
+        { statisticType: "avg",   onStatisticField: "Mean_DemandIdx",  outStatisticFieldName: "avg_demand" },
+        { statisticType: "avg",   onStatisticField: "Pct_ChoiceRider", outStatisticFieldName: "avg_choice" },
+        { statisticType: "sum",   onStatisticField: "Catch_Parcels",   outStatisticFieldName: "tot_parcels" },
+      ],
+      groupByFieldsForStatistics: ["Line_Name"],
+      outFields: ["Line_Name"],
+      returnGeometry: false,
+    }).then(function(result) {
+      statsFetched = true;
+      result.features.forEach(function(f) {
+        var a = f.attributes;
+        var s = MAP_CONTENT.network.stats.find(function(x) { return x.line === a.Line_Name; });
+        if (!s) return;
+        s.stations    = a.n;
+        s.demand      = Number(a.avg_demand).toFixed(1);
+        s.choiceRider = Number(a.avg_choice).toFixed(1) + "%";
+        s.parcels     = Math.round(a.tot_parcels).toLocaleString();
+      });
+      // Update stat cards in-place — no sidebar rebuild, no side-effects
+      if (activeKey === "network") {
+        MAP_CONTENT.network.stats.forEach(function(s) {
+          var card = document.querySelector('.line-card[data-line="' + s.line + '"]');
+          if (!card) return;
+          var vals = card.querySelectorAll(".stat-cell .val");
+          [s.stations, s.demand, s.choiceRider, s.parcels].forEach(function(v, i) {
+            if (vals[i]) { vals[i].textContent = v; vals[i].classList.remove("dim"); }
+          });
+        });
+      }
+    }).catch(function(err) {
+      console.warn("Stats query failed:", err);
+    });
+  }
+
+  // ── Station leaderboard ───────────────────────────────────
+  var cachedLeaderboard      = null;
+  var cachedStations         = null;
+  var cachedDemandTiers      = null;
+  var stationFilterLine      = "All";
+  var stationFilterTransfer  = false;
+  var stationFilterConnected = false;
+  var LINE_COLORS = { "Longhorn": "#CC5500", "Horned Frog": "#7C3AED", "Panther": "#16A34A" };
+
+  function loadLeaderboard() {
+    if (cachedLeaderboard) { renderLeaderboard(); return; }
+    catchmentLayer.queryFeatures({
+      where: "1=1",
+      outFields: ["Name", "Line_Name", "Mean_DemandIdx", "Is_Transfer"],
+      orderByFields: ["Mean_DemandIdx DESC"],
+      num: 10,
+      returnGeometry: false,
+    }).then(function(result) {
+      cachedLeaderboard = result.features.map(function(f) { return f.attributes; });
+      renderLeaderboard();
+    }).catch(function(err) {
+      console.warn("Leaderboard query failed:", err);
+    });
+  }
+
+  function renderLeaderboard() {
+    var el = document.getElementById("leaderboard");
+    if (!el || !cachedLeaderboard) return;
+    el.innerHTML = cachedLeaderboard.map(function(a, i) {
+      var color  = LINE_COLORS[a.Line_Name] || "#64748B";
+      var isXfer = a.Is_Transfer === 1;
+      return `<div class="lb-row" data-station="${a.Name}">
+        <span class="lb-rank">${i + 1}</span>
+        <span class="lb-dot" style="background:${color}"></span>
+        <span class="lb-name">${a.Name}<br><span style="font-size:10px;font-weight:600;color:${color}">${a.Line_Name}</span></span>
+        ${isXfer ? '<span class="lb-xfer">⇄</span>' : ""}
+        <span class="lb-score">${Number(a.Mean_DemandIdx).toFixed(1)}</span>
+      </div>`;
+    }).join("");
+    el.querySelectorAll(".lb-row").forEach(function(row) {
+      row.addEventListener("click", function() {
+        zoomToStation(row.dataset.station);
+      });
+    });
+  }
+
+  function zoomToStation(name) {
+    catchmentLayer.queryFeatures({
+      where:          "Name = '" + name.replace(/'/g, "''") + "'",
+      outFields:      ["OBJECTID"],
+      returnGeometry: true,
+    }).then(function(result) {
+      if (!result.features.length) return;
+      view.goTo({ target: result.features[0].geometry, zoom: 15 }, { duration: 600 });
+    }).catch(function(err) { console.warn("Zoom failed:", err); });
+  }
+
+  function zoomToLine(lineName) {
+    catchmentLayer.queryFeatures({
+      where:          "Line_Name = '" + lineName + "'",
+      outFields:      ["OBJECTID"],
+      returnGeometry: true,
+    }).then(function(result) {
+      if (!result.features.length) return;
+      view.goTo({ target: result.features.map(function(f) { return f.geometry; }) }, { duration: 700 });
+    }).catch(function(err) { console.warn("Zoom to line failed:", err); });
+  }
+
+  var LINE_NAME_MAP = { "1": "Longhorn", "2": "Horned Frog", "3": "Panther" };
+
+  // ── Station Explorer ──────────────────────────────────────
+  var stationsLoading = false;
+  function loadStations() {
+    if (cachedStations) { renderStationExplorer(); return; }
+    if (stationsLoading) return;  // prevent concurrent fetches
+    stationsLoading = true;
+    stationsLayer.queryFeatures({
+      where: "1=1",
+      outFields: ["Name", "Type", "Pri_Line", "Scnd_Line", "Connect"],
+      returnGeometry: true,
+    }).then(function(result) {
+      cachedStations = result.features
+        .map(function(f) {
+          return { attrs: f.attributes, geometry: f.geometry };
+        })
+        .sort(function(a, b) {
+          var la = Number(a.attrs.Pri_Line) || 0;
+          var lb = Number(b.attrs.Pri_Line) || 0;
+          if (la !== lb) return la - lb;
+          return (a.attrs.Name || "").localeCompare(b.attrs.Name || "");
+        });
+      stationsLoading = false;
+      renderStationExplorer();
+    }).catch(function(err) {
+      stationsLoading = false;
+      console.warn("Station load failed:", err);
+      var el = document.getElementById("explorer-list");
+      if (el) el.innerHTML = '<div class="explorer-empty">Could not load stations.</div>';
+    });
+  }
+
+  function renderStationExplorer() {
+    var el    = document.getElementById("explorer-list");
+    var count = document.getElementById("explorer-count");
+    if (!el || !cachedStations) return;
+
+    var filtered = cachedStations.filter(function(s) {
+      var a        = s.attrs;
+      var lineName = LINE_NAME_MAP[String(Math.round(a.Pri_Line))] || "";
+      var lineOk   = stationFilterLine === "All" || lineName === stationFilterLine;
+      var xferOk   = !stationFilterTransfer  || (a.Scnd_Line && a.Scnd_Line !== 0);
+      var connOk   = !stationFilterConnected || (a.Connect  && a.Connect  >  0);
+      return lineOk && xferOk && connOk;
+    });
+
+    // update count badge
+    if (count) count.textContent = filtered.length + " of " + cachedStations.length;
+
+    if (!filtered.length) {
+      el.innerHTML = '<div class="explorer-empty">No stations match.</div>';
+      return;
+    }
+
+    el.innerHTML = filtered.map(function(s) {
+      var a        = s.attrs;
+      var lineName = LINE_NAME_MAP[String(Math.round(a.Pri_Line))] || "Unknown";
+      var color    = LINE_COLORS[lineName] || "#64748B";
+      var isXfer   = a.Scnd_Line && a.Scnd_Line !== 0;
+      var connects = (a.Connect && a.Connect > 0)
+        ? `<span style="font-size:10px;background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE;border-radius:3px;padding:1px 5px;flex-shrink:0;">${a.Connect} conn.</span>`
+        : "";
+      return `<div class="lb-row" data-name="${a.Name}">
+        <span class="lb-dot" style="background:${color}"></span>
+        <span class="lb-name">${a.Name}<br><span style="font-size:10px;font-weight:600;color:${color}">${lineName}</span></span>
+        ${isXfer ? '<span class="lb-xfer">⇄</span>' : ""}
+        ${connects}
+      </div>`;
+    }).join("");
+
+    el.querySelectorAll(".lb-row").forEach(function(row) {
+      row.addEventListener("click", function() {
+        var match = cachedStations.find(function(s) { return s.attrs.Name === row.dataset.name; });
+        if (match && match.geometry) {
+          view.goTo({ target: match.geometry, zoom: 15 }, { duration: 600 });
+        }
+      });
+    });
+  }
+
+  function attachLineCardHandlers() {
+    document.querySelectorAll(".line-card").forEach(function(card) {
+      card.addEventListener("click", function() {
+        zoomToLine(card.dataset.line);
+      });
+    });
+  }
+
+  // ── Map 3: Demand tier breakdown ──────────────────────────
+  function loadDemandTiers() {
+    if (cachedDemandTiers) { renderDemandTiers(); return; }
+    catchmentLayer.queryFeatures({
+      where: "1=1",
+      outFields: ["Mean_DemandIdx"],
+      returnGeometry: false,
+    }).then(function(result) {
+      var elite = 0, high = 0, mid = 0, low = 0;
+      result.features.forEach(function(f) {
+        var v = f.attributes.Mean_DemandIdx || 0;
+        if      (v >= 8)   elite++;
+        else if (v >= 6.5) high++;
+        else if (v >= 5)   mid++;
+        else               low++;
+      });
+      cachedDemandTiers = {
+        elite: elite, high: high, mid: mid, low: low,
+        total: result.features.length,
+      };
+      renderDemandTiers();
+    }).catch(function(err) { console.warn("Demand tiers failed:", err); });
+  }
+
+  function renderDemandTiers() {
+    var el = document.getElementById("demand-tiers");
+    if (!el || !cachedDemandTiers) return;
+    var d = cachedDemandTiers;
+    el.innerHTML = [
+      { label: "Elite  ≥ 8.0",      count: d.elite, color: "#4F46E5" },
+      { label: "High  6.5 – 7.9",   count: d.high,  color: "#0369A1" },
+      { label: "Mid   5.0 – 6.4",   count: d.mid,   color: "#64748B" },
+      { label: "Low   < 5.0",       count: d.low,   color: "#CBD5E1" },
+    ].map(function(tier) {
+      var pct = Math.round(tier.count / d.total * 100);
+      return `<div style="margin-bottom:9px;">
+        <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px;">
+          <span style="font-weight:600;color:var(--text);">${tier.label}</span>
+          <span style="color:var(--muted);">${tier.count} stations · ${pct}%</span>
+        </div>
+        <div style="height:5px;border-radius:3px;background:var(--border);overflow:hidden;">
+          <div style="height:100%;width:${pct}%;background:${tier.color};border-radius:3px;transition:width 0.5s ease;"></div>
+        </div>
+      </div>`;
+    }).join("");
+  }
+
+  // ── Map 4: Layer visibility toggles ──────────────────────
+  function buildLayerToggles() {
+    var el = document.getElementById("layer-toggles");
+    if (!el) return;
+    var layers = view.map.layers.toArray().slice().reverse();
+    if (!layers.length) {
+      el.innerHTML = '<div style="font-size:11px;color:var(--muted);padding:8px 0;">No layers found.</div>';
+      return;
+    }
+    el.innerHTML = layers.map(function(layer) {
+      var vis = layer.visible !== false;
+      return `<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);">
+        <span style="flex:1;font-size:12px;color:var(--text);line-height:1.3;">${layer.title || "Layer"}</span>
+        <button class="lyr-toggle" data-lid="${layer.id}"
+          style="padding:3px 10px;border-radius:20px;border:1px solid var(--border);
+                 font-size:10px;font-weight:600;cursor:pointer;white-space:nowrap;
+                 background:${vis ? "#0F172A" : "transparent"};
+                 color:${vis ? "#fff" : "var(--muted)"};
+                 transition:background 0.15s,color 0.15s;">
+          ${vis ? "On" : "Off"}
+        </button>
+      </div>`;
+    }).join("");
+    el.querySelectorAll(".lyr-toggle").forEach(function(btn) {
+      btn.addEventListener("click", function() {
+        var layer = view.map.layers.find(function(l) { return l.id === btn.dataset.lid; });
+        if (!layer) return;
+        layer.visible = !layer.visible;
+        btn.textContent        = layer.visible ? "On" : "Off";
+        btn.style.background   = layer.visible ? "#0F172A" : "transparent";
+        btn.style.color        = layer.visible ? "#fff" : "var(--muted)";
+        btn.style.borderColor  = layer.visible ? "#0F172A" : "var(--border)";
+      });
+    });
+  }
+
+  // ── Sidebar ───────────────────────────────────────────────
+  function buildSidebar(key) {
+    const def    = MAP_CONTENT[key];
+    const el     = document.getElementById("sidebar-scroll");
+    const hasMap = !!WEBMAP_IDS[key];
+
+    const statsBlock = def.stats ? `
+      <div class="divider"></div>
+      <div class="section-label">Per-Line Statistics</div>
+      ${def.stats.map(s => `
+        <div class="line-card" data-line="${s.line}" style="cursor:pointer">
+          <div class="line-card-head">
+            <span class="line-swatch" style="background:${s.color}"></span>${s.line} Line
+          </div>
+          <div class="line-card-body">
+            <div class="stat-cell"><label>Stations</label>
+              <div class="val${s.stations==="—"?" dim":""}">${s.stations}</div></div>
+            <div class="stat-cell"><label>Mean Demand</label>
+              <div class="val${s.demand==="—"?" dim":""}">${s.demand}</div></div>
+            <div class="stat-cell"><label>Choice Rider %</label>
+              <div class="val${s.choiceRider==="—"?" dim":""}">${s.choiceRider}</div></div>
+            <div class="stat-cell"><label>Walkshed Parcels</label>
+              <div class="val sm${s.parcels==="—"?" dim":""}">${s.parcels}</div></div>
+          </div>
+        </div>
+      `).join("")}
+    ` : "";
+
+    const explorerBlock = key === "network" ? `
+      <div class="divider"></div>
+      <div class="section-label" style="display:flex;align-items:center;justify-content:space-between;">
+        Station Explorer
+        <span id="explorer-count" style="font-size:10px;font-weight:500;color:var(--muted);letter-spacing:0;text-transform:none;"></span>
+      </div>
+      <div class="explorer-filters" id="explorer-line-filters">
+        <button class="explorer-btn active" data-line="All" style="--btn-color:#0F172A">All</button>
+        <button class="explorer-btn" data-line="Longhorn"    style="--btn-color:#CC5500">Longhorn</button>
+        <button class="explorer-btn" data-line="Horned Frog" style="--btn-color:#7C3AED">Horned Frog</button>
+        <button class="explorer-btn" data-line="Panther"     style="--btn-color:#16A34A">Panther</button>
+      </div>
+      <div class="explorer-filters" id="explorer-toggle-filters" style="margin-top:-2px;">
+        <button class="explorer-btn explorer-toggle" id="filter-xfer" style="--btn-color:#92400E">⇄ Transfers</button>
+        <button class="explorer-btn explorer-toggle" id="filter-conn" style="--btn-color:#1D4ED8">⚡ Connected</button>
+      </div>
+      <div class="explorer-list" id="explorer-list"><div class="lb-loading">Loading stations…</div></div>
+    ` : "";
+
+    const leaderboardBlock = key === "stations" ? `
+      <div class="divider"></div>
+      <div class="section-label">Top 10 Stations — Mean Demand Index</div>
+      <div id="leaderboard">
+        <div class="lb-loading">Loading rankings…</div>
+      </div>
+    ` : "";
+
+    const demandBlock = key === "demand" ? `
+      <div class="divider"></div>
+      <div class="section-label">Zoom to Corridor</div>
+      <div class="explorer-filters">
+        <button class="explorer-btn" data-zoom-line="Longhorn"    style="--btn-color:#CC5500">Longhorn</button>
+        <button class="explorer-btn" data-zoom-line="Horned Frog" style="--btn-color:#7C3AED">Horned Frog</button>
+        <button class="explorer-btn" data-zoom-line="Panther"     style="--btn-color:#16A34A">Panther</button>
+      </div>
+      <div class="divider"></div>
+      <div class="section-label">Station Demand Tiers</div>
+      <div id="demand-tiers"><div class="lb-loading">Loading…</div></div>
+    ` : "";
+
+    const connectivityBlock = key === "connectivity" ? `
+      <div class="divider"></div>
+      <div class="section-label">Layer Visibility</div>
+      <div id="layer-toggles"><div class="lb-loading">Loading layers…</div></div>
+    ` : "";
+
+    const placeholderBlock = !hasMap ? `
+      <div class="placeholder-panel">
+        <div class="icon">🗺️</div>
+        <p>This map is not yet published to ArcGIS Online.<br>
+        Set the ID in <code>WEBMAP_IDS</code> at the top of the script to activate it.</p>
+      </div>
+    ` : "";
+
+    el.innerHTML = `
+      <div class="sb-map-header">
+        <div class="sb-step" style="background:${def.accent}">${def.step}</div>
+        <div><h2>${def.title}</h2><p>${def.subtitle}</p></div>
+      </div>
+      <div class="narrative">${def.narrative}</div>
+      ${statsBlock}
+      ${explorerBlock}
+      ${leaderboardBlock}
+      ${demandBlock}
+      ${connectivityBlock}
+      ${placeholderBlock}
+    `;
+
+    if (key === "stations") loadLeaderboard();
+    if (key === "demand") {
+      document.querySelectorAll("[data-zoom-line]").forEach(function(btn) {
+        btn.addEventListener("click", function() {
+          zoomToLine(btn.dataset.zoomLine);
+        });
+      });
+      loadDemandTiers();
+    }
+    if (key === "connectivity") {
+      // Layers may still be loading — wait for the WebMap to resolve
+      webMaps["connectivity"].when(function() {
+        if (activeKey === "connectivity") buildLayerToggles();
+      }).catch(function() {});
+    }
+    if (key === "network") {
+      attachLineCardHandlers();
+      stationFilterLine      = "All";
+      stationFilterTransfer  = false;
+      stationFilterConnected = false;
+      loadStations();
+
+      // Line filter pills (radio behaviour)
+      document.querySelectorAll("#explorer-line-filters .explorer-btn").forEach(function(btn) {
+        btn.addEventListener("click", function() {
+          document.querySelectorAll("#explorer-line-filters .explorer-btn").forEach(function(b) { b.classList.remove("active"); });
+          btn.classList.add("active");
+          stationFilterLine = btn.dataset.line;
+          renderStationExplorer();
+        });
+      });
+
+      // Toggle pills (independent on/off)
+      document.getElementById("filter-xfer").addEventListener("click", function() {
+        stationFilterTransfer = !stationFilterTransfer;
+        this.classList.toggle("active", stationFilterTransfer);
+        renderStationExplorer();
+      });
+      document.getElementById("filter-conn").addEventListener("click", function() {
+        stationFilterConnected = !stationFilterConnected;
+        this.classList.toggle("active", stationFilterConnected);
+        renderStationExplorer();
+      });
+    }
+  }
+
+  // ── Map switching ─────────────────────────────────────────
+  function switchMap(key) {
+    if (key === activeKey) return;
+    activeKey = key;
+    document.querySelectorAll(".tab-btn").forEach(btn =>
+      btn.classList.toggle("active", btn.dataset.map === key)
+    );
+    view.popup.close();
+    legendExpand.expanded = false;
+    var scrollEl = document.getElementById("sidebar-scroll");
+    scrollEl.style.opacity = "0";
+    setTimeout(function() {
+      buildSidebar(key);
+      scrollEl.style.opacity = "1";
+    }, 150);
+    if (webMaps[key]) {
+      document.getElementById("loading").classList.remove("hidden");
+      view.map = webMaps[key];
+    } else {
+      view.map = new EsriMap({ basemap: "light-gray-vector" });
+    }
+    view.goTo({ center: FW_CENTER, zoom: FW_ZOOM }, { duration: 500 });
+  }
+
+  document.querySelectorAll(".tab-btn").forEach(btn =>
+    btn.addEventListener("click", () => switchMap(btn.dataset.map))
+  );
+
+  // ── Init ──────────────────────────────────────────────────
+  view.when(function() {
+    buildSidebar("network");
+    loadLineStats();
+    loadLeaderboard();   // prefetch → Tab 2 instant
+    loadDemandTiers();   // prefetch → Tab 3 instant
+  });
+
+}); // end require
+</script>
+</body>
+</html>
