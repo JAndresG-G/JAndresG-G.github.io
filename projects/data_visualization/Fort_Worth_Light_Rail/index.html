@@ -375,27 +375,25 @@ const MAP_CONTENT = {
     accent:   "#CC5500",
     step:     "1",
     narrative: `
-      <p>The proposed network uses a <strong>hub-to-hub design philosophy</strong> —
-      connecting Fort Worth's employment, entertainment, and cultural destinations
-      directly to each other, rather than funneling all trips through a single downtown
-      transfer point. The network targets <strong>choice riders</strong>: middle- to
-      upper-income residents who own cars but would choose transit for commuting and
-      discretionary trips. Fort Worth's <strong>72% drive-alone commute share</strong>
-      is the gap this network is built to close.</p>
-      <p>Each line is named for a symbol of Fort Worth identity.
+      <p>The proposed network is organized around a hub-to-hub structure, connecting
+      Fort Worth's employment, entertainment, and cultural destinations directly to each
+      other rather than routing all trips through a single downtown transfer point. The
+      primary target ridership is the choice rider: middle- to upper-income residents
+      who own cars but would opt for transit for commuting and discretionary trips.
+      Fort Worth's 72% drive-alone commute share represents the core mobility gap this
+      network is designed to address.</p>
+      <p>Each line is named for a symbol of Fort Worth identity. The
       <strong style="color:var(--longhorn)">Longhorn Line</strong> follows Main Street's
-      north–south spine from the Stockyards through Sundance Square and the Courthouse
-      to a Medical District loop — named for the cattle drives that defined the city.
-      <strong style="color:var(--hornedfrog)">Horned Frog Line</strong> forms an enclosed
-      loop connecting TCU, the Botanic Gardens, the Cultural District, West 7th, and
-      downtown via University Drive and 8th Avenue — named for TCU's mascot.
-      <strong style="color:var(--panther)">Panther Line</strong> runs from Camp Bowie
+      north-south spine from the Stockyards through Sundance Square and the Courthouse
+      to a Medical District loop, named for the cattle drives that historically defined
+      the city. The <strong style="color:var(--hornedfrog)">Horned Frog Line</strong>
+      forms an enclosed loop connecting TCU, the Botanic Gardens, the Cultural District,
+      West 7th, and downtown via University Drive and 8th Avenue, named for TCU's mascot.
+      The <strong style="color:var(--panther)">Panther Line</strong> runs from Camp Bowie
       through West 7th into downtown and north through the planned Panther Island
-      development — named for Fort Worth's historic "Panther City" nickname, a reputation
-      this network aims to retire.</p>
-      <p>Four <strong>transfer stations</strong> — Oakwood, Panther Island, Courthouse,
-      and White Settlement Rd — ensure any destination on the network is reachable
-      with at most one transfer.</p>
+      development, named for Fort Worth's historic "Panther City" nickname.</p>
+      <p>Four transfer stations, Oakwood, Panther Island, Courthouse, and White Settlement
+      Rd, ensure any destination on the network is reachable with at most one transfer.</p>
     `,
     stats: [
       { line: "Longhorn",    color: "var(--longhorn)",   stations: "—", demand: "—", choiceRider: "—", parcels: "—" },
@@ -411,22 +409,20 @@ const MAP_CONTENT = {
     step:     "2",
     narrative: `
       <p>Each of the 40 proposed stations was evaluated on demand potential within its
-      <strong>half-mile walkshed</strong> — approximately a 15-minute walk, the standard
-      pedestrian catchment used in transit planning. Stations were manually sited to
-      maximize coverage of high-demand parcels, proximity to anchor POIs, walkable
-      spacing between stops, and intermodal connections to existing trails, TRE,
-      and TEXRail.</p>
+      half-mile walkshed, approximately a 15-minute walk and the standard pedestrian
+      catchment used in transit planning. Stations were manually sited to maximize
+      coverage of high-demand parcels, proximity to anchor POIs, walkable spacing
+      between stops, and intermodal connections to existing trails, TRE, and TEXRail.</p>
       <p>The demand index combines household income, employment density, POI proximity,
-      and non-SOV commute mode share into a composite <strong>1–10 score</strong>.
-      Of the 40 stations, <strong>24 earned an Elite tier score of 8.0 or above</strong>.
-      The five highest-scoring stations — Convention Center, Sundance Square, Henderson
-      Downtown, West Side Downtown, and TCC Trinity River — all fall within the downtown
-      and Medical District corridor, reflecting the concentration of employment and
-      destination density in that loop.</p>
-      <p>Click any station to view its full catchment profile: total parcels captured,
-      percent choice-rider households, and component score breakdowns. Transfer stations
-      serving two lines are flagged with a ⇄ badge and function as the critical nodes
-      of network connectivity.</p>
+      and non-SOV commute mode share into a composite 1-10 score. Of the 40 stations,
+      24 scored 8.0 or above, placing them in the Elite tier. The five highest-scoring
+      stations, Convention Center, Sundance Square, Henderson Downtown, West Side
+      Downtown, and TCC Trinity River, all fall within the downtown and Medical District
+      corridor, reflecting the concentration of employment and destination density in
+      that loop.</p>
+      <p>Click any station to view its full catchment profile, including total parcels
+      captured, percent choice-rider households, and component score breakdowns.
+      Transfer stations serving two lines are flagged with a ⇄ badge.</p>
     `,
     stats: null,
   },
@@ -437,24 +433,23 @@ const MAP_CONTENT = {
     accent:   "#B45309",
     step:     "4",
     narrative: `
-      <p>Fort Worth currently has <strong>no intra-city rapid transit</strong>. Trinity
-      Metro operates fixed-route bus service and the TRE commuter rail to Dallas; TEXRail
-      connects downtown to DFW Airport. Every improvement in the NCTCOG Mobility 2045
-      long-range plan extends regional or intercity corridors — none address movement
-      within Fort Worth itself. The MPO's planning vision treats Fort Worth as a
-      destination to connect <em>to</em>, not a city to connect <em>within</em>.</p>
-      <p>This map contextualizes the proposed network against the full regional picture:
-      existing TRE and TEXRail service, Mobility 2045 recommended rail corridors,
-      planned high-speed rail alignments, and the trail and bikeway network that supports
-      first/last-mile station access. The Longhorn Line's northern terminus connects
-      directly to the TEXRail station, linking the intra-city network to regional rail.
-      Toggle individual layers to explore how the proposed lines relate to each
-      existing and planned element.</p>
-      <p>Several proposed corridors <strong>parallel Fort Worth's historic streetcar
-      alignments</strong> — not by coincidence, but because those corridors carry
-      persistent transit demand rooted in the city's original urban form. The Longhorn,
-      Horned Frog, and Panther lines remain the only planned improvements that would
-      connect Fort Worth's own neighborhoods to each other by rapid transit.</p>
+      <p>Fort Worth currently has no intra-city rapid transit system. Trinity Metro
+      operates fixed-route bus service and the TRE commuter rail to Dallas; TEXRail
+      connects downtown to DFW Airport. Every rail improvement in the NCTCOG Mobility
+      2045 long-range plan extends regional or intercity corridors, with none addressing
+      movement within Fort Worth itself.</p>
+      <p>This map places the proposed network in context against the full regional
+      picture: existing TRE and TEXRail service, Mobility 2045 recommended rail
+      corridors, planned high-speed rail alignments, and the trail and bikeway network
+      supporting first/last-mile station access. The Longhorn Line's northern terminus
+      connects directly to the TEXRail station, linking the proposed system to regional
+      rail. Toggle individual layers to explore how the proposed lines relate to
+      existing and planned infrastructure.</p>
+      <p>Several proposed corridors follow Fort Worth's historic streetcar alignments.
+      This is a deliberate choice: those corridors carry persistent transit demand that
+      traces back to the city's original urban form. The Longhorn, Horned Frog, and
+      Panther lines are the only planned improvements that would connect Fort Worth's
+      own neighborhoods to each other by rapid transit.</p>
     `,
     stats: null,
   },
@@ -465,25 +460,25 @@ const MAP_CONTENT = {
     accent:   "#4F46E5",
     step:     "3",
     narrative: `
-      <p>The <strong>Composite Demand Index</strong> was scored across all 331,522 parcels
-      in Fort Worth using a Python arcpy workflow — the spatial foundation for both line
-      alignments and station placements. Variables were z-score standardized, clipped to
-      [−2.5, +2.5], and reclassified to a 1–10 scale.</p>
+      <p>The Composite Demand Index was scored across all 331,522 parcels in Fort Worth
+      using a Python arcpy workflow, providing the spatial foundation for both line
+      alignments and station placements. Variables were z-score standardized, clipped
+      to [-2.5, +2.5], and reclassified to a 1-10 scale.</p>
       <p>The index formula:</p>
       <code class="formula">(Income×0.35 + Employment×0.30 + POI×0.20 + Commute×0.15)<br>  × (1 + ChoiceRider_Cluster × 0.20)</code>
       <p>A K-Means cluster analysis (k=6, 8 demographic variables) identified three
-      clusters matching the <strong>choice rider profile</strong> — high-income,
-      high-education areas with above-average non-SOV mode share. These clusters cover
-      <strong>29.5% of Fort Worth parcels</strong> and receive a 1.2× demand amplification.
-      Household income carries the heaviest weight (35%) as the primary indicator of
-      choice ridership; employment density (30%) captures commute destinations; POI
-      density (20%) reflects 30 curated activity generators; and non-SOV commute share
-      (15%) measures transit propensity.</p>
-      <p>The resulting surface reveals a <strong>polycentric demand pattern</strong>:
-      the highest scores concentrate in a continuous corridor from downtown south along
-      Main Street through the Medical District, with a strong westward branch through
-      the Cultural District and along University Drive — precisely where the three
-      proposed lines run. The alignment follows the data.</p>
+      clusters matching the choice rider profile: high-income, high-education areas
+      with above-average non-SOV mode share. These clusters cover 29.5% of Fort Worth
+      parcels and receive a 1.2x demand amplification. Household income carries the
+      heaviest weight at 35%, serving as the primary indicator of choice ridership.
+      Employment density (30%) captures commute destinations, POI density (20%)
+      reflects 30 curated activity generators, and non-SOV commute share (15%)
+      measures transit propensity.</p>
+      <p>The resulting demand surface shows a polycentric pattern. The highest scores
+      concentrate in a continuous corridor from downtown south along Main Street through
+      the Medical District, with a strong westward branch through the Cultural District
+      and along University Drive, which corresponds to the alignments of all three
+      proposed lines.</p>
     `,
     stats: null,
   },
