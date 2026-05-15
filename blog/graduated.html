@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>I Graduated &mdash; Andres Gamez</title>
+  <meta name="description" content="A reflection on four years at TCU and earning dual degrees in History and Geography." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .post-photo {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      display: block;
+      margin: 1.5rem 0;
+      object-fit: cover;
+    }
+
+    .post-photo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+
+    .post-photo-grid img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      display: block;
+    }
+
+    @media (max-width: 540px) {
+      .post-photo-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="nav-logo" href="../index.html"><img src="../photos/layout_images/JAG_logo.png" alt="JAG" class="nav-logo-img">Andres Gamez</a>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../projects.html">Projects</a></li>
+        <li><a href="../resume.html">Resume</a></li>
+        <li><a href="../blog.html" class="active">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Post -->
+  <main>
+    <div class="container">
+
+      <div class="post-card">
+
+        <div class="post-header">
+          <h1>I Graduated</h1>
+          <p class="post-meta">May 2026 &middot; Andres Gamez</p>
+        </div>
+
+        <article class="post-body">
+
+          <p>
+            This frog has graduated! This past Saturday I earned the two degrees I have been
+            working towards over the past four years at Texas Christian University. I am now the
+            proud recipient of a Bachelor of Arts in History and a Bachelor of Science in Geography.
+          </p>
+
+          <img src="grad_blog_photos/PXL_20260509_214843127.jpg" alt="Andres holding two diplomas in front of the TCU Horned Frog statue" class="post-photo" />
+
+          <p>
+            These past four years at TCU have taught me so much in and out of the classroom. I
+            began only as a history major and over time saw the career and practical applications
+            that my interest in geography and cartography could have, and so added it on as a
+            second degree. I chose the science route for this degree as it pushed me to implement
+            the more technical sides of Geography, learning GIS, data analysis, Python,
+            cartography, and a host of other skills taught to me in classes and in internship
+            opportunities I got within the department.
+          </p>
+
+          <div class="post-photo-grid">
+            <img src="grad_blog_photos/100_4054.JPG" alt="Andres in front of the TCU Class of 2026 sign" />
+            <img src="grad_blog_photos/IMG_8238%20(1).jpeg" alt="Andres standing on the Texas Christian University Founded 1873 wall" />
+          </div>
+
+          <p>
+            In my time I have worked on numerous projects, some larger than others. The standouts
+            were a few papers, many maps, and some interactive coded dashboards which I host on
+            my site: <a href="../projects.html">projects</a>.
+          </p>
+
+          <p>
+            TCU has entirely reshaped me and my outlook, from the many friendships I have made
+            to the professional experience and connections I have crafted. I was particularly
+            grateful to have such amazing academic departments to lean on and learn from. Claire
+            Sanders helped me get through freshman year and taught me how to sharpen my mind.
+            Sean Crotty saw the making of a GIS Analyst in me and gave me the opportunity to
+            build some amazing research projects with him over the past year and a half.
+          </p>
+
+          <div class="post-photo-grid">
+            <img src="grad_blog_photos/IMG_8336.jpeg" alt="Andres sitting on the steps of a TCU building in his graduation gown" />
+            <img src="grad_blog_photos/IMG_8556~2.jpeg" alt="Andres in his graduation gown looking ahead" />
+          </div>
+
+          <p>
+            Looking into the future, I am excited to bring the skills I have spent the last few
+            years building and refining into the geospatial and data analysis field.
+          </p>
+
+        </article>
+
+      </div>
+
+      <p style="padding: 1.5rem 0 3rem;">
+        <a href="../blog.html">&larr; Back to Blog</a>
+      </p>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://github.com/JAndresG-G" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/j-andres-gamez/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:jorgegamez221@gmail.com">Email</a>
+      </div>
+      <p>&copy; <span id="year"></span> J. Andres Gamez-Gonzalez</p>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
