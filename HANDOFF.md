@@ -7,6 +7,21 @@ Local project root: `C:/Users/jorge/JAG_Online`
 
 ---
 
+## Owner Status (as of May 2026)
+
+Andres **graduated May 9, 2026** with dual degrees:
+- Bachelor of Arts in History
+- Bachelor of Science in Geography
+- Texas Christian University, AddRan College of Liberal Arts
+
+He is a working professional, not a student. All bio language should reflect this. Do **not** use:
+- "Senior at TCU", "finishing degrees", "expecting to graduate"
+- "seeking", "actively seeking", "looking for opportunities", "eager to translate", "ready to grow"
+
+Present him as a credentialed GIS Analyst and Cartographer. Let the degrees and work speak.
+
+---
+
 ## Deployment
 
 All changes deploy automatically when pushed to `main`. No build step. No CI config needed.
@@ -53,10 +68,13 @@ JAG_Online/
 ├── assets/resume.pdf
 ├── photos/
 │   ├── layout_images/JAG_logo.png      # Nav logo
-│   └── projects/                       # Signature card thumbnails
+│   ├── headshot/JAG_headshot_2.jpeg    # Active headshot (index + about)
+│   └── projects/                       # Card thumbnails
 ├── blog/
-│   ├── graduation-2026.html
-│   └── site-launch.html
+│   ├── graduated.html                  # Post-graduation reflection (May 2026)
+│   ├── graduation-2026.html            # Pre-graduation invitation (March 2026, archived)
+│   ├── site-launch.html
+│   └── grad_blog_photos/               # Photos used in graduated.html
 └── projects/
     ├── data-visualization.html         # Data viz card collection page
     ├── digital-cartography.html
@@ -66,10 +84,14 @@ JAG_Online/
     ├── full.html                        # "Secret" full project repository
     ├── data_visualization/
     │   ├── index.html                  # Denver Transit web app
-    │   └── Fort_Worth_Light_Rail/
-    │       ├── index.html              # FW Light Rail web app
-    │       ├── Fort_Worth_Logo.png
-    │       └── Trinity_Metro_Logo.png
+    │   ├── FW_Light_Rail_Project_Final_Report.docx
+    │   ├── Fort_Worth_Light_Rail/
+    │   │   ├── index.html              # FW Light Rail web app
+    │   │   ├── Fort_Worth_Logo.png
+    │   │   └── Trinity_Metro_Logo.png
+    │   └── FWNC_Final_Deliverables/
+    │       ├── Documentation/FWNC_Project_Report.docx
+    │       └── Final_Maps/             # PNG + PDF for each of 3 maps
     ├── maps/                           # Digital cartography map images
     └── research_projects/              # Research docs + site analysis images
 ```
@@ -92,6 +114,15 @@ Edit the HTML file directly. Every page is plain HTML — no templating, no fram
 
 ---
 
+## Headshot
+
+Active file: `photos/headshot/JAG_headshot_2.jpeg`  
+Used in: `index.html` (`.home-intro-photo`) and `about.html` (`.about-photo`)
+
+When replacing: copy new file with a new filename (do not reuse old names), update both HTML references, commit both.
+
+---
+
 ## Signature Project Cards (projects.html)
 
 Three cards in `.signature-grid`. Each is an `<a class="project-card project-card--link">` with:
@@ -110,7 +141,6 @@ To swap a card: replace the `<a>` block between the `<!-- comment -->` and the n
 
 ## Thumbnail Images (photos/projects/)
 
-Current thumbnails:
 | File | Used for |
 |------|----------|
 | `TCU_Neighborhood_Commercial_Analysis.png` | TCU StoryMap |
@@ -121,6 +151,9 @@ Current thumbnails:
 | `NCTCOG_StoryMap.png` | NCTCOG trail StoryMap |
 | `Garmin_Vicoactive_6_Supply_Chain_Storymap.png` | Garmin StoryMap |
 | `Los_Glaciares_StoryMap.png` | Los Glaciares StoryMap |
+| `Samuel_Guy_Inman_StoryMap.png` | Samuel Guy Inman StoryMap |
+| `Consumption_Analysis_StoryMap.png` | Consumption Analysis StoryMap |
+| `HEB_DFW_StoryMap.png` | H-E-B DFW Locations StoryMap |
 
 ### GitHub Pages CDN Cache — Important
 
@@ -171,12 +204,13 @@ ArcGIS maps render on a WebGL canvas. **You cannot capture this with `canvas.toD
 Cards are `.dv-card` divs inside `.dv-grid`. Card order in the HTML is display order.
 
 Current card order:
-1. Fort Worth Light Rail (with "View Web App" link to `data_visualization/Fort_Worth_Light_Rail/`)
-2. Denver RTD Transit Network (with links to web app and Experience Builder)
-3. Fort Worth Urban Infill (map image gallery)
-4. Chicago Industry Location Quotients (map image gallery)
-5. Elderly Infrastructure Site Analysis (map image gallery)
-6. DFW Drinking Establishments (map image gallery)
+1. Fort Worth Light Rail — web app link + Project Report download (`data_visualization/FW_Light_Rail_Project_Final_Report.docx`)
+2. Fort Worth Nature Center iNaturalist Biodiversity Mapping — map gallery + 4 doc links (report + 3 map PDFs)
+3. Denver RTD Transit Network — web app + Experience Builder links
+4. Fort Worth Urban Infill — map image gallery
+5. Chicago Industry Location Quotients — map image gallery
+6. Elderly Infrastructure Site Analysis — map image gallery
+7. DFW Drinking Establishments — map image gallery
 
 Cards with image galleries use `.dv-map-grid` — images are clickable and open in a lightbox. Do not remove the `data-caption` attribute or the lightbox JS at the bottom of the file will break.
 
@@ -184,15 +218,54 @@ To add a new card: copy an existing `.dv-card` block, paste it in the desired po
 
 ---
 
-## Adding a New Web App Page
+## StoryMaps Page (projects/storymaps.html)
 
-Follow the pattern used for Fort Worth Light Rail:
+Cards are `<a class="project-card project-card--link">` inside `.projects-grid`. Each links directly to the published ArcGIS StoryMap.
 
-1. Create a folder: `projects/data_visualization/<AppName>/`
-2. Place `index.html` and any local assets (images, etc.) inside it
-3. The app URL will be: `https://jandresg-g.github.io/projects/data_visualization/<AppName>/`
-4. Add a `.dv-card` to `data-visualization.html` with a `doc-link` pointing to `data_visualization/<AppName>/`
-5. Optionally add a signature card to `projects.html`
+Current card order:
+1. Samuel Guy Inman — Biographical Portfolio (`storymaps.arcgis.com/stories/d869e5de6ac14655907f8387686a4ca4`)
+2. TCU Neighborhood Commercial District Analysis
+3. Garmin Vívoactive 6 — Global Supply Chain Analysis
+4. H-E-B DFW Locations Analysis (`storymaps.arcgis.com/stories/9b3cd6a379624534a02c69ce128541c4`)
+5. Consumption Analysis — 7 Days of Spending (`storymaps.arcgis.com/stories/775a80026a5c416eab0ae81266e5c397`)
+6. Los Glaciares National Park, Argentina
+7. DFW Regional Trail Use — 2024–2025 (NCTCOG)
+
+---
+
+## Full Repository (projects/full.html)
+
+The full repository is the single source of truth for every project. Whenever a project is added to any collection page, it must also be added to the corresponding section in `full.html`.
+
+Sections in order:
+1. **Signature Projects** — thumbnail cards (`.sig-grid`)
+2. **StoryMaps** — thumbnail cards (`.sig-grid`) — must mirror `storymaps.html`
+3. **Digital Cartography** — map gallery (`.map-gallery`)
+4. **Research Projects** — `.repo-card` with doc links
+5. **Data Visualization** — `.repo-card` with doc links and/or image grids — must mirror `data-visualization.html`
+6. **Professional Research Collaborations** — `.collab-card`
+
+Image grids in full.html use `.repo-map-grid` (not `.dv-map-grid`). Lightbox JS is at the bottom of the file and handles both grid types.
+
+---
+
+## Resume Page (resume.html)
+
+Section order:
+1. Education
+2. Relevant Experience
+3. Honors & Awards (honor societies as named entries with initiation dates, then awards bullet list)
+4. Campus Involvement
+5. Skills
+
+### Honor Societies (in Honors & Awards)
+These are lifetime memberships — displayed as named entries with initiation date only, not date ranges.
+- Phi Beta Kappa — Delta of Texas Chapter (Initiated May 2026)
+- Gamma Theta Upsilon — Kappa Epsilon Chapter (Initiated 2023)
+- Phi Alpha Theta — Eta-Kappa Chapter (Initiated 2023)
+
+### Adding a New Entry
+Copy an existing `.resume-entry` block. Each entry has a `.resume-entry-header` with `<h3>` and `.date`, followed by `.role` and content.
 
 ---
 
@@ -200,7 +273,15 @@ Follow the pattern used for Fort Worth Light Rail:
 
 1. Copy an existing post from `/blog/` as a template
 2. Use `../css/style.css` and `../js/main.js` (one level up from `/blog/`)
-3. Add a new `<li>` entry to `blog.html`
+3. Add a new `<li>` entry at the **top** of the list in `blog.html`
+
+Current posts (newest first):
+1. `graduated.html` — I Graduated (May 2026)
+2. `site-launch.html` — The Site is Live! (March 2026)
+3. `graduation-2026.html` — Graduating May 2026 (March 2026, pre-graduation invitation — archived, do not update content)
+
+### Blog Photos
+Store post-specific photos in a subfolder under `/blog/`, e.g. `blog/grad_blog_photos/`. Reference them with a relative path from the post file. Use URL encoding for filenames with spaces (`%20`).
 
 ---
 
@@ -210,6 +291,7 @@ Follow the pattern used for Fort Worth Light Rail:
 - Do not bold arbitrary words for emphasis — bold is reserved for colored line names in the FW Light Rail app.
 - Avoid AI writing patterns: no "precisely," no dramatic concluding sentences, no "X is the gap this Y aims to close"-style constructions.
 - Professional planning report voice: declarative, direct, data-grounded.
+- Do not use "seeking", "looking for opportunities", or any language that frames Andres as a job-hunter.
 
 ---
 
