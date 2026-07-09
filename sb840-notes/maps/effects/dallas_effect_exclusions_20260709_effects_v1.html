@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dallas SB 840 Parcel Effects</title>
+  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="https://unpkg.com/pmtiles@3.2.1/dist/pmtiles.js"></script>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    html, body, #map { width: 100%; height: 100%; margin: 0; }
+    body { background: #101418; color: #f3f5f7; overflow: hidden; }
+    #map { position: absolute; inset: 0; }
+    .panel {
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      width: min(340px, calc(100vw - 28px));
+      max-height: calc(100vh - 28px);
+      overflow: auto;
+      background: rgba(15, 18, 22, 0.92);
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 8px;
+      box-shadow: 0 18px 36px rgba(0,0,0,0.28);
+      padding: 14px;
+      backdrop-filter: blur(12px);
+      box-sizing: border-box;
+    }
+    .panel h1 { margin: 0 36px 8px 0; font-size: 18px; line-height: 1.2; letter-spacing: 0; }
+    .panel p { margin: 0 0 12px; color: rgba(243,245,247,0.76); font-size: 12px; line-height: 1.45; }
+    .section-title { margin: 14px 0 8px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(243,245,247,0.58); }
+    .layer-row, .effect-option {
+      display: flex;
+      align-items: center;
+      min-height: 28px;
+      gap: 8px;
+      font-size: 12px;
+      color: rgba(243,245,247,0.88);
+    }
+    .effect-grid { display: grid; gap: 3px; }
+    input[type="checkbox"] { width: 15px; height: 15px; accent-color: #8bc5ff; }
+    .swatch { width: 14px; height: 14px; border-radius: 3px; background: var(--swatch); border: 1px solid rgba(255,255,255,0.46); flex: 0 0 auto; }
+    .panel-actions { display: flex; gap: 8px; margin-top: 10px; }
+    .panel-actions button, .panel-toggle {
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.10);
+      color: #f7f8fa;
+      border-radius: 6px;
+      min-height: 32px;
+      padding: 0 10px;
+      font: inherit;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .panel-actions button:hover, .panel-toggle:hover { background: rgba(255,255,255,0.18); }
+    .panel-toggle {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      z-index: 4;
+      display: none;
+      background: rgba(15, 18, 22, 0.92);
+      backdrop-filter: blur(10px);
+    }
+    .panel-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 6px;
+      background: rgba(255,255,255,0.08);
+      color: rgba(243,245,247,0.92);
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+    }
+    body.panel-collapsed .panel { display: none; }
+    body.panel-collapsed .panel-toggle { display: block; }
+    body.embed .maplibregl-ctrl-top-right { top: 48px; }
+    .source-note { margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.12); font-size: 11px; color: rgba(243,245,247,0.54); }
+    .maplibregl-popup-content { background: #11161c; color: #f4f6f8; border: 1px solid rgba(255,255,255,0.14); border-radius: 8px; padding: 0; box-shadow: 0 16px 36px rgba(0,0,0,0.28); }
+    .maplibregl-popup-tip { border-top-color: #11161c; border-bottom-color: #11161c; }
+    .popup { min-width: 220px; max-width: 280px; }
+    .popup-head { padding: 10px 12px; background: rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.12); font-weight: 700; font-size: 13px; }
+    .popup-body { padding: 10px 12px; display: grid; gap: 8px; font-size: 12px; }
+    .popup-row span { display: block; color: rgba(244,246,248,0.56); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2px; }
+    @media (max-width: 640px) {
+      .panel { right: 10px; left: 10px; top: 10px; width: auto; max-height: min(72vh, 520px); }
+      .panel-toggle { top: 10px; left: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <button class="panel-toggle" type="button" aria-expanded="false">Legend</button>
+  <aside class="panel" aria-label="Map legend and layer controls">
+    <button class="panel-close" type="button" aria-label="Hide legend and controls">&times;</button>
+    <h1>Dallas SB 840 Parcel Effects</h1>
+    <p>Full no-exclusions parcel universe colored by assigned SB 840 effect code, with exclusion zones available as an overlay.</p>
+
+    <div class="section-title">Layers</div>
+    <label class="layer-row"><input type="checkbox" data-layer-toggle="parcels" checked /> Parcels</label>
+    <label class="layer-row"><input type="checkbox" data-layer-toggle="exclusions" checked /> Exclusion zones</label>
+
+    <div class="section-title">Effect Codes</div>
+    <div class="effect-grid">
+          <label class="effect-option">
+            <input type="checkbox" data-effect="0" checked />
+            <span class="swatch" style="--swatch:#fc8d62"></span>
+            <span>No Match/Unclassified</span>
+          </label>
+          <label class="effect-option">
+            <input type="checkbox" data-effect="1" checked />
+            <span class="swatch" style="--swatch:#7ca6d8"></span>
+            <span>Unaffected</span>
+          </label>
+          <label class="effect-option">
+            <input type="checkbox" data-effect="2" checked />
+            <span class="swatch" style="--swatch:#b078cd"></span>
+            <span>Existing MF/MU</span>
+          </label>
+          <label class="effect-option">
+            <input type="checkbox" data-effect="3" checked />
+            <span class="swatch" style="--swatch:#8cd854"></span>
+            <span>Affected New MU/MF</span>
+          </label>
+          <label class="effect-option">
+            <input type="checkbox" data-effect="4" checked />
+            <span class="swatch" style="--swatch:#f285b0"></span>
+            <span>Affected Density</span>
+          </label>
+          <label class="effect-option">
+            <input type="checkbox" data-effect="5" checked />
+            <span class="swatch" style="--swatch:#ffd961"></span>
+            <span>Review Needed</span>
+          </label>
+    </div>
+    <div class="panel-actions">
+      <button type="button" data-effect-action="all">All</button>
+      <button type="button" data-effect-action="affected">Affected</button>
+      <button type="button" data-effect-action="review">Review</button>
+    </div>
+    <div class="source-note">Parcel source: dallas_840_effects_no_exclusions_conversion_index_20260515_subjective_v1.gpkg</div>
+  </aside>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const embedMode = params.get('embed') === '1';
+    if (embedMode) document.body.classList.add('embed', 'panel-collapsed');
+
+    const pmtilesUrl = new URL('../pmtiles/dallas_effect_parcels_20260709_effects_v1.pmtiles', window.location.href).toString();
+    const exclusionUrl = new URL('data/dallas_exclusion_zones.geojson', window.location.href).toString();
+    const sourceLayer = 'parcels';
+    const effectColors = ['match', ['to-number', ['get', 'effect_840']], 0, '#fc8d62', 1, '#7ca6d8', 2, '#b078cd', 3, '#8cd854', 4, '#f285b0', 5, '#ffd961', '#8a949e'];
+    const effectLabels = {0: 'No Match/Unclassified', 1: 'Unaffected', 2: 'Existing MF/MU', 3: 'Affected New MU/MF', 4: 'Affected Density', 5: 'Review Needed'};
+    const protocol = new pmtiles.Protocol();
+    maplibregl.addProtocol('pmtiles', protocol.tile.bind(protocol));
+
+    const map = new maplibregl.Map({
+      container: 'map',
+      style: {
+        version: 8,
+        glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
+        sources: {
+          darkBase: {
+            type: 'raster',
+            tiles: ['https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}'],
+            tileSize: 256,
+            attribution: 'Tiles &copy; Esri'
+          },
+          darkLabels: {
+            type: 'raster',
+            tiles: ['https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}'],
+            tileSize: 256
+          }
+        },
+        layers: [
+          { id: 'dark-base', type: 'raster', source: 'darkBase' }
+        ]
+      },
+      center: [-96.732088, 32.818577],
+      zoom: 8.64,
+      minZoom: 8,
+      maxZoom: 17,
+      hash: true
+    });
+    map.addControl(new maplibregl.NavigationControl({ visualizePitch: false }), 'top-right');
+
+    const popup = new maplibregl.Popup({ closeButton: true, closeOnClick: true, maxWidth: '300px' });
+
+    function esc(value) {
+      return String(value ?? '').replace(/[&<>"']/g, (ch) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+    }
+
+    function popupRow(label, value) {
+      if (value === null || value === undefined || String(value).trim() === '') return '';
+      return `<div class="popup-row"><span>${label}</span>${esc(value)}</div>`;
+    }
+
+    function popupHtml(props) {
+      const code = Number(props.effect_840);
+      const label = effectLabels[code] || 'Unknown effect';
+      return `<div class="popup">
+        <div class="popup-head">${esc(label)}</div>
+        <div class="popup-body">
+          ${popupRow('Effect code', props.effect_840)}
+          ${popupRow('Legal exclusion flag', props.legal_excluded)}
+        </div>
+      </div>`;
+    }
+
+    function selectedEffects() {
+      return [...document.querySelectorAll('[data-effect]')]
+        .filter((input) => input.checked)
+        .map((input) => Number(input.dataset.effect));
+    }
+
+    function applyEffectFilter() {
+      if (!map.getLayer('parcels-fill')) return;
+      const effects = selectedEffects();
+      const filter = effects.length ? ['in', ['to-number', ['get', 'effect_840']], ['literal', effects]] : ['==', ['get', 'effect_840'], '__none__'];
+      ['parcels-fill', 'parcels-outline'].forEach((layerId) => {
+        if (map.getLayer(layerId)) map.setFilter(layerId, filter);
+      });
+    }
+
+    function setLayerVisibility(group, visible) {
+      const visibility = visible ? 'visible' : 'none';
+      const ids = group === 'parcels' ? ['parcels-fill', 'parcels-outline'] : ['exclusion-fill', 'exclusion-line'];
+      ids.forEach((id) => {
+        if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', visibility);
+      });
+    }
+
+    function setPanelCollapsed(collapsed) {
+      document.body.classList.toggle('panel-collapsed', collapsed);
+      document.querySelector('.panel-toggle').setAttribute('aria-expanded', String(!collapsed));
+    }
+
+    document.querySelector('.panel-close').addEventListener('click', () => setPanelCollapsed(true));
+    document.querySelector('.panel-toggle').addEventListener('click', () => setPanelCollapsed(false));
+    document.querySelectorAll('[data-layer-toggle]').forEach((input) => {
+      input.addEventListener('change', () => setLayerVisibility(input.dataset.layerToggle, input.checked));
+    });
+    document.querySelectorAll('[data-effect]').forEach((input) => input.addEventListener('change', applyEffectFilter));
+    document.querySelector('[data-effect-action="all"]').addEventListener('click', () => {
+      document.querySelectorAll('[data-effect]').forEach((input) => input.checked = true);
+      applyEffectFilter();
+    });
+    document.querySelector('[data-effect-action="affected"]').addEventListener('click', () => {
+      document.querySelectorAll('[data-effect]').forEach((input) => input.checked = ['3', '4'].includes(input.dataset.effect));
+      applyEffectFilter();
+    });
+    document.querySelector('[data-effect-action="review"]').addEventListener('click', () => {
+      document.querySelectorAll('[data-effect]').forEach((input) => input.checked = input.dataset.effect === '5');
+      applyEffectFilter();
+    });
+
+    map.on('load', () => {
+      map.addSource('parcels-src', {
+        type: 'vector',
+        url: 'pmtiles://' + pmtilesUrl,
+        minzoom: 8,
+        maxzoom: 12
+      });
+
+      if (exclusionUrl) {
+        map.addSource('exclusions-src', { type: 'geojson', data: exclusionUrl });
+      }
+
+      map.addLayer({
+        id: 'parcels-fill',
+        type: 'fill',
+        source: 'parcels-src',
+        'source-layer': sourceLayer,
+        paint: {
+          'fill-color': effectColors,
+          'fill-opacity': ['interpolate', ['linear'], ['zoom'], 8, 0.72, 11, 0.80, 15, 0.88],
+          'fill-outline-color': 'rgba(255,255,255,0.14)'
+        }
+      });
+
+      map.addLayer({
+        id: 'parcels-outline',
+        type: 'line',
+        source: 'parcels-src',
+        'source-layer': sourceLayer,
+        paint: {
+          'line-color': 'rgba(255,255,255,0.55)',
+          'line-opacity': ['interpolate', ['linear'], ['zoom'], 8, 0.02, 11, 0.08, 14, 0.24],
+          'line-width': ['interpolate', ['linear'], ['zoom'], 8, 0.02, 11, 0.12, 14, 0.7]
+        }
+      });
+
+      if (exclusionUrl) {
+        map.addLayer({
+          id: 'exclusion-fill',
+          type: 'fill',
+          source: 'exclusions-src',
+          paint: {
+            'fill-color': '#cb4242',
+            'fill-opacity': 0.34
+          }
+        });
+        map.addLayer({
+          id: 'exclusion-line',
+          type: 'line',
+          source: 'exclusions-src',
+          paint: {
+            'line-color': '#cb4242',
+            'line-opacity': 0.86,
+            'line-width': ['interpolate', ['linear'], ['zoom'], 8, 0.6, 13, 1.6]
+          }
+        });
+      }
+
+      map.addLayer({ id: 'dark-labels', type: 'raster', source: 'darkLabels' });
+
+      map.on('click', 'parcels-fill', (event) => {
+        const feature = event.features && event.features[0];
+        if (!feature) return;
+        popup.setLngLat(event.lngLat).setHTML(popupHtml(feature.properties || {})).addTo(map);
+      });
+      map.on('mouseenter', 'parcels-fill', () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', 'parcels-fill', () => { map.getCanvas().style.cursor = ''; });
+      applyEffectFilter();
+    });
+  </script>
+</body>
+</html>

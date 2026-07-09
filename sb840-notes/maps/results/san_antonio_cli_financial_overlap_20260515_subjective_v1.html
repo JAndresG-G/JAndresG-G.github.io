@@ -1,0 +1,338 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>San Antonio CLI x Financial Gap Agreement</title>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="https://unpkg.com/pmtiles@3.2.1/dist/pmtiles.js"></script>
+  <style>
+    html, body, #map { height: 100%; margin: 0; }
+    body { font-family: Georgia, 'Times New Roman', serif; background: #f4f0e8; color: #211b14; }
+    #map { position: absolute; inset: 0; }
+    .panel { position: absolute; z-index: 2; left: 16px; top: 16px; width: 385px; max-height: calc(100vh - 48px); overflow: auto; padding: 14px 16px; background: rgba(250,247,240,0.95); border: 1px solid rgba(40,35,25,0.16); box-shadow: 0 10px 30px rgba(0,0,0,0.14); border-radius: 8px; }
+    .panel h1 { font-size: 19px; line-height: 1.2; margin: 0 0 10px; }
+    .panel p, .panel div { font-size: 13px; line-height: 1.4; }
+    .mode, .filters { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
+    button { border: 0; padding: 7px 9px; border-radius: 6px; cursor: pointer; background: #e7dcc8; color: #2e261b; font-size: 12px; }
+    button.active { background: #7f1d1d; color: #fff8ef; }
+    .basemap-control { margin-top: 10px; display: grid; gap: 4px; }
+    .basemap-control label { font-size: 11px; font-weight: bold; color: #5b5042; }
+    .basemap-control select { width: 100%; border: 1px solid rgba(40,35,25,0.22); border-radius: 6px; padding: 7px 9px; background: #fffaf0; color: #2e261b; font: 12px Georgia, 'Times New Roman', serif; }
+    .legend { margin-top: 12px; display: grid; gap: 6px; }
+    .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+    .swatch { width: 13px; height: 13px; border-radius: 2px; border: 1px solid rgba(0,0,0,0.15); }
+    .ramp { height: 12px; border-radius: 3px; border: 1px solid rgba(43,36,25,0.18); }
+    .legend-scale { display: flex; justify-content: space-between; font-size: 11px; color: #6c6358; }
+    .footer { margin-top: 10px; color: #6c6358; }
+    @media (max-width: 520px) {
+      .panel { left: 10px; right: 10px; top: 10px; width: auto; max-height: 48vh; padding: 12px; }
+      .panel h1 { font-size: 17px; }
+      button { font-size: 11px; padding: 6px 8px; }
+    }
+    .panel { box-sizing: border-box; }
+    .panel h1 { padding-right: 34px; }
+    .panel-toggle { position: absolute; top: 16px; left: 16px; z-index: 4; display: none; border: 1px solid rgba(255,255,255,0.24); background: rgba(20,20,20,0.82); color: #fff8ef; border-radius: 6px; min-height: 32px; padding: 0 10px; font: inherit; font-size: 12px; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.22); }
+    .panel-close { position: absolute; top: 10px; right: 10px; width: 28px; height: 28px; padding: 0; border: 1px solid rgba(40,35,25,0.18); border-radius: 6px; background: rgba(40,35,25,0.08); color: inherit; cursor: pointer; font-size: 18px; line-height: 1; }
+    body.panel-collapsed .panel { display: none; }
+    body.panel-collapsed .panel-toggle { display: block; }
+    body.embed .maplibregl-ctrl-top-right { top: 48px; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <button class="panel-toggle" type="button" aria-expanded="false">Legend</button>
+  <div class="panel">
+    <button class="panel-close" type="button" aria-label="Hide legend and controls">&times;</button>
+    <h1>San Antonio CLI x Financial Gap Agreement</h1>
+    <p>Financial candidates with conversion-likelihood scores, financial-gap scores, and model-agreement classes.</p>
+    <div><strong>Financial candidates:</strong> 47,559</div>
+    <div><strong>Both Tier 1:</strong> 4,751 parcels, 14,855 acres</div>
+    <div><strong>Both top decile:</strong> 2,001 parcels</div>
+    <div><strong>Median p75 gap:</strong> $15.07/sqft</div>
+    <div class="basemap-control">
+      <label for="basemap-select">Basemap</label>
+      <select id="basemap-select">
+        <option value="dark" selected>Dark Gray Canvas</option>
+        <option value="imagery">Imagery</option>
+        <option value="hybrid">Imagery Hybrid</option>
+        <option value="streets">Streets</option>
+      </select>
+    </div>
+    <div class="mode">
+      <button class="active" data-mode="agreement">Agreement</button>
+      <button data-mode="combined">Combined Score</button>
+      <button data-mode="cli">CLI Rank</button>
+      <button data-mode="financial">Financial Score</button>
+      <button data-mode="gap">Value Gap</button>
+    </div>
+    <div class="filters">
+      <button class="active" data-filter="all">All</button>
+      <button data-filter="both_tier1">Both Tier 1</button>
+      <button data-filter="both_top_decile">Both Top Decile</button>
+      <button data-filter="cli_only">CLI Only</button>
+      <button data-filter="fin_only">Financial Only</button>
+      <button data-filter="effect3">Effect 3</button>
+      <button data-filter="effect4">Effect 4</button>
+    </div>
+    <div id="legend" class="legend"></div>
+    <p class="footer">Source note: These parcels combine the conversion-likelihood screening model with the financial-gap model. Scores are exploratory research indicators for comparing places, not parcel-specific predictions or legal determinations.</p>
+  </div>
+  <script type="module">
+    const embedParams = new URLSearchParams(window.location.search);
+    if (embedParams.get('embed') === '1') document.body.classList.add('embed', 'panel-collapsed');
+    const panelToggle = document.querySelector('.panel-toggle');
+    const panelClose = document.querySelector('.panel-close');
+    function setPanelCollapsed(collapsed) {
+      document.body.classList.toggle('panel-collapsed', collapsed);
+      panelToggle?.setAttribute('aria-expanded', String(!collapsed));
+    }
+    panelToggle?.addEventListener('click', () => setPanelCollapsed(false));
+    panelClose?.addEventListener('click', () => setPanelCollapsed(true));
+    const pmtilesUrl = new URL('../pmtiles/san_antonio_cli_financial_overlap_20260515_subjective_v1.pmtiles', window.location.href).toString();
+    const sourceLayer = 'cli_financial_overlap';
+    const modeButtons = document.querySelectorAll('[data-mode]');
+    const filterButtons = document.querySelectorAll('[data-filter]');
+    const basemapSelect = document.getElementById('basemap-select');
+    const legend = document.getElementById('legend');
+    let activeMode = 'agreement';
+
+    const protocol = new pmtiles.Protocol();
+    maplibregl.addProtocol('pmtiles', protocol.tile.bind(protocol));
+
+    const map = new maplibregl.Map({
+      container: 'map',
+      center: [-98.4931842589058, 29.4679922137115],
+      zoom: 8.58,
+      style: {
+        version: 8,
+        sources: {
+          'esri-dark': {
+            type: 'raster',
+            tiles: ['https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}'],
+            tileSize: 256,
+            attribution: 'Tiles &copy; Esri'
+          },
+          'esri-dark-reference': {
+            type: 'raster',
+            tiles: ['https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}'],
+            tileSize: 256
+          },
+          'esri-imagery': {
+            type: 'raster',
+            tiles: ['https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
+            tileSize: 256,
+            attribution: 'Tiles &copy; Esri'
+          },
+          'esri-imagery-transportation': {
+            type: 'raster',
+            tiles: ['https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}'],
+            tileSize: 256
+          },
+          'esri-imagery-boundaries': {
+            type: 'raster',
+            tiles: ['https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}'],
+            tileSize: 256
+          },
+          'esri-streets': {
+            type: 'raster',
+            tiles: ['https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}'],
+            tileSize: 256,
+            attribution: 'Tiles &copy; Esri'
+          }
+        },
+        layers: [
+          { id: 'basemap-dark', type: 'raster', source: 'esri-dark', paint: { 'raster-opacity': 1 } },
+          { id: 'basemap-dark-reference', type: 'raster', source: 'esri-dark-reference', paint: { 'raster-opacity': 0.82 } },
+          { id: 'basemap-imagery', type: 'raster', source: 'esri-imagery', layout: { visibility: 'none' } },
+          { id: 'basemap-imagery-transportation', type: 'raster', source: 'esri-imagery-transportation', layout: { visibility: 'none' } },
+          { id: 'basemap-imagery-boundaries', type: 'raster', source: 'esri-imagery-boundaries', layout: { visibility: 'none' } },
+          { id: 'basemap-streets', type: 'raster', source: 'esri-streets', layout: { visibility: 'none' } }
+        ]
+      }
+    });
+
+    map.addControl(new maplibregl.NavigationControl(), 'top-right');
+    const popup = new maplibregl.Popup({ closeButton: true, closeOnClick: true });
+
+
+    const BASEMAP_LAYERS = {
+      dark: ['basemap-dark', 'basemap-dark-reference'],
+      imagery: ['basemap-imagery'],
+      hybrid: ['basemap-imagery', 'basemap-imagery-transportation', 'basemap-imagery-boundaries'],
+      streets: ['basemap-streets']
+    };
+    const ALL_BASEMAP_LAYER_IDS = [...new Set(Object.values(BASEMAP_LAYERS).flat())];
+
+    function setBasemap(kind) {
+      const visibleLayers = new Set(BASEMAP_LAYERS[kind] || BASEMAP_LAYERS.dark);
+      ALL_BASEMAP_LAYER_IDS.forEach((layerId) => {
+        if (map.getLayer(layerId)) {
+          map.setLayoutProperty(layerId, 'visibility', visibleLayers.has(layerId) ? 'visible' : 'none');
+        }
+      });
+    }
+    const colorExpressions = {
+      agreement: ['match', ['get', 'agreement_class'],
+        'both_tier1', '#d7191c',
+        'cli_tier1_only', '#2c7bb6',
+        'financial_tier1_only', '#fdae61',
+        'neither_tier1', '#c7c7c7',
+        '#c7c7c7'
+      ],
+      combined: ['interpolate', ['linear'], ['coalesce', ['to-number', ['get', 'combined_score']], 0],
+        0, '#f7fbff', 50, '#9ecae1', 70, '#fdd49e', 85, '#fc8d59', 100, '#b30000'
+      ],
+      cli: ['interpolate', ['linear'], ['coalesce', ['to-number', ['get', 'cli_rank_pct']], 0],
+        0, '#f7fbff', 50, '#9ecae1', 70, '#fdd49e', 85, '#fc8d59', 100, '#b30000'
+      ],
+      financial: ['interpolate', ['linear'], ['coalesce', ['to-number', ['get', 'fin_rank_pct']], 0],
+        0, '#f7fbff', 50, '#9ecae1', 70, '#fdd49e', 85, '#fc8d59', 100, '#b30000'
+      ],
+      gap: ['interpolate', ['linear'], ['coalesce', ['to-number', ['get', 'fin_gap_psf']], 0],
+        0, '#dbeafe',
+        0.0, '#60a5fa',
+        15.0702, '#facc15',
+        33.8288, '#fb923c',
+        46.8484, '#f43f5e',
+        264.9934, '#881337'
+      ]
+    };
+
+    const legendHtml = {
+      agreement: `
+        <div class="legend-item"><span class="swatch" style="background:#d7191c"></span>Tier 1 in both models</div>
+        <div class="legend-item"><span class="swatch" style="background:#2c7bb6"></span>CLI Tier 1 only</div>
+        <div class="legend-item"><span class="swatch" style="background:#fdae61"></span>Financial Tier 1 only</div>
+        <div class="legend-item"><span class="swatch" style="background:#c7c7c7"></span>Not Tier 1 in either model</div>`,
+      combined: `<div class="ramp" style="background:linear-gradient(90deg,#f7fbff,#9ecae1,#fdd49e,#fc8d59,#b30000)"></div><div class="legend-scale"><span>0</span><span>50</span><span>70</span><span>85</span><span>100</span></div>`,
+      cli: `<div class="ramp" style="background:linear-gradient(90deg,#f7fbff,#9ecae1,#fdd49e,#fc8d59,#b30000)"></div><div class="legend-scale"><span>CLI 0</span><span>50</span><span>70</span><span>85</span><span>100</span></div>`,
+      financial: `<div class="ramp" style="background:linear-gradient(90deg,#f7fbff,#9ecae1,#fdd49e,#fc8d59,#b30000)"></div><div class="legend-scale"><span>Fin 0</span><span>50</span><span>70</span><span>85</span><span>100</span></div>`,
+      gap: `<div class="ramp" style="background:linear-gradient(90deg,#dbeafe,#60a5fa,#facc15,#fb923c,#f43f5e,#881337)"></div><div class="legend-scale"><span>$0</span><span>${Number(15.0702).toFixed(0)}</span><span>${Number(33.8288).toFixed(0)}</span><span>${Number(46.8484).toFixed(0)}</span><span>${Number(264.9934).toFixed(0)}+</span></div>`
+    };
+
+    function money(value, digits = 0) {
+      const num = Number(value);
+      return Number.isFinite(num) ? num.toLocaleString(undefined, { style: 'currency', currency: 'USD', maximumFractionDigits: digits }) : value;
+    }
+    function number(value, digits = 2) {
+      const num = Number(value);
+      return Number.isFinite(num) ? num.toLocaleString(undefined, { maximumFractionDigits: digits }) : value;
+    }
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function popupHtml(props) {
+      const rows = [
+        ['Agreement', props.agreement_label],
+        ['Owner', props.OWNER_NAME],
+        ['Address', props.SITUS_ADDR],
+        ['Prop_ID', props.Prop_ID],
+        ['Effect 840', props.effect_840],
+        ['Acres', number(props.acres, 3)],
+        ['CLI Score', number(props.cli_score, 2)],
+        ['CLI Rank %', number(props.cli_rank_pct, 2)],
+        ['CLI Tier', props.cli_tier],
+        ['Financial Score', number(props.fin_score, 2)],
+        ['Financial Tier', props.fin_tier],
+        ['Positive p75 Gap $/Sq Ft', money(props.fin_gap_psf, 2)],
+        ['Gross p75 Uplift', money(props.fin_uplift, 0)],
+        ['Uplift Ratio', number(props.fin_uplift_ratio, 2)],
+        ['Current $/Land Sq Ft', money(props.fin_current_psf, 2)],
+        ['Benchmark p75 $/Sq Ft', money(props.fin_target_p75_psf, 2)],
+        ['Benchmark Scope', props.fin_benchmark_scope],
+        ['Benchmark Comps', props.fin_benchmark_comp_count],
+        ['Neighborhood Type', props.fin_cluster_label],
+        ['Parcel Subscore', number(props.cli_parcel, 2)],
+        ['Market Subscore', number(props.cli_market, 2)],
+        ['Access Subscore', number(props.cli_access, 2)],
+        ['Legal Subscore', number(props.cli_legal, 2)],
+        ['ILV Ratio', number(props.ilv_ratio, 3)],
+        ['BLA Ratio', number(props.bla_ratio, 3)],
+        ['Year Built', props.YEAR_BUILT]
+      ].filter(([, value]) => value !== undefined && value !== null && value !== '');
+      return '<div style="font-family:Georgia,serif;font-size:13px;line-height:1.45;max-width:390px;">'
+        + rows.map(([label, value]) => '<div><strong>' + escapeHtml(label) + ':</strong> ' + escapeHtml(value) + '</div>').join('')
+        + '</div>';
+    }
+
+    function filterExpression(kind) {
+      if (kind === 'both_tier1') return ['==', ['get', 'both_tier1_flag'], 1];
+      if (kind === 'both_top_decile') return ['==', ['get', 'both_top_decile_flag'], 1];
+      if (kind === 'cli_only') return ['==', ['get', 'agreement_class'], 'cli_tier1_only'];
+      if (kind === 'fin_only') return ['==', ['get', 'agreement_class'], 'financial_tier1_only'];
+      if (kind === 'effect3') return ['==', ['get', 'effect_840'], 3];
+      if (kind === 'effect4') return ['==', ['get', 'effect_840'], 4];
+      return null;
+    }
+
+    function applyMode(mode) {
+      activeMode = mode;
+      map.setPaintProperty('overlap-fill', 'fill-color', colorExpressions[mode]);
+      legend.innerHTML = legendHtml[mode];
+      modeButtons.forEach((button) => button.classList.toggle('active', button.dataset.mode === mode));
+    }
+
+    function applyFilter(kind) {
+      const filter = filterExpression(kind);
+      map.setFilter('overlap-fill', filter);
+      map.setFilter('overlap-outline', filter);
+      filterButtons.forEach((button) => button.classList.toggle('active', button.dataset.filter === kind));
+    }
+
+    map.on('load', () => {
+      map.addSource('overlap-src', {
+        type: 'vector',
+        url: 'pmtiles://' + pmtilesUrl,
+        minzoom: 8,
+        maxzoom: 13
+      });
+      map.addLayer({
+        id: 'overlap-fill',
+        type: 'fill',
+        source: 'overlap-src',
+        'source-layer': sourceLayer,
+        paint: {
+          'fill-color': colorExpressions.agreement,
+          'fill-opacity': 0.68,
+          'fill-outline-color': 'rgba(40, 34, 25, 0.08)'
+        }
+      });
+      map.addLayer({
+        id: 'overlap-outline',
+        type: 'line',
+        source: 'overlap-src',
+        'source-layer': sourceLayer,
+        paint: {
+          'line-color': 'rgba(35, 30, 24, 0.58)',
+          'line-opacity': ['interpolate', ['linear'], ['zoom'], 8, 0.01, 10, 0.03, 12, 0.12, 13, 0.25],
+          'line-width': ['interpolate', ['linear'], ['zoom'], 8, 0.02, 10, 0.05, 12, 0.25, 13, 0.9]
+        }
+      });
+      map.on('click', 'overlap-fill', (event) => {
+        const feature = event.features && event.features[0];
+        if (!feature) return;
+        popup.setLngLat(event.lngLat).setHTML(popupHtml(feature.properties || {})).addTo(map);
+      });
+      map.on('mouseenter', 'overlap-fill', () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', 'overlap-fill', () => { map.getCanvas().style.cursor = ''; });
+      modeButtons.forEach((button) => button.addEventListener('click', () => applyMode(button.dataset.mode)));
+      filterButtons.forEach((button) => button.addEventListener('click', () => applyFilter(button.dataset.filter)));
+      basemapSelect.addEventListener('change', () => setBasemap(basemapSelect.value));
+      setBasemap(basemapSelect.value);
+      applyMode(activeMode);
+    });
+  </script>
+</body>
+</html>
+
+
+
+

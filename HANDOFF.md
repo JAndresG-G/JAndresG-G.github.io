@@ -237,13 +237,16 @@ Current card order:
 
 The full repository is the single source of truth for every project. Whenever a project is added to any collection page, it must also be added to the corresponding section in `full.html`.
 
+Each project appears exactly once in `full.html`. Some projects are cross-listed on multiple collection pages (e.g. Elderly Infrastructure is on both `research-projects.html` and `data-visualization.html`; the NCTCOG trail StoryMap is on both `storymaps.html` and the collaborations section of `projects.html`). In the full repository each is placed in a single section: Elderly Infrastructure lives under Research Projects; DFW Regional Trail Use (NCTCOG) lives under Professional Research Collaborations.
+
+There is no Signature Projects section in `full.html`. The signature projects shown on `projects.html` (currently the SB 840 tile, Montserrat, and Fort Worth Light Rail) each already appear in another section here, so they are not duplicated into a signature block.
+
 Sections in order:
-1. **Signature Projects** â€” thumbnail cards (`.sig-grid`)
-2. **StoryMaps** â€” thumbnail cards (`.sig-grid`) â€” must mirror `storymaps.html`
-3. **Digital Cartography** â€” map gallery (`.map-gallery`)
-4. **Research Projects** â€” `.repo-card` with doc links
-5. **Data Visualization** â€” `.repo-card` with doc links and/or image grids â€” must mirror `data-visualization.html`
-6. **Professional Research Collaborations** â€” `.collab-card`
+1. **StoryMaps** â€” thumbnail cards (`.sig-grid`) â€” mirrors `storymaps.html` (minus the NCTCOG trail StoryMap, which lives under Collaborations)
+2. **Digital Cartography** â€” map gallery (`.map-gallery`)
+3. **Research Projects** â€” `.repo-card` with doc links
+4. **Data Visualization** â€” `.repo-card` with doc links and/or image grids â€” mirrors `data-visualization.html` (minus Elderly Infrastructure, which lives under Research Projects)
+5. **Professional Research Collaborations** â€” `.collab-card`
 
 Image grids in full.html use `.repo-map-grid` (not `.dv-map-grid`). Lightbox JS is at the bottom of the file and handles both grid types.
 

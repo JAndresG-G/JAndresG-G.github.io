@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mesquite SB 840 Conversion Candidates</title>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="https://unpkg.com/pmtiles@3.2.1/dist/pmtiles.js"></script>
+  <style>
+    html, body, #map { height: 100%; margin: 0; }
+    body { font-family: Georgia, 'Times New Roman', serif; background: #f4f0e8; color: #2b2419; }
+    #map { position: absolute; inset: 0; }
+    .panel { position: absolute; z-index: 2; left: 16px; top: 16px; width: 340px; max-height: calc(100vh - 48px); overflow: auto; padding: 14px 16px; background: rgba(250,247,240,0.95); border: 1px solid rgba(40,35,25,0.16); box-shadow: 0 10px 30px rgba(0,0,0,0.12); border-radius: 8px; }
+    .panel h1 { font-size: 20px; line-height: 1.2; margin: 0 0 10px; }
+    .panel p, .panel div { font-size: 13px; line-height: 1.45; margin: 0 0 6px; }
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .filters button { border: 0; padding: 8px 10px; border-radius: 6px; cursor: pointer; background: #e7dcc8; color: #2e261b; font-size: 12px; }
+    .filters button.active { background: #7f1d1d; color: #fff8ef; }
+    .legend { margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; }
+    .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+    .swatch { width: 12px; height: 12px; border-radius: 2px; }
+    .footer { margin-top: 10px; color: #6c6358; }
+    .panel { box-sizing: border-box; }
+    .panel h1 { padding-right: 34px; }
+    .panel-toggle { position: absolute; top: 16px; left: 16px; z-index: 4; display: none; border: 1px solid rgba(255,255,255,0.24); background: rgba(20,20,20,0.82); color: #fff8ef; border-radius: 6px; min-height: 32px; padding: 0 10px; font: inherit; font-size: 12px; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.22); }
+    .panel-close { position: absolute; top: 10px; right: 10px; width: 28px; height: 28px; padding: 0; border: 1px solid rgba(40,35,25,0.18); border-radius: 6px; background: rgba(40,35,25,0.08); color: inherit; cursor: pointer; font-size: 18px; line-height: 1; }
+    body.panel-collapsed .panel { display: none; }
+    body.panel-collapsed .panel-toggle { display: block; }
+    body.embed .maplibregl-ctrl-top-right { top: 48px; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <button class="panel-toggle" type="button" aria-expanded="false">Legend</button>
+  <div class="panel">
+    <button class="panel-close" type="button" aria-label="Hide legend and controls">&times;</button>
+    <h1>Mesquite SB 840 Conversion Candidates</h1>
+    <p>This map shows parcels that passed the SB 840 screening process and received a conversion-likelihood score. The filters can narrow the map to top-tier candidates or to the two main legal-effect categories.</p>
+    <div><strong>Candidates:</strong> 1,468</div><div><strong>Tier 1:</strong> 294</div><div><strong>Mean score:</strong> 55.00</div>
+    <div class="filters">
+      
+      <button class="active" data-filter="all">All Candidates</button>
+      <button data-filter="tier1">Tier 1</button>
+      <button data-filter="tier12">Tier 1-2</button>
+      <button data-filter="effect3">New Conversion</button>
+      <button data-filter="effect4">More Density</button>
+        
+    </div>
+    <div class="legend">
+      
+      <div class="legend-item"><span class="swatch" style="background:#ff2d55"></span>Tier 1</div>
+      <div class="legend-item"><span class="swatch" style="background:#ff9500"></span>Tier 2</div>
+      <div class="legend-item"><span class="swatch" style="background:#ffd60a"></span>Tier 3</div>
+      <div class="legend-item"><span class="swatch" style="background:#64d2ff"></span>Tier 4</div>
+      <div class="legend-item"><span class="swatch" style="background:#0a84ff"></span>Tier 5</div>
+        
+    </div>
+    <p class="footer">Source note: Parcel, zoning, appraisal, ownership, and neighborhood indicators were compiled from local public records and screened against the SB 840 legal criteria. Conversion-likelihood tiers are exploratory indicators, not predictions that a parcel will redevelop.</p>
+  </div>
+  <script type="module">
+    const embedParams = new URLSearchParams(window.location.search);
+    if (embedParams.get('embed') === '1') document.body.classList.add('embed', 'panel-collapsed');
+    const panelToggle = document.querySelector('.panel-toggle');
+    const panelClose = document.querySelector('.panel-close');
+    function setPanelCollapsed(collapsed) {
+      document.body.classList.toggle('panel-collapsed', collapsed);
+      panelToggle?.setAttribute('aria-expanded', String(!collapsed));
+    }
+    panelToggle?.addEventListener('click', () => setPanelCollapsed(false));
+    panelClose?.addEventListener('click', () => setPanelCollapsed(true));
+    const pmtilesUrl = new URL('../pmtiles/mesquite_no_exclusions_candidates_20260515_subjective_v1.pmtiles', window.location.href).toString();
+    const sourceLayer = 'candidates';
+    const filterButtons = document.querySelectorAll('[data-filter]');
+
+    const protocol = new pmtiles.Protocol();
+    maplibregl.addProtocol('pmtiles', protocol.tile.bind(protocol));
+
+    const map = new maplibregl.Map({
+      container: 'map',
+      center: [-96.5494946442877, 32.757357819270595],
+      zoom: 9.58,
+      style: {
+        version: 8,
+        sources: {
+          'esri-dark': {
+            type: 'raster',
+            tiles: ['https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}'],
+            tileSize: 256,
+            attribution: 'Esri, HERE, Garmin, FAO, NOAA, USGS, EPA'
+          },
+          'esri-dark-reference': {
+            type: 'raster',
+            tiles: ['https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}'],
+            tileSize: 256,
+            attribution: 'Esri, HERE, Garmin, FAO, NOAA, USGS, EPA'
+          }
+        },
+        layers: [
+          { id: 'basemap-dark', type: 'raster', source: 'esri-dark', paint: { 'raster-opacity': 1 } },
+          { id: 'basemap-dark-reference', type: 'raster', source: 'esri-dark-reference', paint: { 'raster-opacity': 0.82 } }
+        ]
+      }
+    });
+
+    map.addControl(new maplibregl.NavigationControl(), 'top-right');
+    const popup = new maplibregl.Popup({ closeButton: true, closeOnClick: true });
+
+    function colorExpression() {
+      return ['match', ['get', 'cli_priority_tier'],
+        'Tier 1', '#ff2d55',
+        'Tier 2', '#ff9500',
+        'Tier 3', '#ffd60a',
+        'Tier 4', '#64d2ff',
+        'Tier 5', '#0a84ff',
+        '#888888'
+      ];
+    }
+
+    function opacityExpression() {
+      return 0.62;
+    }
+
+    function popupHtml(props) {
+      const money = (value) => {
+        const num = Number(value);
+        return Number.isFinite(num) ? num.toLocaleString(undefined, { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }) : value;
+      };
+      const number = (value, digits = 2) => {
+        const num = Number(value);
+        return Number.isFinite(num) ? num.toLocaleString(undefined, { maximumFractionDigits: digits }) : value;
+      };
+      const escapeHtml = (value) => String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+      const rows = [
+        ['Owner', props.OWNER_NAME],
+        ['Care Of', props.NAME_CARE],
+        ['Address', props.SITUS_ADDR],
+        ['Prop_ID', props.Prop_ID],
+        ['Status', props.cli_score_status],
+        ['Tier', props.cli_priority_tier],
+        ['Score', number(props.cli_total_score)],
+        ['City Rank %', number(props.cli_total_rank_city)],
+        ['Effect 840', props.effect_840],
+        ['Legal Exclusion', props.sb840_legal_exclusion_primary_source],
+        ['Subjective Category', props.cli_subjective_exclusion_category || props.cli_owner_exclusion_category],
+        ['Subjective Reason', props.cli_subjective_exclusion_reason || props.cli_owner_exclusion_reason],
+        ['Land Value', money(props.LAND_VALUE)],
+        ['Improvement Value', money(props.IMP_VALUE)],
+        ['Market Value', money(props.MKT_VALUE)],
+        ['Total Value / Sq Ft', number(props.value_per_sqft_total)],
+        ['Improvement/Land Ratio', number(props.ilv_ratio ?? props.imp_l_ratio, 3)],
+        ['Building/Land Area Ratio', number(props.bla_ratio, 3)],
+        ['Year Built', props.YEAR_BUILT],
+        ['Clean Year Built', props.cli_year_built_clean],
+        ['Parcel Acres', number(props.sb840_parcel_area_acres_calc ?? props.parcel_acres_calc, 3)],
+        ['Median Income', money(props.median_household_income)],
+        ['Rent Burden %', number(props.median_rent_pct_income)],
+        ['Median Age', number(props.median_age, 1)],
+        ['Age 25-34 Growth', number(props.Age_Cohort_Growth_Rate_25_to_34, 3)],
+        ['Age 65+ Growth', number(props.Age_Cohort_Growth_Rate_Over_65, 3)]
+      ].filter(([, value]) => value !== undefined && value !== null && value !== '');
+      return '<div style="font-family:Georgia,serif;font-size:13px;line-height:1.45;">'
+        + rows.map(([label, value]) => '<div><strong>' + escapeHtml(label) + ':</strong> ' + escapeHtml(value) + '</div>').join('')
+        + '</div>';
+    }
+
+    function applyFilter(kind) {
+      let filter = null;
+      if (kind === 'candidates') filter = ['==', ['get', 'cli_candidate_flag'], 1];
+      if (kind === 'tier1') filter = ['all', ['==', ['get', 'cli_candidate_flag'], 1], ['==', ['get', 'cli_priority_tier'], 'Tier 1']];
+      if (kind === 'tier12') filter = ['all', ['==', ['get', 'cli_candidate_flag'], 1], ['match', ['get', 'cli_priority_tier'], ['Tier 1', 'Tier 2'], true, false]];
+      if (kind === 'effect3') filter = ['==', ['get', 'effect_840'], 3];
+      if (kind === 'effect4') filter = ['==', ['get', 'effect_840'], 4];
+      if (kind === 'legal') filter = ['==', ['get', 'sb840_legal_exclusion_flag'], 1];
+      if (kind === 'subjective') filter = ['match', ['get', 'cli_score_status'], ['excluded_subjective', 'excluded_legal_and_subjective', 'excluded_owner_institutional', 'excluded_legal_and_owner'], true, false];
+      if (kind === 'review') filter = ['==', ['get', 'cli_review_flag'], 1];
+      map.setFilter('parcels-fill', filter);
+      map.setFilter('parcels-outline', filter);
+      filterButtons.forEach((button) => button.classList.toggle('active', button.dataset.filter === kind));
+    }
+
+    map.on('load', () => {
+      map.addSource('parcels-src', {
+        type: 'vector',
+        url: 'pmtiles://' + pmtilesUrl,
+        minzoom: 8,
+        maxzoom: 13
+      });
+
+      map.addLayer({
+        id: 'parcels-fill',
+        type: 'fill',
+        source: 'parcels-src',
+        'source-layer': sourceLayer,
+        paint: {
+          'fill-color': colorExpression(),
+          'fill-opacity': opacityExpression(),
+          'fill-outline-color': 'rgba(255, 255, 255, 0.18)'
+        }
+      });
+
+      map.addLayer({
+        id: 'parcels-outline',
+        type: 'line',
+        source: 'parcels-src',
+        'source-layer': sourceLayer,
+        paint: {
+          'line-color': 'rgba(255, 255, 255, 0.62)',
+          'line-opacity': ['interpolate', ['linear'], ['zoom'], 8, 0.01, 10, 0.025, 12, 0.10, 13, 0.22],
+          'line-width': ['interpolate', ['linear'], ['zoom'], 8, 0.02, 10, 0.05, 12, 0.25, 13, 0.9]
+        }
+      });
+
+      map.on('click', 'parcels-fill', (event) => {
+        const feature = event.features && event.features[0];
+        if (!feature) return;
+        popup.setLngLat(event.lngLat).setHTML(popupHtml(feature.properties || {})).addTo(map);
+      });
+
+      map.on('mouseenter', 'parcels-fill', () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', 'parcels-fill', () => { map.getCanvas().style.cursor = ''; });
+      filterButtons.forEach((button) => button.addEventListener('click', () => applyFilter(button.dataset.filter)));
+    });
+  </script>
+</body>
+</html>
+
+

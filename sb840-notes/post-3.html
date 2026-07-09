@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What Is Actually Likely To Happen Under SB 840? | SB 840 Research Notes</title>
+  <meta name="description" content="What is likely to happen under SB 840: conversion likelihood, financial-gap modeling, and where the two models agree across 18 Texas cities.">
+  <link rel="stylesheet" href="assets/sb840-notes.css">
+</head>
+<body data-page="post3">
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="../index.html">Andres <strong>Gamez</strong></a>
+      <nav class="site-nav" aria-label="Site">
+        <a href="index.html" data-nav="home">SB 840 Series</a>
+        <a href="post-1.html" data-nav="post1">Post 1</a>
+        <a href="post-2.html" data-nav="post2">Post 2</a>
+        <a href="post-3.html" data-nav="post3">Post 3</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" style="--hero-image: url('assets/images/previews/hero/high-low-agreement.webp');">
+    <div class="container">
+      <p class="eyebrow">SB 840 Research Notes - Post 3</p>
+      <h1>What Is Actually Likely To Happen Under SB 840?</h1>
+      <p>Legal eligibility is not the same as redevelopment. To estimate where SB 840 is most likely to matter, we compared two signals: parcel-level conversion likelihood and financial upside.</p>
+    </div>
+  </section>
+
+  <main class="content">
+    <div class="container">
+      <div class="series-bar">
+        <nav class="series-nav" aria-label="Post navigation">
+          <a class="series-nav-btn series-nav-btn--prev" href="post-2.html">
+            <span class="series-nav-arrow" aria-hidden="true">←</span>
+            <span class="series-nav-label">Legal geography</span>
+          </a>
+          <span class="series-nav-position">Post 3 of 3</span>
+          <span class="series-nav-btn series-nav-btn--next is-disabled" aria-hidden="true">
+            <span class="series-nav-label">Next post</span>
+            <span class="series-nav-arrow">→</span>
+          </span>
+        </nav>
+      </div>
+
+      <div class="article-layout">
+        <article class="article-body">
+          <p class="article-dek">A parcel can be legally eligible for multifamily or mixed-use housing and still be a poor near-term redevelopment candidate. This post shows how the analysis narrows from statutory possibility to plausible conversion.</p>
+
+          <p>The first post in this series asked why Texas might want to add more housing without relying only on outward growth. The second post asked where SB 840 actually applies as a matter of zoning and legal geography.</p>
+
+          <p>This post asks the practical question: what is actually likely to happen?</p>
+
+          <p>That is a harder question than it may seem. A parcel can be legally eligible for multifamily or mixed-use housing and still be a poor near-term redevelopment candidate. It may contain an active business. It may be owned by a school district, hospital, city government, religious institution, university, utility, or transportation agency. It may be part of a lease structure that makes redevelopment expensive. It may sit in a market where apartments are allowed but financially unattractive. Or it may be a tiny sliver of land along a highway that scores well in a database but makes no sense as a real project site.</p>
+
+          <h2>Step one: remove implausible private-market sites</h2>
+
+          <p>Before ranking parcels, we removed categories that are technically interesting but unlikely to represent ordinary private-market conversion sites. That includes many public, institutional, religious, medical, educational, utility, and transportation properties.</p>
+
+          <p>This screen matters because maps can be badly misleading without it. A public building, stadium, school campus, church property, water facility, or hospital parcel may look large and underused in a parcel database. It may even sit in a zoning category affected by SB 840. But that does not mean it is a realistic candidate for near-term private redevelopment into apartments.</p>
+
+          <div class="method-note">
+            <p>This was an iterative process. In Austin, the highest-scoring parcel in one of the first CLI runs was the University of Texas football stadium. In Fort Worth and San Antonio, several major hospital properties appeared near the top of the rankings. The index also liked parcel slivers, remnant rights-of-way, and awkward fragments of land that were not plausible standalone development sites.</p>
+          </div>
+
+          <p>The goal is not to say those sites can never change. The goal is to avoid treating them as if they respond to the same market incentives as a private strip center, aging office site, or low-intensity commercial parcel.</p>
+
+          <div class="data-strip">
+            <div class="stat">
+              <strong>128,393</strong>
+              <span>Final CLI candidate parcels after legal and practical screens.</span>
+            </div>
+            <div class="stat">
+              <strong>154,385 ac</strong>
+              <span>Final CLI candidate acreage across the 18 study cities.</span>
+            </div>
+            <div class="stat">
+              <strong>5.3%</strong>
+              <span>Share of processed parcel rows included in the final CLI universe.</span>
+            </div>
+          </div>
+
+          <section class="media-wide media-block" aria-labelledby="candidate-map">
+            <div class="media-header">
+              <h2 id="candidate-map" class="media-title">Candidate universe / all-status map</h2>
+            </div>
+            <div class="map-embed">
+              <iframe src="maps/affected/austin_no_exclusions_candidates_20260515_subjective_v1.html?embed=1" title="Austin affected parcel candidate map preview" loading="lazy"></iframe>
+              <div class="map-embed-label">
+                <span><strong>Preview: Austin candidate universe</strong> Use the full map index to compare screened candidate parcels across all 18 study cities.</span>
+              </div>
+            </div>
+            <p class="media-caption">Legal eligibility is the starting point, not the finish line. The affected-parcel viewers show how the screened candidate universe is distributed across each city.</p>
+            <div class="media-actions">
+              <a class="btn btn-primary" href="maps/affected/index.html">Open affected parcel maps</a>
+            </div>
+          </section>
+
+          <h2>The Conversion Likelihood Index</h2>
+
+          <p>The Conversion Likelihood Index, or CLI, is a ranking tool. It does not predict permits. It does not say a parcel will redevelop. It asks whether a parcel has characteristics that make conversion or higher-density redevelopment more plausible relative to other eligible parcels in the same city.</p>
+
+          <div class="table-card">
+            <table>
+              <thead>
+                <tr>
+                  <th>Signal</th>
+                  <th>Plain-language question</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Parcel condition</td>
+                  <td>Is the parcel underused, older, larger, or otherwise more likely to change?</td>
+                </tr>
+                <tr>
+                  <td>Market context</td>
+                  <td>Is the surrounding area showing demand signals such as rents, income growth, jobs, education levels, or young-adult growth?</td>
+                </tr>
+                <tr>
+                  <td>Access</td>
+                  <td>Is the parcel near useful amenities or transit where those data are available?</td>
+                </tr>
+                <tr>
+                  <td>Legal change</td>
+                  <td>Did SB 840 create a new residential opportunity, or mostly change the rules for something already partly allowed?</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>Those signals are combined into a city-specific ranking. A high-scoring parcel in Lubbock is high-scoring relative to other eligible parcels in Lubbock. It is not being treated as if it sits in the same land market as Austin, Dallas, or San Antonio.</p>
+
+          <h2>The financial-gap model</h2>
+
+          <p>The second model asks a different question: where does redevelopment look financially attractive?</p>
+
+          <p>For each city, we grouped neighborhoods into local market contexts and identified benchmark parcels that already look like dense multifamily or mixed-use development. Then we compared eligible parcels with those benchmarks. The main financial-gap measure asks whether a parcel's current land value appears low relative to the 75th percentile value of comparable dense residential or mixed-use parcels in a similar market setting.</p>
+
+          <p>This is not a full development pro forma. It does not know a developer's financing terms, construction costs, tenant leases, acquisition strategy, environmental risk, or willingness to assemble multiple parcels. It is a comparative signal. It helps identify where the market is pointing in the same direction as the legal and physical indicators.</p>
+
+          <div class="data-strip">
+            <div class="stat">
+              <strong>126,586</strong>
+              <span>Financial model candidate parcels.</span>
+            </div>
+            <div class="stat">
+              <strong>96,544</strong>
+              <span>Parcels with positive 75th percentile financial gaps.</span>
+            </div>
+            <div class="stat">
+              <strong>76.3%</strong>
+              <span>Share of financial candidates with positive p75 gaps.</span>
+            </div>
+          </div>
+
+          <h2>Where the models agree</h2>
+
+          <p>The strongest evidence of near-term opportunity appears where both models point to the same parcels. Across the 18-city study area, 13,089 parcels are in the top tier of both the conversion-likelihood index and the financial-gap model. Those parcels cover 51,503 acres, or about 80 square miles.</p>
+
+          <div class="table-card">
+            <table>
+              <thead>
+                <tr>
+                  <th>Denominator</th>
+                  <th>Share</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Legally eligible parcels</td><td>9.5 percent</td></tr>
+                <tr><td>Legally eligible acreage</td><td>28.3 percent</td></tr>
+                <tr><td>Financial-candidate parcels</td><td>10.3 percent</td></tr>
+                <tr><td>Financial-candidate acreage</td><td>33.7 percent</td></tr>
+                <tr><td>CLI top-tier financial-candidate parcels</td><td>51.9 percent</td></tr>
+                <tr><td>Financial-gap top-tier parcels</td><td>52.9 percent</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>The overlap is a much larger share of acreage than of parcels because many high-scoring parcels are larger than the average candidate parcel. That is why it would be wrong to say the overlap is 28.3 percent of legally eligible parcels. It is 28.3 percent of legally eligible acreage, but only 9.5 percent of legally eligible parcels.</p>
+
+          <section class="media-wide media-block media-block--portrait" aria-labelledby="agreement-map">
+            <div class="media-header">
+              <h2 id="agreement-map" class="media-title">High and low model agreement</h2>
+            </div>
+            <div class="media-body media-body--map">
+              <button type="button" class="media-zoom" data-chart-lightbox="assets/images/high-low-agreement.png" data-lightbox-caption="Areas of high and low agreement between the CLI and financial-gap model." aria-label="Enlarge map: High and low model agreement">
+                <img src="assets/images/previews/inline/high-low-agreement.webp" alt="Map comparing areas of high and low agreement between the CLI and financial-gap model." width="1400" height="1812" loading="lazy" decoding="async">
+              </button>
+            </div>
+            <p class="media-caption">Areas of high and low agreement between the CLI and financial-gap model. Click the map to enlarge.</p>
+          </section>
+
+          <h2>Where the models disagree</h2>
+
+          <p>Model disagreement is just as informative as model agreement. Austin is the clearest example. It has a large candidate universe and many positive-gap parcels, but the correlation between CLI scores and financial-gap scores is low, about 0.13. In a high-cost market, the parcels that look physically and locationally plausible may already be expensive enough that the financial upside is less obvious.</p>
+
+          <p>Fort Worth is a useful contrast. Its CLI and financial-gap scores are much more aligned, with a correlation around 0.70. It also has a stronger benchmark pool than most cities, which makes it a good place to interpret the overlap maps in more detail.</p>
+
+          <h2>Three patterns in the high-overlap areas</h2>
+
+          <h3>1. Warehouse and logistics districts</h3>
+
+          <p>In several cities, warehouse districts score highly in both models. Warehouses often sit on large parcels with relatively low improvement values. That can make them look underused in the property data and financially attractive relative to dense residential benchmarks.</p>
+
+          <p>Some older, vacant, or obsolete warehouse properties could be strong candidates for reuse or redevelopment. But many of the warehouse clusters that score well are not abandoned industrial leftovers. They include active logistics sites near the U.S.-Mexico border, properties next to major air and rail infrastructure, and newer warehouse buildings serving Amazon-style online shopping and home-delivery systems.</p>
+
+          <section class="media-wide media-block media-block--portrait" aria-labelledby="warehouse-map">
+            <div class="media-header">
+              <h2 id="warehouse-map" class="media-title">Warehouse and logistics false positives</h2>
+            </div>
+            <div class="media-body media-body--map">
+              <button type="button" class="media-zoom" data-chart-lightbox="assets/images/warehouses-v2.png" data-lightbox-caption="Warehouse and logistics clusters in the SB 840 model results." aria-label="Enlarge map: Warehouse and logistics false positives">
+                <img src="assets/images/previews/inline/warehouses-v2.webp" alt="Static map showing warehouse and logistics clusters in the SB 840 model results." width="1400" height="1812" loading="lazy" decoding="async">
+              </button>
+            </div>
+            <p class="media-caption">Active logistics properties may look under-improved in a parcel database, but their current business value can be much greater than assessed building value. Click the map to enlarge.</p>
+          </section>
+
+          <h3>2. Highway and interchange commercial clusters</h3>
+
+          <p>Many suburban and edge-city commercial areas are located at highway interchanges and major road intersections. These places often contain retail, office, restaurant, and service-sector parcels that meet the legal criteria and sometimes score well in one or both models.</p>
+
+          <p>These clusters show why higher-accuracy analysis needs more than spatial data. The maps can identify where legal permission, parcel size, access, and market context line up. But the likelihood of actual conversion depends on business operations, tenant leases, financing, ownership strategy, and the opportunity cost of interrupting existing cash flow.</p>
+
+          <section class="media-wide media-block media-block--portrait" aria-labelledby="highway-map">
+            <div class="media-header">
+              <h2 id="highway-map" class="media-title">Highway and interchange commercial clusters</h2>
+            </div>
+            <div class="media-body media-body--map">
+              <button type="button" class="media-zoom" data-chart-lightbox="assets/images/highway-intersections.png" data-lightbox-caption="Highway and interchange commercial clusters in the SB 840 model results." aria-label="Enlarge map: Highway and interchange commercial clusters">
+                <img src="assets/images/previews/inline/highway-intersections.webp" alt="Static map showing highway and interchange commercial clusters in the SB 840 model results." width="1400" height="1812" loading="lazy" decoding="async">
+              </button>
+            </div>
+            <p class="media-caption">Highway interchange and major-road commercial clusters can score well in the models, but existing business operations and access constraints may limit near-term housing conversion. Click the map to enlarge.</p>
+          </section>
+
+          <h3>3. Existing mixed-use and center-city neighborhoods</h3>
+
+          <p>The most convincing overlap often appears in places where mixed-use or multifamily redevelopment was already part of the local market. Fort Worth's Near Southside is a good example. San Antonio's inner neighborhoods north and near downtown are another, though historic districts strongly shape the San Antonio result.</p>
+
+          <section class="media-wide media-block media-block--portrait" aria-labelledby="center-city-map">
+            <div class="media-header">
+              <h2 id="center-city-map" class="media-title">Center-city mixed-use zones</h2>
+            </div>
+            <div class="media-body media-body--map">
+              <button type="button" class="media-zoom" data-chart-lightbox="assets/images/center-city-mu-zones.png" data-lightbox-caption="Center-city mixed-use zones and model results." aria-label="Enlarge map: Center-city mixed-use zones">
+                <img src="assets/images/previews/inline/center-city-mu-zones.webp" alt="Static map showing center-city mixed-use zones and model results." width="1400" height="1812" loading="lazy" decoding="async">
+              </button>
+            </div>
+            <p class="media-caption">Some of SB 840's most visible effects may occur where redevelopment was already close to feasible and the law changes the process, density, or allowable building envelope. Click the map to enlarge.</p>
+          </section>
+
+          <p>Austin complicates this point. Its center-city neighborhoods are already expensive, so existing dense-use benchmarks can make the financial upside look limited. But SB 840 may change the benchmark itself if it allows a new class of taller mixed-use or multifamily projects outside the ordinary local height limits. If projects can build closer to the maximum height allowed in the downtown area, the relevant comparison set changes.</p>
+
+          <p>Dallas raises a related issue from the opposite direction. Many center-city parcels sit inside planned development districts that we could not classify confidently from public GIS attributes alone. But an investor with a specific development strategy would not need to solve the entire Dallas PD system at once. They would need documentation for the particular PD districts they care about. If those ordinances allow the uses named in SB 840, similar center-city redevelopment pressure could emerge there as well.</p>
+
+          <h2>What the results mean</h2>
+
+          <p>The main takeaway is not that SB 840 will do nothing. It also is not that SB 840 will transform every strip mall into apartments.</p>
+
+          <p>The results suggest something more selective. SB 840 creates a large legal opening, but the likely near-term geography narrows sharply once we consider legal exclusions, institutional ownership, parcel conditions, market demand, and financial feasibility. The most plausible effects are likely to be concentrated in particular corridors, submarkets, and already-changing neighborhoods rather than evenly distributed across every eligible city.</p>
+
+          <p>That is why this research focuses on the gap between statutory possibility and practical change. SB 840 changes what is legally possible on many parcels. Whether those parcels actually convert depends on owners, tenants, financing, construction costs, local market demand, and city implementation.</p>
+
+          <p>As permits, applications, lawsuits, local implementation guidance, and completed projects become available, this analysis can be updated. The map should get better over time.</p>
+
+          <section class="series-next" aria-labelledby="all-result-maps">
+            <p class="series-next-kicker">Interactive maps</p>
+            <h2 id="all-result-maps">Explore the city results</h2>
+            <p>Click here to explore interactive maps of the results for any of the 18 study cities.</p>
+            <div class="map-embed">
+              <iframe src="maps/results/fort_worth_cli_financial_overlap_20260515_subjective_v1.html?embed=1" title="Fort Worth CLI and financial-gap result map preview" loading="lazy"></iframe>
+              <div class="map-embed-label">
+                <span><strong>Preview: Fort Worth model agreement</strong> Switch layers in the viewer to compare agreement, CLI rank, financial score, and value gap.</span>
+              </div>
+            </div>
+            <a class="btn btn-primary" href="maps/results/index.html">Open result maps</a>
+          </section>
+
+          <section class="series-authors" aria-labelledby="series-authors-title">
+            <h2 id="series-authors-title">Authors</h2>
+            <p class="series-authors-dek">Questions about the analysis, city-specific results, map interpretation, or follow-up research can be directed to the authors below.</p>
+
+            <div class="author-grid">
+              <article class="author-card">
+                <h3>Sean M. Crotty, PhD</h3>
+                <p class="author-role">Lead author</p>
+                <div class="author-links" aria-label="Contact links for Sean M. Crotty">
+                  <a class="author-icon-link" href="mailto:sean.crotty@tcu.edu" aria-label="Email Sean M. Crotty at sean.crotty@tcu.edu">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm8 5.236L5.2 8.2h13.6L12 11.236zM5 16.382V8.945l6.55 4.318a1 1 0 0 0 1.1 0L19 8.945v7.437H5z"/></svg>
+                    <span class="author-link-label">Contact</span>
+                  </a>
+                  <a class="author-icon-link" href="https://drcrotty.github.io/website__academic_2025/index.html" target="_blank" rel="noopener noreferrer" aria-label="Sean M. Crotty personal website">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm7.93 9h-3.34a15.3 15.3 0 0 0-1.2-5.02A8.03 8.03 0 0 1 19.93 11zM12 4c.95 1.36 1.72 3.5 2.08 6H9.92c.36-2.5 1.13-4.64 2.08-6zM8.61 5.98A15.3 15.3 0 0 0 7.41 11H4.07a8.03 8.03 0 0 1 4.54-5.02zM4.07 13h3.34c.26 1.77.74 3.42 1.4 4.94A8.03 8.03 0 0 1 4.07 13zm7.93 7c-.95-1.36-1.72-3.5-2.08-6h4.16c-.36 2.5-1.13 4.64-2.08 6zm3.76 1.92A15.3 15.3 0 0 0 16.79 13h3.34a8.03 8.03 0 0 1-4.74 4.92z"/></svg>
+                    <span class="author-link-label">Website</span>
+                  </a>
+                </div>
+              </article>
+
+              <article class="author-card">
+                <h3>Andres Gamez</h3>
+                <p class="author-role">Coauthor</p>
+                <div class="author-links" aria-label="Contact links for Andres Gamez">
+                  <a class="author-icon-link" href="mailto:j.a.gamez@tcu.edu" aria-label="Email Andres Gamez at j.a.gamez@tcu.edu">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm8 5.236L5.2 8.2h13.6L12 11.236zM5 16.382V8.945l6.55 4.318a1 1 0 0 0 1.1 0L19 8.945v7.437H5z"/></svg>
+                    <span class="author-link-label">Contact</span>
+                  </a>
+                  <a class="author-icon-link" href="https://jandresg-g.github.io/index.html" target="_blank" rel="noopener noreferrer" aria-label="Andres Gamez personal website">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm7.93 9h-3.34a15.3 15.3 0 0 0-1.2-5.02A8.03 8.03 0 0 1 19.93 11zM12 4c.95 1.36 1.72 3.5 2.08 6H9.92c.36-2.5 1.13-4.64 2.08-6zM8.61 5.98A15.3 15.3 0 0 0 7.41 11H4.07a8.03 8.03 0 0 1 4.54-5.02zM4.07 13h3.34c.26 1.77.74 3.42 1.4 4.94A8.03 8.03 0 0 1 4.07 13zm7.93 7c-.95-1.36-1.72-3.5-2.08-6h4.16c-.36 2.5-1.13 4.64-2.08 6zm3.76 1.92A15.3 15.3 0 0 0 16.79 13h3.34a8.03 8.03 0 0 1-4.74 4.92z"/></svg>
+                    <span class="author-link-label">Website</span>
+                  </a>
+                </div>
+              </article>
+
+              <article class="author-card">
+                <h3>Kyle Walker, PhD</h3>
+                <p class="author-role">Coauthor</p>
+                <div class="author-links" aria-label="Contact links for Kyle Walker">
+                  <a class="author-icon-link" href="mailto:kyle.walker@tcu.edu" aria-label="Email Kyle Walker at kyle.walker@tcu.edu">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm8 5.236L5.2 8.2h13.6L12 11.236zM5 16.382V8.945l6.55 4.318a1 1 0 0 0 1.1 0L19 8.945v7.437H5z"/></svg>
+                    <span class="author-link-label">Contact</span>
+                  </a>
+                  <a class="author-icon-link" href="https://personal.tcu.edu/kylewalker/" target="_blank" rel="noopener noreferrer" aria-label="Kyle Walker personal website">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm7.93 9h-3.34a15.3 15.3 0 0 0-1.2-5.02A8.03 8.03 0 0 1 19.93 11zM12 4c.95 1.36 1.72 3.5 2.08 6H9.92c.36-2.5 1.13-4.64 2.08-6zM8.61 5.98A15.3 15.3 0 0 0 7.41 11H4.07a8.03 8.03 0 0 1 4.54-5.02zM4.07 13h3.34c.26 1.77.74 3.42 1.4 4.94A8.03 8.03 0 0 1 4.07 13zm7.93 7c-.95-1.36-1.72-3.5-2.08-6h4.16c-.36 2.5-1.13 4.64-2.08 6zm3.76 1.92A15.3 15.3 0 0 0 16.79 13h3.34a8.03 8.03 0 0 1-4.74 4.92z"/></svg>
+                    <span class="author-link-label">Website</span>
+                  </a>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="series-next" aria-labelledby="series-end">
+            <p class="series-next-kicker">End of series</p>
+            <h2 id="series-end">Texas SB 840: From Legal Possibility to Likely Change</h2>
+            <p>This closes the three-part research note series. Return to the series home for an overview, author information, and links to all posts.</p>
+            <a class="btn btn-outline" href="index.html">Back to series home</a>
+          </section>
+
+          <details class="source-box">
+            <summary>Sources And Notes</summary>
+            <ul>
+              <li>Enrolled <a href="https://capitol.texas.gov/tlodocs/89R/billtext/html/SB00840F.HTM" target="_blank" rel="noopener noreferrer">S.B. 840</a> bill text: Texas Legislature Online.</li>
+              <li>The conversion-likelihood index ranks legally eligible parcels within each city using parcel condition, market context, access, and the type of legal change created by SB 840.</li>
+              <li>The financial-gap model compares each candidate parcel's current land value with dense residential and mixed-use benchmarks in similar local market contexts.</li>
+              <li>Overlap results identify parcels where both models point in the same direction. They are exploratory research indicators, not parcel-specific forecasts, appraisals, or legal determinations.</li>
+            </ul>
+          </details>
+        </article>
+
+        <aside class="rail" aria-label="Article details">
+          <div class="rail-card">
+            <h2>In This Post</h2>
+            <ul>
+              <li>Practical exclusion screen</li>
+              <li>CLI explanation</li>
+              <li>Financial-gap explanation</li>
+              <li>Model agreement patterns</li>
+            </ul>
+          </div>
+          <div class="rail-card">
+            <h2>Key Result</h2>
+            <p>13,089 parcels, covering about 80 square miles, are top-tier in both the CLI and financial-gap model.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer site-footer--compact">
+    <div class="container">
+      <p>Part of the <a href="index.html">SB 840 research note series</a>. Prepared June 30, 2026.</p>
+    </div>
+  </footer>
+
+  <script src="assets/sb840-notes.js" defer></script>
+</body>
+</html>
