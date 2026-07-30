@@ -172,35 +172,35 @@
 
           <h2 style="margin-top: 2rem;">About This Project</h2>
           <p style="font-size:0.95rem; line-height:1.7; color:var(--text);">
-            This map depicts the greater area of the Parc Natural de la Muntanya de Montserrat in Catalonia, Spain â€” a striking massif of conglomerate rock formations rising sharply from the surrounding plains, home to the Benedictine monastery of Santa Maria de Montserrat. I visited this mountain range in the final weeks of a semester abroad and had a profound, personally impactful experience there. I selected it as my subject because I wanted to challenge myself to recreate that sense of place â€” the golden light of the valley, the sheer drama of the terrain â€” in two dimensions.
+            This map depicts the greater area of the Parc Natural de la Muntanya de Montserrat in Catalonia, Spain — a striking massif of conglomerate rock formations rising sharply from the surrounding plains, home to the Benedictine monastery of Santa Maria de Montserrat. I visited this mountain range in the final weeks of a semester abroad and had a profound, personally impactful experience there. I selected it as my subject because I wanted to challenge myself to recreate that sense of place — the golden light of the valley, the sheer drama of the terrain — in two dimensions.
           </p>
           <p style="font-size:0.95rem; line-height:1.7; color:var(--text); margin-top:0.85rem;">
-            The map is best described as general interest rather than navigational. Trail, railway, and funicular lines are included not to guide someone through the park, but to give a sense of scale and relationship between features â€” and to mark the trails I was on when I took in certain views. Contour lines were intentionally omitted to keep the reading experience clean and let the color gradients do the work of conveying terrain.
+            The map is best described as general interest rather than navigational. Trail, railway, and funicular lines are included not to guide someone through the park, but to give a sense of scale and relationship between features — and to mark the trails I was on when I took in certain views. Contour lines were intentionally omitted to keep the reading experience clean and let the color gradients do the work of conveying terrain.
           </p>
           <p style="font-size:0.95rem; line-height:1.7; color:var(--text); margin-top:0.85rem;">
-            The final map is printed at 30Ã—20 inches at a scale of 1:20,000.
+            The final map is printed at 30×20 inches at a scale of 1:20,000.
           </p>
 
           <h2 style="margin-top: 2.5rem;">Design Process</h2>
           <p style="font-size:0.95rem; line-height:1.7; color:var(--text);">
-            The design was built in two phases. The first focused entirely on the basemap â€” the DEM and hillshade â€” and the second on symbology, point data, and labels.
+            The design was built in two phases. The first focused entirely on the basemap — the DEM and hillshade — and the second on symbology, point data, and labels.
           </p>
           <p style="font-size:0.95rem; line-height:1.7; color:var(--text); margin-top:0.85rem;">
-            <strong>Terrain &amp; Color:</strong> Elevation data came from the Esri authoritative layer, processed using ArcGIS Pro's built-in scalable raster tools (replacing an earlier, clumsier resampling approach). The bulk of early production time went toward developing a custom color ramp â€” none of the defaults captured the particular luminosity I remembered from the site. The lower valleys needed a deep, grounded green; the upper elevations needed to feel warm and alive. Getting continuous colors to mix convincingly across that range required a lot of iteration.
+            <strong>Terrain &amp; Color:</strong> Elevation data came from the Esri authoritative layer, processed using ArcGIS Pro's built-in scalable raster tools (replacing an earlier, clumsier resampling approach). The bulk of early production time went toward developing a custom color ramp — none of the defaults captured the particular luminosity I remembered from the site. The lower valleys needed a deep, grounded green; the upper elevations needed to feel warm and alive. Getting continuous colors to mix convincingly across that range required a lot of iteration.
           </p>
           <p style="font-size:0.95rem; line-height:1.7; color:var(--text); margin-top:0.85rem;">
-            <strong>Hillshade:</strong> Rather than using the conventional clear-to-black hillshade, I built a custom gradient running from bright golden yellow to deep blue â€” evoking sunrise light flooding the central valley from the southeast, which is almost exactly how I experienced it on a winter morning. The result is that the high-elevation shadowed faces take on a purple tone where the DEM's red meets the hillshade's blue, which I felt added real visual interest without being distracting.
+            <strong>Hillshade:</strong> Rather than using the conventional clear-to-black hillshade, I built a custom gradient running from bright golden yellow to deep blue — evoking sunrise light flooding the central valley from the southeast, which is almost exactly how I experienced it on a winter morning. The result is that the high-elevation shadowed faces take on a purple tone where the DEM's red meets the hillshade's blue, which I felt added real visual interest without being distracting.
           </p>
           <p style="font-size:0.95rem; line-height:1.7; color:var(--text); margin-top:0.85rem;">
-            <strong>Features &amp; Symbology:</strong> All supplementary data came from OpenStreetMap â€” river polygon and lines, railway and funicular routes, monastery and church points, train stations, and mountain peaks. The main monastery was exported as its own feature class and given a larger symbol and label; a serif font was chosen deliberately to match the aesthetic of depicting a historic religious site. Mountain peaks are shown as hollow triangles â€” hollow so the peak points remain visible through the center. Almost all labels and map elements were converted to graphics and manually placed for precise layout control.
+            <strong>Features &amp; Symbology:</strong> All supplementary data came from OpenStreetMap — river polygon and lines, railway and funicular routes, monastery and church points, train stations, and mountain peaks. The main monastery was exported as its own feature class and given a larger symbol and label; a serif font was chosen deliberately to match the aesthetic of depicting a historic religious site. Mountain peaks are shown as hollow triangles — hollow so the peak points remain visible through the center. Almost all labels and map elements were converted to graphics and manually placed for precise layout control.
           </p>
           <p style="font-size:0.95rem; line-height:1.7; color:var(--text); margin-top:0.85rem;">
-            <strong>Layout:</strong> A centered title with a halo, white north arrow and scale bar, and a legend covering only the point and line features (churches, peaks, stations, railways, hiking trails). Map notes provide background on the monastery, the origin of the name "Montserrat," and the geology of the range â€” giving an unfamiliar reader something to engage with beyond the visual.
+            <strong>Layout:</strong> A centered title with a halo, white north arrow and scale bar, and a legend covering only the point and line features (churches, peaks, stations, railways, hiking trails). Map notes provide background on the monastery, the origin of the name "Montserrat," and the geology of the range — giving an unfamiliar reader something to engage with beyond the visual.
           </p>
 
           <h2 style="margin-top: 2.5rem;">Inspiration</h2>
           <p style="font-size:0.95rem; line-height:1.7; color:var(--text);">
-            The primary cartographic reference was the work of Eduard Imhof â€” particularly his approach to color gradients and the expressive use of hillshade to convey the character of terrain. John Nelson's tutorial on creating Imhof-style maps in ArcGIS was also an important technical reference, particularly for the hillshade workflow.
+            The primary cartographic reference was the work of Eduard Imhof — particularly his approach to color gradients and the expressive use of hillshade to convey the character of terrain. John Nelson's tutorial on creating Imhof-style maps in ArcGIS was also an important technical reference, particularly for the hillshade workflow.
           </p>
         </div>
 
@@ -215,8 +215,8 @@
 
           <h3>Data Sources</h3>
           <ul>
-            <li>Esri Living Atlas â€” DEM &amp; elevation</li>
-            <li>OpenStreetMap â€” railways, river, monasteries, stations, peaks</li>
+            <li>Esri Living Atlas — DEM &amp; elevation</li>
+            <li>OpenStreetMap — railways, river, monasteries, stations, peaks</li>
           </ul>
 
           <h3>Techniques</h3>
@@ -230,8 +230,8 @@
 
           <h3>References</h3>
           <ul>
-            <li>Eduard Imhof â€” <em>Karte der Gegend um den Walensee</em>, 1938</li>
-            <li>John Nelson â€” Imhof-style maps in ArcGIS (Esri Blog)</li>
+            <li>Eduard Imhof — <em>Karte der Gegend um den Walensee</em>, 1938</li>
+            <li>John Nelson — Imhof-style maps in ArcGIS (Esri Blog)</li>
           </ul>
 
         </aside>
@@ -243,7 +243,7 @@
   <!-- Lightbox -->
   <div class="lightbox" id="lightbox">
     <span class="lightbox-close" id="lightboxClose">&times;</span>
-    <img src="../photos/projects/Gamez_Montserrat_Map_5_40.jpg" alt="Montserrat Mountains Map â€” full view" />
+    <img src="../photos/projects/Gamez_Montserrat_Map_5_40.jpg" alt="Montserrat Mountains Map — full view" />
   </div>
 
   <!-- Footer -->
