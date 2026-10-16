@@ -144,7 +144,8 @@ To swap a card: replace the `<a>` block between the `<!-- comment -->` and the n
 | File | Used for |
 |------|----------|
 | `TCU_Neighborhood_Commercial_Analysis.png` | TCU StoryMap |
-| `Gamez_Montserrat_Map_5_40.jpg` | Montserrat |
+| `Gamez_Montserrat_Map_thumb.jpg` | Montserrat card thumbnail (900px) |
+| `Gamez_Montserrat_Map_web.jpg` | Montserrat full view / lightbox / galleries (2400px). The 486 MP, 39 MB print-res original `Gamez_Montserrat_Map_5_40.jpg` was removed from the working tree (still in git history) because it was being served on 4 pages, including as a thumbnail. |
 | `FW_Light_Rail_Map.png` | FW Light Rail (active) |
 | `FW_Light_Rail_SS.png` | FW Light Rail (old, stale â€” do not reuse this name) |
 | `Denver_Proj_SS.png` | Denver app (not currently on signature cards) |
